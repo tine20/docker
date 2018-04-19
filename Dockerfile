@@ -1,0 +1,56 @@
+FROM richarvey/nginx-php-fpm:latest
+#FROM ubuntu:latest
+
+ENV TINE20_VERSION 2018.02.2
+
+WORKDIR /tine
+
+###############################################################################
+
+# push configs
+#ADD tine /tine
+#RUN chown nginx:nginx /tine/conf/tine20/config.inc.php
+
+# set nginx config
+#RUN rm /etc/nginx/sites-enabled/default.conf
+#RUN cp /tine/conf/nginx/nginx-site.conf /etc/nginx/sites-enabled/default.conf
+
+###########################################
+
+RUN mkdir -p /tine/customers
+RUN mkdir -p /tine/tine20
+
+
+###############################################################################
+
+# create directory structure for tine20
+RUN mkdir cache files logs tmp
+RUN chown nginx:nginx cache files logs tmp
+
+# add deps and compile php-redis
+RUN apk add autoconf gcc musl-dev make
+RUN pecl install igbinary
+RUN echo -e "extension=igbinary.so\nigbinary.compact_strings=On" > /usr/local/etc/php/conf.d/docker-php-ext-igbinary.ini
+RUN echo "yes" | pecl install redis
+RUN echo "extension=redis.so" > /usr/local/etc/php/conf.d/docker-php-ext-redis.ini
+
+#######
+# dev #
+#######
+#RUN cd /tine/tine20/tine20 && composer install --no-interaction --ignore-platform-reqs
+#RUN cd /tine/tine20/tine20 && COMPOSER_PROCESS_TIMEOUT=2000 composer install --no-interaction --ignore-platform-reqs
+
+# add nodejs
+RUN apk add nodejs
+
+# add startup config for webpack
+RUN mkdir -p tine20
+RUN mkdir -p /etc/supervisor/conf.d/
+RUN echo -e "[program:webpack]\ncommand=/usr/bin/npm start\ndirectory=/tine/tine20/Tinebase/js/\nautostart=true\nautorestart=true\npriority=10\nstdout_events_enabled=true\nstderr_events_enabled=true\nstdout_logfile=/dev/stdout\nstdout_logfile_maxbytes=0\nstderr_logfile=/dev/stderr\nstderr_logfile_maxbytes=0" > /etc/supervisor/conf.d/webpack.conf
+
+# fix php-fpm startup config
+RUN sed -i 's#/usr/local/etc/php-fpm.d/www.conf#/usr/local/etc/php-fpm.conf#g' /etc/supervisord.conf
+
+#RUN wget http://packages.tine20.org/source/${TINE20_VERSION}/tine20-allinone_${TINE20_VERSION}.tar.bz2
+#RUN tar -xjf tine20-allinone_${TINE20_VERSION}.tar.bz2 -C tine20
+#RUN rm tine20-allinone_${TINE20_VERSION}.tar.bz2

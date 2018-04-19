@@ -1,0 +1,58 @@
+version: '2'
+services:
+
+  db:
+    image: mariadb:latest
+    container_name: db
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: m4ru5ja
+      MYSQL_DATABASE: &mysqldb tine20
+      MYSQL_USER: &mysqluser  tine20
+      MYSQL_PASSWORD: &mysqlpw tine20pw
+
+  cache:
+    image: redis:latest
+    container_name: cache
+
+  web:
+    image: tine20:latest
+    container_name: tine20
+    volumes:
+      # tine20 source!!!! Mount it under /tine/tine20
+      - ~/hacking/tine20-docker/tmp/tine20.com/tine20:/tine/tine20/:ro
+
+      # tine20 file storage!!!! Mount it under /tine/files/
+      - tine20_files:/tine/files/
+
+      # mount nginx config
+      - ~/hacking/tine20-docker/configs/nginx/nginx-site.conf:/etc/nginx/sites-enabled/default.conf:ro
+
+      # mount customers config
+      - ~/hacking/tine20-docker/configs/customers/:/tine/customers:ro
+
+    ports:
+      - "4000:80"
+      - "4001:10443"
+    environment:
+      TINE20_DBHOST: db
+      TINE20_DBNAME: *mysqldb
+      TINE20_DBUSER: *mysqluser
+      TINE20_DBPASSWD: *mysqlpw
+      TINE20_SETUPUSER: tine20setup
+      TINE20_SETUPPASSWD: tine20setup
+      TINE20_ADMINUSER: tine20admin
+      TINE20_ADMINPASSWD: tine20admin
+      TINE20_REDISHOST: cache
+
+networks:
+    default:
+      driver: bridge
+
+volumes:
+  # DB storage
+  mariadb_data:
+
+  # Volume for tine20 file storage
+  tine20_files:
