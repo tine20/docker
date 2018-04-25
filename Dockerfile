@@ -1,7 +1,8 @@
 FROM richarvey/nginx-php-fpm:latest
 #FROM ubuntu:latest
 
-ENV TINE20_VERSION 2018.02.2
+# needed to pull tarball
+#ENV TINE20_VERSION 2018.02.2
 
 WORKDIR /tine
 

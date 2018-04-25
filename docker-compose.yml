@@ -21,16 +21,16 @@ services:
     container_name: tine20
     volumes:
       # tine20 source!!!! Mount it under /tine/tine20
-      - ~/hacking/tine20-docker/tmp/tine20.com/tine20:/tine/tine20/:ro
+      - ./tine20/tine20:/tine/tine20/:ro
 
       # tine20 file storage!!!! Mount it under /tine/files/
       - tine20_files:/tine/files/
 
       # mount nginx config
-      - ~/hacking/tine20-docker/configs/nginx/nginx-site.conf:/etc/nginx/sites-enabled/default.conf:ro
+      - ./configs/nginx/nginx-site.conf:/etc/nginx/sites-enabled/default.conf:ro
 
       # mount customers config
-      - ~/hacking/tine20-docker/configs/customers/:/tine/customers:ro
+      - ./configs/customers/:/tine/customers:ro
 
     ports:
       - "4000:80"
