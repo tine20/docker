@@ -42,7 +42,8 @@ RUN echo "extension=redis.so" > /usr/local/etc/php/conf.d/docker-php-ext-redis.i
 #RUN cd /tine/tine20/tine20 && COMPOSER_PROCESS_TIMEOUT=2000 composer install --no-interaction --ignore-platform-reqs
 
 # add nodejs
-RUN apk add nodejs
+#RUN apk add nodejs         # does not work for the latest image
+RUN apk add nodejs-current-npm
 
 # add startup config for webpack
 RUN mkdir -p tine20
