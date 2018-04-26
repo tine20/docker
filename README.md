@@ -8,18 +8,18 @@ install and setup docker
 
     sudo apt install docker docker-compose
 
-# add yourself to the docker group
-# in order not to use sudo
-# relogin required!!!!!!!!!!!!
+# add yourself to the docker group (to work without sudo)
+
+_relogin required!!!!!!!!!!!!_
 
     sudo usermod -a -G docker <your userid>
 
-clone tine20
+init repos and images
 -------
 
 # clone this repo
 
-    git clone
+    git clone git@gitlab.metaways.net:r.jerger/tine20-docker.git
 
 # link your tine20 repo
 
@@ -27,7 +27,7 @@ clone tine20
 
 # docker build (only needed if you do not want to use the ready image)
 
-note: wird obsolet, wenn wir die registry haben
+note: obselete when we have a docker registry
 
     docker build . -t tine20
 
@@ -35,9 +35,7 @@ note: wird obsolet, wenn wir die registry haben
 run tine20 dockerized
 ------
 
-TODO: add docker registry info
-
-
+TODO: add docker registry stuff when we have it
 
 # docker-compose up
 
