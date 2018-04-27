@@ -21,13 +21,14 @@ _relogin required!_
 
 ## link your tine20 repo
 
+    cd tine20-docker
     ln -s /path/to/tine/repo tine20
 
 # build image
 
 ## docker build (only needed if you do not want to use the ready image)
 
-note: obselete when we have a docker registry
+note: obsolete when we have a docker registry
 
     docker build . -t tine20
 
