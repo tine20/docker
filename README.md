@@ -66,8 +66,12 @@ TODO: add docker registry stuff when we have it
 
 ## install tine
 
-    docker exec -it tine20 sh -c "cd /tine/tine20/ && php setup.php --install \
+    docker exec -it --user nginx tine20 sh -c "cd /tine/tine20/ && php setup.php --install \
       -- adminLoginName=test adminPassword=test acceptedTermsVersion=1000"
+
+## uninstall tine
+
+    docker exec -it --user nginx tine20 sh -c "cd /tine/tine20/ && php setup.php --uninstall
 
 ## run unittests
 
