@@ -3,6 +3,8 @@ tine20-docker
 
 # install and setup docker
 
+TODO: add osx setup
+
 ## install docker and docker-compose
 
     sudo apt install docker docker-compose
@@ -55,7 +57,7 @@ TODO: add docker registry stuff when we have it
 
 ## run bash in container
 
-     docker exec -it tine20 /bin/bash
+    docker exec -it tine20 /bin/bash
 
 ## open tine20 in browser
 
@@ -67,12 +69,20 @@ TODO: add docker registry stuff when we have it
 
 ## install tine
 
-    docker exec -it --user nginx tine20 sh -c "cd /tine/tine20/ && php setup.php --install \
+    docker exec --user nginx tine20 sh -c "cd /tine/tine20/ && php setup.php --install \
       -- adminLoginName=test adminPassword=test acceptedTermsVersion=1000"
 
 ## uninstall tine
 
-    docker exec -it --user nginx tine20 sh -c "cd /tine/tine20/ && php setup.php --uninstall
+    docker exec --user nginx tine20 sh -c "cd /tine/tine20/ && php setup.php --uninstall"
+
+## update tine
+
+    docker exec --user nginx tine20 sh -c "cd /tine/tine20/ && php setup.php --update"
+
+## create demodata tine
+
+    docker exec --user nginx tine20 sh -c "cd /tine/tine20/ && php tine20.php  --method Tinebase.createAllDemoData  --username=test --password=test"
 
 ## run unittests
 
