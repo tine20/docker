@@ -84,15 +84,15 @@ TODO: add docker registry stuff when we have it
 
 ## uninstall tine
 
-    docker exec --user nginx tine20 sh -c "cd /tine/tine20/ && php setup.php --uninstall"
+    docker exec --user nginx tine20 sh -c "cd /tine/tine20/ && php setup.php --uninstall --config /tine/customers/localhost/config.inc.php"
 
 ## update tine
 
-    docker exec --user nginx tine20 sh -c "cd /tine/tine20/ && php setup.php --update"
+    docker exec --user nginx tine20 sh -c "cd /tine/tine20/ && php setup.php --update --config /tine/customers/localhost/config.inc.php"
 
 ## create demodata tine
 
-    docker exec --user nginx tine20 sh -c "cd /tine/tine20/ && php tine20.php  --method Tinebase.createAllDemoData  --username=test --password=test"
+    docker exec --user nginx tine20 sh -c "cd /tine/tine20/ && php tine20.php --config --config /tine/customers/localhost/config.inc.php --method Tinebase.createAllDemoData  --username=test --password=test"
 
 ## run unittests
 
