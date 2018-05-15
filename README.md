@@ -92,7 +92,7 @@ TODO: add docker registry stuff when we have it
 
 ## create demodata tine
 
-    docker exec --user nginx tine20 sh -c "cd /tine/tine20/ && php tine20.php --config --config /tine/customers/localhost/config.inc.php --method Tinebase.createAllDemoData  --username=test --password=test"
+    docker exec --user nginx tine20 sh -c "cd /tine/tine20/ && php tine20.php --config /tine/customers/localhost/config.inc.php --method Tinebase.createAllDemoData  --username=test --password=test"
 
 ## run unittests
 
