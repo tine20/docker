@@ -4,7 +4,7 @@
         'dbname'        => $_ENV["TINE20_DBNAME"],
         'username'      => $_ENV["TINE20_DBUSER"],
         'password'      => $_ENV["TINE20_DBPASSWD"],
-        'tableprefix'   => 'localhost_',
+        'tableprefix'   => 'local',
         'adapter'       => 'pdo_mysql',
     ),
 //    'statusInfo'        => true,

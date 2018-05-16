@@ -28,6 +28,16 @@ _relogin required!_
 
 # build image
 
+## npm install
+
+    cd tine20-docker/tine20/tine20/Tinebase/js
+    npm install
+
+## composer install
+
+    cd tine20-docker/tine20/tine20/
+    composer install --ignore-platform-reqs
+
 ## docker build (only needed if you do not want to use the ready image)
 
 note: obsolete when we have a docker registry
@@ -69,20 +79,20 @@ TODO: add docker registry stuff when we have it
 
 ## install tine
 
-    docker exec --user nginx tine20 sh -c "cd /tine/tine20/ && php setup.php --install \
+    docker exec --user nginx tine20 sh -c "cd /tine/tine20/ && php setup.php --install --config /tine/customers/localhost/config.inc.php \
       -- adminLoginName=test adminPassword=test acceptedTermsVersion=1000"
 
 ## uninstall tine
 
-    docker exec --user nginx tine20 sh -c "cd /tine/tine20/ && php setup.php --uninstall"
+    docker exec --user nginx tine20 sh -c "cd /tine/tine20/ && php setup.php --uninstall --config /tine/customers/localhost/config.inc.php"
 
 ## update tine
 
-    docker exec --user nginx tine20 sh -c "cd /tine/tine20/ && php setup.php --update"
+    docker exec --user nginx tine20 sh -c "cd /tine/tine20/ && php setup.php --update --config /tine/customers/localhost/config.inc.php"
 
 ## create demodata tine
 
-    docker exec --user nginx tine20 sh -c "cd /tine/tine20/ && php tine20.php  --method Tinebase.createAllDemoData  --username=test --password=test"
+    docker exec --user nginx tine20 sh -c "cd /tine/tine20/ && php tine20.php --config /tine/customers/localhost/config.inc.php --method Tinebase.createAllDemoData  --username=test --password=test"
 
 ## run unittests
 
