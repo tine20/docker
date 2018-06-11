@@ -32,6 +32,9 @@ services:
       # mount customers config
       - ./configs/customers/:/tine/customers:ro
 
+      # tine20 tests!!!! Mount it under /tine/tests
+      - ./tine20/tests/:/tine/tests/:ro
+
     ports:
       - "4000:80"
       - "4001:10443"

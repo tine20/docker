@@ -96,7 +96,9 @@ TODO: add docker registry stuff when we have it
 
 ## run unittests
 
-TODO
+NOTE: php://stdout is not working for logging ServerTests ...
+
+    docker exec --user nginx tine20 sh -c "cd /tine/tests/tine20/ && ../../tine20/vendor/bin/phpunit --color --stop-on-failure --debug AllTests"
 
 # other useful functions
 
