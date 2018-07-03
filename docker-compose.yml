@@ -48,7 +48,10 @@ services:
       TINE20_ADMINUSER: tine20admin
       TINE20_ADMINPASSWD: tine20admin
       TINE20_REDISHOST: cache
-      XDEBUG_CONFIG: "remote_host=172.18.0.1 remote_enable=on" #remote_port=9000
+      # needed by PHPSTORM for debugging
+      PHP_IDE_CONFIG: "serverName=tine20docker"
+      # this can be used to overwrite some xdebug config settings (NOT TESTED!)
+      #XDEBUG_CONFIG: "remote_host=172.18.0.1 remote_enable=on xdebug.remote_autostart=1 debug.remote_log=/tine/logs/xdebug.log" #remote_port=9000
 
 networks:
     default:

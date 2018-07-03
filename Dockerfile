@@ -39,7 +39,7 @@ RUN echo "extension=redis.so" > /usr/local/etc/php/conf.d/docker-php-ext-redis.i
 # xdebug
 RUN pecl install xdebug
 RUN docker-php-ext-enable xdebug
-RUN echo -e "#xdebug.default_enable=on\n#xdebug.remote_enable=on\nxdebug.remote_handler=dbgp\n#xdebug.remote_port=9001\n#xdebug.remote_host=127.0.0.1\n#xdebug.remote_autostart=on" >> /usr/local/etc/php/conf.d/xdebug.ini
+RUN echo -e "zend_extension=xdebug.so\nxdebug.default_enable=on\nxdebug.remote_enable=on\nxdebug.remote_handler=dbgp\nxdebug.remote_port=9001\nxdebug.remote_host=172.18.0.1\nxdebug.remote_autostart=on" >> /usr/local/etc/php/conf.d/xdebug.ini
 
 # finalize deps installation
 RUN docker-php-source delete

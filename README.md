@@ -113,3 +113,28 @@ NOTE: php://stdout is not working for logging ServerTests ...
     docker image ls
     docker image ls -a      # shows all containers, as well as deps
     docker image rm <image id/name>
+
+# debugging with PHPSTORM
+
+this is the default xdebug.ini:
+
+    zend_extension=xdebug.so
+    xdebug.default_enable=on
+    xdebug.remote_enable=on
+    xdebug.remote_handler=dbgp
+    xdebug.remote_port=9001
+    xdebug.remote_host=172.18.0.1
+    xdebug.remote_autostart=on
+
+you need to define a "PHP remote debug" server in PHPSTORM:
+
+     name: tine20docker
+     ide key: serverName=tine20docker
+     port: 9001 (xdebug)
+     host: 172.18.0.1
+     path mapping:
+       /local/tine  -> /tine
+       /local/tine/tests -> /tine/tests
+       /local/tine/tine20 -> /tine/tine20
+
+if you have a different IP, you might need to use the XDEBUG_CONFIG env vars in docker-compose.yml
