@@ -29,6 +29,7 @@ RUN mkdir cache files logs tmp
 RUN chown nginx:nginx cache files logs tmp
 
 # add deps and compile php-redis
+RUN apk update
 RUN apk add autoconf gcc musl-dev make
 RUN pecl install igbinary
 RUN echo -e "extension=igbinary.so\nigbinary.compact_strings=On" > /usr/local/etc/php/conf.d/docker-php-ext-igbinary.ini
