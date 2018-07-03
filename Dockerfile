@@ -35,6 +35,15 @@ RUN echo -e "extension=igbinary.so\nigbinary.compact_strings=On" > /usr/local/et
 RUN echo "yes" | pecl install redis
 RUN echo "extension=redis.so" > /usr/local/etc/php/conf.d/docker-php-ext-redis.ini
 
+# xdebug
+RUN pecl install xdebug
+RUN docker-php-ext-enable xdebug
+RUN echo -e "#xdebug.default_enable=on\n#xdebug.remote_enable=on\nxdebug.remote_handler=dbgp\n#xdebug.remote_port=9001\n#xdebug.remote_host=127.0.0.1\n#xdebug.remote_autostart=on" >> /usr/local/etc/php/conf.d/xdebug.ini
+
+# finalize deps installation
+RUN docker-php-source delete
+RUN apk del autoconf g++ make
+
 #######
 # dev #
 #######

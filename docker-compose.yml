@@ -48,6 +48,7 @@ services:
       TINE20_ADMINUSER: tine20admin
       TINE20_ADMINPASSWD: tine20admin
       TINE20_REDISHOST: cache
+      XDEBUG_CONFIG: "remote_host=172.18.0.1 remote_enable=on" #remote_port=9000
 
 networks:
     default:
