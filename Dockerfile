@@ -41,6 +41,10 @@ RUN pecl install xdebug
 RUN docker-php-ext-enable xdebug
 RUN echo -e "zend_extension=xdebug.so\nxdebug.default_enable=on\nxdebug.remote_enable=on\nxdebug.remote_handler=dbgp\nxdebug.remote_port=9001\nxdebug.remote_host=172.18.0.1\nxdebug.remote_autostart=on" >> /usr/local/etc/php/conf.d/xdebug.ini
 
+# php config: no memory limit
+# TODO maybe we should add a limit to php-fpm/nginx config
+RUN sed -i 's/memory_limit = 128M//g' /usr/local/etc/php/conf.d/docker-vars.ini
+
 # finalize deps installation
 RUN docker-php-source delete
 RUN apk del autoconf g++ make
