@@ -9,7 +9,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: m4ru5ja
       MYSQL_DATABASE: &mysqldb tine20
-      MYSQL_USER: &mysqluser  tine20
+      MYSQL_USER: &mysqluser tine20
       MYSQL_PASSWORD: &mysqlpw tine20pw
 
   cache:
@@ -18,6 +18,9 @@ services:
 
   web:
     image: tine20:latest
+    # if you don't want webpack to run, you need to comment out the lines below "# add startup config for webpack"
+    #  in the Dockerfile and build a tine20-cli image with this command: "docker build . -t tine20-cli"
+    #image: tine20-cli:latest
     container_name: tine20
     volumes:
       # tine20 source!!!! Mount it under /tine/tine20
@@ -34,6 +37,9 @@ services:
 
       # tine20 tests!!!! Mount it under /tine/tests
       - ./tine20/tests/:/tine/tests/:ro
+
+      # tine20 scripts Mount it under /tine/scripts
+      - ./tine20/scripts:/tine/scripts/:ro
 
     ports:
       - "4000:80"
