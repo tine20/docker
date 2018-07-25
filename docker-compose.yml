@@ -12,6 +12,14 @@ services:
       MYSQL_USER: &mysqluser tine20
       MYSQL_PASSWORD: &mysqlpw tine20pw
 
+  mail:
+    image: antespi/docker-imap-devel:latest
+    container_name: mail
+    environment:
+      MAILNAME: example.org
+      MAIL_ADDRESS: address@example.org
+      MAIL_PASS: pass
+
   cache:
     image: redis:latest
     container_name: cache
@@ -42,8 +50,11 @@ services:
       - ./tine20/scripts:/tine/scripts/:ro
 
     ports:
-      - "4000:80"
-      - "4001:10443"
+      - "4000:80"      # tine
+      - "4001:10443"   # webpack
+      - "4025:25"      # smtp
+      - "4143:143"     # imap2 (LOGIN DISABLED!!!!!)
+      - "4993:993"     # imaps
     environment:
       TINE20_DBHOST: db
       TINE20_DBNAME: *mysqldb
