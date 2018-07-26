@@ -17,8 +17,8 @@ services:
     container_name: mail
     environment:
       MAILNAME: example.org
-      MAIL_ADDRESS: address@example.org
-      MAIL_PASS: pass
+      MAIL_ADDRESS: test@example.org
+      MAIL_PASS: test
 
   cache:
     image: redis:latest
