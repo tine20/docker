@@ -77,6 +77,8 @@ TODO: add docker registry stuff when we have it
 
 [localhost:4001/setup.php](http://localhost:4001/setup.php) - webpack served setup
 
+[localhost:4002](http://localhost:4002) Phpmyadmin Username:tine20 Password:tine20pw
+
 ## install tine
 
 Also configures the mailserver & system account.
