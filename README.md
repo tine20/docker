@@ -85,7 +85,7 @@ Also configures the mailserver & system account.
 
     docker exec --user nginx tine20 sh -c "cd /tine/tine20/ && php setup.php --install --config /tine/customers/localhost/config.inc.php \
       -- adminLoginName=test adminPassword=test adminEmailAdress=test@example.org acceptedTermsVersion=1000 \
-      imap=\"backend:standard,host:mail,port:993,useSystemAccount:1,verifyPeer:0,ssl:ssl,domain:example.org\" \
+      imap=\"backend:standard,host:mail,port:143,useSystemAccount:1,verifyPeer:0,ssl:tls,domain:example.org\" \
       smtp=\"backend:standard,hostname:mail,port:25,auth:none,primarydomain:example.org,ssl:tls,from:test@example.org\""
 
 ## uninstall tine
