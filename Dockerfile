@@ -30,7 +30,9 @@ RUN chown nginx:nginx cache files logs tmp
 
 # add deps and compile php-redis
 RUN apk update
-RUN apk add autoconf gcc musl-dev make
+RUN apk add --no-cache --virtual .build-deps autoconf gcc musl-dev make
+
+# compile php-redis
 RUN pecl install igbinary
 RUN echo -e "extension=igbinary.so\nigbinary.compact_strings=On" > /usr/local/etc/php/conf.d/docker-php-ext-igbinary.ini
 RUN echo "yes" | pecl install redis
@@ -41,16 +43,22 @@ RUN pecl install xdebug
 RUN docker-php-ext-enable xdebug
 RUN echo -e "zend_extension=xdebug.so\nxdebug.default_enable=on\nxdebug.remote_enable=on\nxdebug.remote_handler=dbgp\nxdebug.remote_port=9001\nxdebug.remote_host=172.18.0.1\nxdebug.remote_autostart=on" >> /usr/local/etc/php/conf.d/xdebug.ini
 
+# yaml
+RUN apk add yaml-dev
+RUN pecl channel-update pecl.php.net
+RUN pecl install yaml-2.0.0 && docker-php-ext-enable yaml
+
 # php config: no memory limit
 # TODO maybe we should add a limit to php-fpm/nginx config
 RUN sed -i 's/memory_limit = 128M//g' /usr/local/etc/php/conf.d/docker-vars.ini
 
 # finalize deps installation
+RUN apk del --purge .build-deps
 RUN docker-php-source delete
 RUN apk del autoconf g++ make
 
 #######
-# dev #
+# dev / nodejs / webpack
 #######
 #RUN cd /tine/tine20/tine20 && composer install --no-interaction --ignore-platform-reqs
 #RUN cd /tine/tine20/tine20 && COMPOSER_PROCESS_TIMEOUT=2000 composer install --no-interaction --ignore-platform-reqs
