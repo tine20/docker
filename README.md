@@ -144,3 +144,8 @@ you need to define a "PHP remote debug" server in PHPSTORM:
        /local/tine/tine20 -> /tine/tine20
 
 if you have a different IP, you might need to use the XDEBUG_CONFIG env vars in docker-compose.yml
+
+# building and running a php-cli only container
+
+    docker build -f Dockerfile-cli . -t tine20-cli
+    docker-compose -f docker-compose-cli.yml up
