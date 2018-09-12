@@ -20,9 +20,9 @@ services:
     image: conferenceroom:latest
     container_name: confroom
     volumes:
-      # mount confroom docroot
-      - ./confroom/public:/conference/public:ro
-      # mount confroom code
+      # mount confroom docroot + code
+      - ./confroom/index.php:/conference/index.php:ro
+      - ./confroom/img:/conference/img:ro
       - ./confroom/lib:/conference/lib:ro
       - ./confroom/vendor:/conference/vendor:ro
       # mount config
