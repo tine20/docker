@@ -102,9 +102,22 @@ Also configures the mailserver & system account.
 
 ## run unittests
 
-NOTE: php://stdout is not working for logging ServerTests ...
+NOTE #1: php://stdout is not working for logging ServerTests ...
+NOTE #2: maybe you need to increase the php memory_limit (i.e. -d memory_limit=512M - or more)
 
     docker exec --user nginx tine20 sh -c "cd /tine/tests/tine20/ && ../../tine20/vendor/bin/phpunit --color --stop-on-failure --debug AllTests"
+
+## import handbook
+
+you might to do this first aus we have some BIG pages in the handbook:
+
+    docker exec -it db /bin/bash
+    mysql -u root
+    MariaDB [tine20]> SET GLOBAL max_allowed_packet=1073741824;
+
+for example the ebhh handbook version:
+
+    docker exec --user nginx tine20 sh -c "cd /tine/tine20/ && php -d memory_limit=512M tine20.php --method UserManual.importHandbookBuild  --username=test --password=test https://erzbistum:****@packages.tine20.com/erzbistum/tine20-handbook_html_chunked_build-369_commit-1debfeda9e3831feccd7ca66f8fa7cae89cda150.zip"
 
 # other useful functions
 
