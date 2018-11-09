@@ -19,7 +19,7 @@ _relogin required!_
 
 ## clone this repo
 
-    git clone git@gitlab.metaways.net:r.jerger/tine20-docker.git
+    git clone git@gitlab.metaways.net:tine20/docker.git
 
 ## link your tine20 repo
 
