@@ -3,13 +3,15 @@ tine20-docker
 
 # install and setup docker
 
-TODO: add osx setup
-
 ## install docker and docker-compose
 
     sudo apt install docker docker-compose
 
-## add yourself to the docker group (to work without sudo)
+For macOS you can simply use homebrew:
+
+    brew cask install docker
+
+## add yourself to the docker group (to work without sudo) - no need for macOS
 
 _relogin required!_
 
