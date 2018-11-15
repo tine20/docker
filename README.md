@@ -164,3 +164,37 @@ if you have a different IP, you might need to use the XDEBUG_CONFIG env vars in 
 
     docker build -f Dockerfile-cli . -t tine20-cli
     docker-compose -f docker-compose-cli.yml up
+
+# debug / test stuff with fake previews
+
+sometimes you don't have a working doc service but need to test files with previews.
+
+## copy some images to container:
+
+    docker cp ~/Pictures/image1.png tine20:/tine/files
+    docker cp ~/Pictures/image2.png tine20:/tine/files
+    
+## patch tine20/Tinebase/FileSystem/Preview/ServiceV1.php
+
+```php
+     public function getPreviewsForFile($_filePath, array $_config)
+     {
+        // just for testing
+        $blob1 = file_get_contents('/tine/files/ssh_password.png');
+        $blob2 = file_get_contents('/tine/files/tine20_datenbanken.png');
+        return array('thumbnail' => array('blob'), 'previews' => array($blob1, $blob2));
+        // [...]
+     }
+```
+## configure previews (config.inc.php)
+
+```php
+'filesystem' => array(
+    'createPreviews' => true,
+    'previewServiceVersion' => 1,
+),
+```
+
+## create previews for files
+
+     docker exec --user nginx tine20 sh -c "cd /tine/tine20/ && php tine20.php  --method Tinebase.fileSystemCheckPreviews  --username=test --password=test"
