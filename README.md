@@ -206,3 +206,32 @@ sometimes you don't have a working doc service but need to test files with previ
 ## create previews for files
 
      docker exec --user nginx tine20 sh -c "cd /tine/tine20/ && php tine20.php  --method Tinebase.fileSystemCheckPreviews  --username=test --password=test"
+
+# add document service
+
+NOTE: some fonts are not available on the minimal docker image ... so don't
+ wonder about strange looking texts ... ;) 
+
+## clone, initialize and link repo
+
+    git clone git@gitlab.metaways.net:tine20/documentPreview.git
+    cd documentPreview
+    composer install
+    cd /path/to/tine20-docker
+    ln -s /patch/to/docservice docservice
+    
+## configure
+
+note: this only works with tine20.com/2018.11* branches
+
+```php
+'filesystem' => array(
+    'createPreviews' => true,
+    'previewServiceVersion' => 2,
+    'previewServiceUrl' => 'http://docservice/v2/documentPreviewService',
+),
+```
+
+## docker-compose up
+
+    docker-compose -f docker-compose.yml -f compose/docservice.yml up
