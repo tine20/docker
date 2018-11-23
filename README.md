@@ -44,7 +44,7 @@ _relogin required!_
 
 note: obsolete when we have a docker registry
 
-    docker build . -t tine20
+    docker build  -f dockerfiles/Dockerfile . -t tine20
 
 ## build for other versions of tine20
 
@@ -53,7 +53,7 @@ note: does not work yet as we only have php 7.2 (which does not work with 2017.1
 for example 2017.11 (which has a different webpack start command):
 
     git checkout 2017.11
-    docker build . -t tine20:2017.11
+    docker build -f dockerfiles/Dockerfile . -t tine20:2017.11
 
 # run tine20 dockerized
 
@@ -162,7 +162,7 @@ if you have a different IP, you might need to use the XDEBUG_CONFIG env vars in 
 
 # building and running a php-cli only container
 
-    docker build -f Dockerfile-cli . -t tine20-cli
+    docker build -f dockerfiles/Dockerfile-cli . -t tine20-cli
     docker-compose -f docker-compose-cli.yml up
 
 # debug / test stuff with fake previews
