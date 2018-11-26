@@ -165,6 +165,14 @@ if you have a different IP, you might need to use the XDEBUG_CONFIG env vars in 
     docker build -f dockerfiles/Dockerfile-cli . -t tine20-cli
     docker-compose -f docker-compose-cli.yml up
 
+# run with mail (dovecot/postfix) container
+
+    docker-compose -f docker-compose.yml -f compose/mail.yml up
+
+# run with phpmyadmin container
+
+    docker-compose -f docker-compose.yml -f compose/pma.yml up
+
 # debug / test stuff with fake previews
 
 sometimes you don't have a working doc service but need to test files with previews.
