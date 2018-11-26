@@ -1,0 +1,16 @@
+# this is a override file to add a docservice container
+version: '2'
+services:
+  document-preview:
+    image: docservice:latest
+    container_name: docservice
+    volumes:
+      - ./docservice/:/document-preview/document-preview:ro
+      - ./docservice/docker/configs/nginx-site.conf:/etc/nginx/sites-enabled/default.conf:ro
+      - ./docservice/docker/configs/sample_config.php:/etc/documentPreviewService/VERSION/config.php:ro
+
+    ports:
+      - "80:5000"
+    environment:
+        PHP_IDE_CONFIG: "serverName=documentPreview"
+        #XDEBUG_CONFIG: "remote_host=192.168.33.1 remote_enable=on remote_port=9000"
