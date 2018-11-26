@@ -1,0 +1,7 @@
+# run this with
+# $ docker-compose -f docker-compose.yml -f compose/xdebug.yml up
+version: '2'
+services:
+  web:
+    environment:
+      XDEBUG_CONFIG: "remote_host=172.18.0.1 remote_enable=on remote_port=9001"
