@@ -14,14 +14,6 @@ services:
       MYSQL_USER: &mysqluser tine20
       MYSQL_PASSWORD: &mysqlpw tine20pw
 
-  mail:
-    image: antespi/docker-imap-devel:latest
-    container_name: mail
-    environment:
-      MAILNAME: example.org
-      MAIL_ADDRESS: test@example.org
-      MAIL_PASS: test
-
   cache:
     image: redis:latest
     container_name: cache

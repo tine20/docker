@@ -1,0 +1,14 @@
+# this is a override file to add a phpmyadmin container
+version: '2'
+services:
+
+  pma:
+    image: phpmyadmin/phpmyadmin
+    container_name: pma
+    ports:
+      - "4002:80"
+    environment:
+      PMA_HOST: db
+      MYSQL_ROOT_PASSWORD: m4ru5ja
+      MYSQL_USER: tine20
+      MYSQL_PASSWORD: tine20pw

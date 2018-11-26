@@ -1,0 +1,11 @@
+# this is a override file to add a mail (dovecot & postfix) container
+version: '2'
+services:
+
+  mail:
+    image: antespi/docker-imap-devel:latest
+    container_name: mail
+    environment:
+      MAILNAME: example.org
+      MAIL_ADDRESS: test@example.org
+      MAIL_PASS: test
