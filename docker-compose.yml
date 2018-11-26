@@ -44,9 +44,6 @@ services:
     ports:
       - "4000:80"      # tine
       - "4001:10443"   # webpack
-      - "4025:25"      # smtp
-      - "4143:143"     # imap2 (LOGIN DISABLED!!!!!)
-      - "4993:993"     # imaps
     environment:
       TINE20_DBHOST: db
       TINE20_DBNAME: *mysqldb
@@ -57,10 +54,6 @@ services:
       TINE20_ADMINUSER: tine20admin
       TINE20_ADMINPASSWD: tine20admin
       TINE20_REDISHOST: cache
-      # needed by PHPSTORM for debugging
-      PHP_IDE_CONFIG: "serverName=tine20docker"
-      # this can be used to overwrite some xdebug config settings
-      #XDEBUG_CONFIG: "remote_host=172.18.0.1 remote_enable=on remote_port=9000" #remote_enable=off
 
 networks:
     default:

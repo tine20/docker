@@ -1,0 +1,28 @@
+# this is a override file to add a confroom container
+version: '2'
+services:
+  # link confroom dir into this dir like this:
+  #    $ ln -s /data/workspace/conference_room confroom
+  # start docker:
+  #    $ docker-compose -f docker-compose-confroom.yml up
+  confroom:
+    image: conferenceroom:latest
+    container_name: confroom
+    volumes:
+      # mount confroom docroot + code
+      - ./confroom/index.php:/conference/index.php:ro
+      - ./confroom/img:/conference/img:ro
+      - ./confroom/lib:/conference/lib:ro
+      - ./confroom/vendor:/conference/vendor:ro
+      # mount config
+      - ./confroom/docker/conf.php:/conference/conf.php:ro
+      # mount nginx config
+      - ./confroom/docker/nginx-site.conf:/etc/nginx/sites-enabled/default.conf:ro
+    ports:
+      - "4010:80"      # confroom url: http://localhost:4010
+    environment:
+      TINE20_USER: test
+      TINE20_PASSWD: test
+      TINE20_URL: http://web:80
+      TINE20_CALENDAR_ID: f9d3f277db4862986ceb1982f629e97c8c203832
+      LOGFILE: /conference/logs/weekly.log

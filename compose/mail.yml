@@ -9,3 +9,9 @@ services:
       MAILNAME: example.org
       MAIL_ADDRESS: test@example.org
       MAIL_PASS: test
+
+  web:
+    ports:
+      - "4025:25"      # smtp
+      - "4143:143"     # imap2 (LOGIN DISABLED!!!!!)
+      - "4993:993"     # imaps
