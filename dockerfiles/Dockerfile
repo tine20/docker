@@ -7,7 +7,6 @@ FROM richarvey/nginx-php-fpm:latest
 WORKDIR /tine
 
 ###########################################
-
 RUN mkdir -p /tine/customers
 RUN mkdir -p /tine/tine20
 
@@ -49,6 +48,12 @@ RUN apk del --purge .build-deps
 RUN docker-php-source delete
 RUN apk del autoconf g++ make
 
+## add startup config for worker
+RUN docker-php-ext-install pcntl
+
+# install supervisor 
+RUN apk add supervisor
+
 #######
 # dev / nodejs / webpack
 #######
@@ -60,10 +65,8 @@ RUN apk del autoconf g++ make
 RUN apk add nodejs-current-npm
 
 # add startup config for webpack
-# TODO move to separate config file
 RUN mkdir -p tine20
 RUN mkdir -p /etc/supervisor/conf.d/
-RUN echo -e "[program:webpack]\ncommand=/usr/bin/npm start\ndirectory=/tine/tine20/Tinebase/js/\nautostart=true\nautorestart=true\npriority=10\nstdout_events_enabled=true\nstderr_events_enabled=true\nstdout_logfile=/dev/stdout\nstdout_logfile_maxbytes=0\nstderr_logfile=/dev/stderr\nstderr_logfile_maxbytes=0" > /etc/supervisor/conf.d/webpack.conf
 
 # fix php-fpm startup config
 RUN sed -i 's#/usr/local/etc/php-fpm.d/www.conf#/usr/local/etc/php-fpm.conf#g' /etc/supervisord.conf

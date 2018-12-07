@@ -1,8 +1,8 @@
 <?php
 
-$version = 'be'; #tableprefix in database tine20.
+$version = 'be';
 
-$actionqueue = true; #enable the actionQueue
+$actionqueue = true;
 
 return array(
     'database' => array(
@@ -12,11 +12,8 @@ return array(
         'password'      => $_ENV["TINE20_DBPASSWD"],
         'tableprefix'   => $version,
         'adapter'       => 'pdo_mysql',
+        
     ),
-
-    // TODO mkdir in Dockerfile if we want to use this
-    // 'confdfolder'       => '/tine/customers/localhost/conf.d',
-
     'setupuser' => array(
         'username'      => $_ENV["TINE20_SETUPUSER"],
         'password'      => $_ENV["TINE20_SETUPPASSWD"]
@@ -56,20 +53,13 @@ return array(
 
     'logger' => array (
         'active' => true,
-        'filename' => 'php://stdout',
-        'priority' => '5',
-        'additionalWriters' => array(array(
-            'active' => true,
-            'filename' => '/tine/logs/debug.log',
-            'priority' => '7',
-            'filter'   => array(
-                #'user'    => 'tine20admin',
-                #'message' => '/Addressbook_Frontend_Http/',
-            ),
-        ))
+        'filename' => '/tine/logs/tine20.log',
+        //'filename' => 'php://stdout',
+        'priority' => '7',
     ),
     'filesdir'  => '/tine/files',
     'tmpdir' => '/tine/tmp',
 
 
 );
+

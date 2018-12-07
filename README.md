@@ -80,6 +80,9 @@ TODO: add docker registry stuff when we have it
 
 ## install tine
 
+#Importen!
+Docker use the config in directory /tine20-docker/configs/...
+
 Also configures the mailserver & system account.
 
     docker exec --user nginx tine20 sh -c "cd /tine/tine20/ && php setup.php --install --config /tine/customers/localhost/config.inc.php \
@@ -140,6 +143,20 @@ for example the ebhh handbook version:
     docker image ls
     docker image ls -a      # shows all containers, as well as deps
     docker image rm <image id/name>
+
+# ActionQueue / Worker in Docker
+
+## config enable actionQueue in Docker (/tine/tine20/config.inc.php) add:
+
+    <?php
+    $version = 'be';
+    $actionqueue = true; #enable for actionqueue
+    return array(
+        'database' => array(
+            ...
+## Running a actionQueue only container
+
+    docker-compose -f docker-compose.myl -f docker-compose.yml up
 
 # debugging with PHPSTORM
 
