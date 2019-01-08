@@ -8,7 +8,7 @@
         'adapter'       => 'pdo_mysql',
     ),
 //    'statusInfo'        => true,
-    'confdfolder'       => '/tine/customers/locahost/conf.d',
+//    'confdfolder'       => '/tine/customers/localhost/conf.d',
     'setupuser' => array(
         'username'      => $_ENV["TINE20_SETUPUSER"],
         'password'      => $_ENV["TINE20_SETUPPASSWD"]
