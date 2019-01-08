@@ -41,6 +41,11 @@ services:
       # tine20 scripts Mount it under /tine/scripts
       - ./tine20/scripts:/tine/scripts/:ro
 
+      # keep history (see https://stackoverflow.com/questions/28279862/docker-and-bash-history)
+      # i have no idea why this is "ash_history" in the image ...
+      # maybe you have to do "touch ~/.dockerweb_bash_history" before this works correctly
+      - ~/.dockerweb_bash_history:/root/.ash_history
+
     ports:
       - "4000:80"      # tine
       - "4001:10443"   # webpack
