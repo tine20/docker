@@ -3,13 +3,19 @@ tine20-docker
 
 # install and setup docker
 
-## install docker and docker-compose
+## install docker-io and docker-compose
 
-    sudo apt install docker docker-compose
+    sudo apt install docker.io docker-compose
 
 For macOS you can simply use homebrew:
 
     brew cask install docker
+    
+some hints to performance with mac osx:
+
+>  docker-edge performs better using macos. but it wipes all your images and so on when upgrading. first need to uninstall brew cask remove docker, then go for brew cask install docker-edge. start docker -> reset -> reset disk image. but data is gone even if NO reset occurs. reset disk image just ensures, that the latest disk image format is used
+  and .. docker chokes with suspend on macos, restart docker each time to speed it up
+  if possible use cached volumes, that helps a lot
 
 ## add yourself to the docker group (to work without sudo) - no need for macOS
 
@@ -21,7 +27,7 @@ _relogin required!_
 
 ## clone this repo
 
-    git clone git@gitlab.metaways.net:tine20/docker.git
+    git clone git@gitlab.metaways.net:tine20/docker.git tine20-docker
 
 ## link your tine20 repo
 
@@ -60,7 +66,7 @@ TODO: add docker registry stuff when we have it
 
 ## run bash in container
 
-    docker exec -it tine20 /bin/bash
+    docker exec -it tine20 /bin/sh
 
 ## open tine20 in browser
 
@@ -81,9 +87,18 @@ Also configures the mailserver & system account.
       imap=\"backend:standard,host:mail,port:143,useSystemAccount:1,verifyPeer:0,ssl:tls,domain:example.org\" \
       smtp=\"backend:standard,hostname:mail,port:25,auth:none,primarydomain:example.org,ssl:tls,from:test@example.org\""
 
+or via phing:
+
+    docker exec --user nginx tine20 sh -c "cd /tine/tine20/ && vendor/bin/phing -D configdir=/tine/customers/localhost tine-install"
+
+
 ## uninstall tine
 
     docker exec --user nginx tine20 sh -c "cd /tine/tine20/ && php setup.php --uninstall --config /tine/customers/localhost/config.inc.php"
+
+or via phing:
+
+    docker exec --user nginx tine20 sh -c "cd /tine/tine20/ && vendor/bin/phing -D configdir=/tine/customers/localhost tine-uninstall"
 
 ## update tine
 
@@ -104,7 +119,7 @@ NOTE #2: maybe you need to increase the php memory_limit (i.e. -d memory_limit=5
 
 you might to do this first aus we have some BIG pages in the handbook:
 
-    docker exec -it db /bin/bash
+    docker exec -it db /bin/sh
     mysql -u root
     MariaDB [tine20]> SET GLOBAL max_allowed_packet=1073741824;
 
@@ -226,3 +241,7 @@ note: this only works with tine20.com/2018.11* branches
 ## docker-compose up
 
     docker-compose -f docker-compose.yml -f compose/docservice.yml up
+
+## TODO phing aufrufe ergänzen
+## TODO add install.properties
+## TODO aliase für z.b. compose up mit pma

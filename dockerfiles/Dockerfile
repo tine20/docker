@@ -6,21 +6,10 @@ FROM richarvey/nginx-php-fpm:latest
 
 WORKDIR /tine
 
-###############################################################################
-
-# push configs
-#ADD tine /tine
-#RUN chown nginx:nginx /tine/conf/tine20/config.inc.php
-
-# set nginx config
-#RUN rm /etc/nginx/sites-enabled/default.conf
-#RUN cp /tine/conf/nginx/nginx-site.conf /etc/nginx/sites-enabled/default.conf
-
 ###########################################
 
 RUN mkdir -p /tine/customers
 RUN mkdir -p /tine/tine20
-
 
 ###############################################################################
 

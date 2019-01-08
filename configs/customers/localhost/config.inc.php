@@ -7,8 +7,10 @@
         'tableprefix'   => 'local',
         'adapter'       => 'pdo_mysql',
     ),
-//    'statusInfo'        => true,
-//    'confdfolder'       => '/tine/customers/localhost/conf.d',
+
+    // TODO mkdir in Dockerfile if we want to use this
+    // 'confdfolder'       => '/tine/customers/localhost/conf.d',
+
     'setupuser' => array(
         'username'      => $_ENV["TINE20_SETUPUSER"],
         'password'      => $_ENV["TINE20_SETUPPASSWD"]
