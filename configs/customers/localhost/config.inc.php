@@ -42,9 +42,17 @@
 
     'logger' => array (
         'active' => true,
-        #'filename' => '/tine/logs/tine20.log',
         'filename' => 'php://stdout',
         'priority' => '5',
+        'additionalWriters' => array(array(
+            'active' => true,
+            'filename' => '/tine/logs/debug.log',
+            'priority' => '7',
+            'filter'   => array(
+                #'user'    => 'tine20admin',
+                #'message' => '/Addressbook_Frontend_Http/',
+            ),
+        ))
     ),
     'filesdir'  => '/tine/files',
     'tmpdir' => '/tine/tmp',
