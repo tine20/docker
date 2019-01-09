@@ -1,3 +1,5 @@
+# TODO remove when we have moved the webpack supervisord config out of Dockerfile
+
 FROM richarvey/nginx-php-fpm:latest
 #FROM ubuntu:latest
 
