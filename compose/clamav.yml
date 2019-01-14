@@ -1,0 +1,13 @@
+# this is a override file to add a clamav container
+version: '2'
+services:
+  clamav:
+    image: tiredofit/clamav
+    container_name: clamav
+    environment:
+      - ZABBIX_HOSTNAME=clamav
+    restart: always
+    # need to be created on the host - great for debugging
+    #volumes:
+      #- ./data/clamav:/data
+      #- ./logs/clamav:/var/log/clamav

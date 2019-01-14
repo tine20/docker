@@ -37,6 +37,9 @@ RUN apk add yaml-dev
 RUN pecl channel-update pecl.php.net
 RUN pecl install yaml-2.0.0 && docker-php-ext-enable yaml
 
+# php socket support
+RUN docker-php-ext-install sockets
+
 # php config: no memory limit
 # TODO maybe we should add a limit to php-fpm/nginx config
 RUN sed -i 's/memory_limit = 128M//g' /usr/local/etc/php/conf.d/docker-vars.ini
