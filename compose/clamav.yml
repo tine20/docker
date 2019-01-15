@@ -6,8 +6,7 @@ services:
     container_name: clamav
     environment:
       - ZABBIX_HOSTNAME=clamav
-    restart: always
-    # need to be created on the host - great for debugging
-    #volumes:
-      #- ./data/clamav:/data
+    # need to be created on the host
+    volumes:
+      - ./data/clamav:/data
       #- ./logs/clamav:/var/log/clamav
