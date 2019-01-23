@@ -56,8 +56,8 @@ services:
       TINE20_DBPASSWD: *mysqlpw
       TINE20_SETUPUSER: tine20setup
       TINE20_SETUPPASSWD: tine20setup
-      TINE20_ADMINUSER: test
-      TINE20_ADMINPASSWD: test
+      TINE20_ADMINUSER: tine20admin
+      TINE20_ADMINPASSWD: tine20admin
       TINE20_REDISHOST: cache
 
 networks:

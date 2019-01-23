@@ -31,7 +31,7 @@ do
             docker+='-f ../compose/worker.yml '
             ;;                            
         "Run")
-            docker+='
+            docker+=' up'
             $docker
             break
             ;;

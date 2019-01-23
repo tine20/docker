@@ -2,7 +2,7 @@
 
 $version = 'be'; #tableprefix in database tine20.
 
-$actionqueue = false; #enable the actionQueue
+$actionqueue = true; #enable the actionQueue
 
 return array(
     'database' => array(
