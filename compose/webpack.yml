@@ -6,5 +6,5 @@ services:
     image: tine20:latest
     container_name: tine20
     volumes:
-      # mount supervisor worker config
-      - ./configs/supervisor/worker.conf:/etc/supervisor/conf.d/worker.conf:ro
+    # mount supervisor webpack config
+    - ./configs/supervisor/webpack.conf:/etc/supervisor/conf.d/webpack.conf:ro 

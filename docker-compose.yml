@@ -24,7 +24,7 @@ services:
     container_name: tine20
     volumes:
       # tine20 source!!!! Mount it under /tine/tine20
-      - ./tine20/tine20:/tine/tine20/
+      - ./tine20/tine20:/tine/tine20:ro
 
       # tine20 file storage!!!! Mount it under /tine/files/
       - tine20_files:/tine/files/
@@ -40,13 +40,7 @@ services:
 
       # tine20 scripts Mount it under /tine/scripts
       - ./tine20/scripts:/tine/scripts/:ro
-
-      # mount supervisor webpack config
-      - ./configs/supervisor/webpack.conf:/etc/supervisor/conf.d/webpack.conf:ro
-
-      # mount tine20 config.inc.php
-      - ./configs/localhost/config.inc.php:/tine/tine20/config.inc.php
-
+ 
       # keep history (see https://stackoverflow.com/questions/28279862/docker-and-bash-history)
       # i have no idea why this is "ash_history" in the image ...
       # maybe you have to do "touch ~/.dockerweb_bash_history" before this works correctly

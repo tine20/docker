@@ -9,6 +9,7 @@ WORKDIR /tine
 ###########################################
 RUN mkdir -p /tine/customers
 RUN mkdir -p /tine/tine20
+RUN mkdir -p /etc/supervisor/conf.d/
 
 ###############################################################################
 
@@ -55,7 +56,7 @@ RUN docker-php-ext-install pcntl
 RUN apk add supervisor
 
 #######
-# dev / nodejs / webpack
+# dev / nodejs
 #######
 #RUN cd /tine/tine20/tine20 && composer install --no-interaction --ignore-platform-reqs
 #RUN cd /tine/tine20/tine20 && COMPOSER_PROCESS_TIMEOUT=2000 composer install --no-interaction --ignore-platform-reqs
@@ -64,9 +65,6 @@ RUN apk add supervisor
 #RUN apk add nodejs         # does not work for the latest image
 RUN apk add nodejs-current-npm
 
-# add startup config for webpack
-RUN mkdir -p tine20
-RUN mkdir -p /etc/supervisor/conf.d/
 
 # fix php-fpm startup config
 RUN sed -i 's#/usr/local/etc/php-fpm.d/www.conf#/usr/local/etc/php-fpm.conf#g' /etc/supervisord.conf

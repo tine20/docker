@@ -56,9 +56,9 @@ note: obsolete when we have a docker registry
 
 TODO: add docker registry stuff when we have it
 
-## docker-compose up
+## start tine20
 
-    docker-compose up
+    docker-compose -f docker-compose.yml -f compose/webpack.yml up
 
 ## show containers
 
@@ -79,9 +79,6 @@ TODO: add docker registry stuff when we have it
 [localhost:4002](http://localhost:4002) Phpmyadmin Username:tine20 Password:tine20pw
 
 ## install tine
-
-#Importen!
-Docker use the config in directory /tine20-docker/configs/...
 
 Also configures the mailserver & system account.
 
@@ -118,6 +115,13 @@ NOTE #2: maybe you need to increase the php memory_limit (i.e. -d memory_limit=5
 
     docker exec --user nginx tine20 sh -c "cd /tine/tests/tine20/ && ../../tine20/vendor/bin/phpunit --color --stop-on-failure --debug AllTests"
 
+## tabel prefix
+you can change the table prefix in the config.inc.php file:
+
+        <?php
+        $version = 'be'; <- change this
+    
+
 ## import handbook
 
 you might to do this first aus we have some BIG pages in the handbook:
@@ -146,7 +150,8 @@ for example the ebhh handbook version:
 
 # ActionQueue / Worker in Docker
 
-## config enable actionQueue in Docker (/tine/tine20/config.inc.php) add:
+## config enable actionQueue in Docker
+ (config/customer/localhost/config.inc.php) add:
 
     <?php
     $version = 'be';
@@ -183,10 +188,9 @@ you need to define a "PHP remote debug" server in PHPSTORM:
 
 if you have a different IP, you might need to use the XDEBUG_CONFIG env vars in docker-compose.yml
 
-# building and running a php-cli only container
+# running a php-cli only container
 
-    docker build -f dockerfiles/Dockerfile-cli . -t tine20-cli
-    docker-compose -f docker-compose.yml -f compose/cli.yml up
+    docker-compose -f docker-compose.yml up
 
 # run with mail (dovecot/postfix) container
 
@@ -258,6 +262,10 @@ note: this only works with tine20.com/2018.11* branches
 ## docker-compose up
 
     docker-compose -f docker-compose.yml -f compose/docservice.yml up
+    
+## Docker start scripts
+
+    
 
 ## TODO phing aufrufe ergänzen
 ## TODO add install.properties
