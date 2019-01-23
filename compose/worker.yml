@@ -8,3 +8,4 @@ services:
     volumes:
       # mount supervisor worker config
       - ./configs/supervisor/worker.conf:/etc/supervisor/conf.d/worker.conf:ro
+      - ./configs/worker/:/tine/conf.d/:ro

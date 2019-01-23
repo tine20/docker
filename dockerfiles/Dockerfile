@@ -10,6 +10,7 @@ WORKDIR /tine
 RUN mkdir -p /tine/customers
 RUN mkdir -p /tine/tine20
 RUN mkdir -p /etc/supervisor/conf.d/
+RUN mkdir -p /tine/conf.d/
 
 ###############################################################################
 

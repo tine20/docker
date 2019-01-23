@@ -2,8 +2,6 @@
 
 $version = 'be'; #tableprefix in database tine20.
 
-$actionqueue = true; #enable the actionQueue
-
 return array(
     'database' => array(
         'host'          => $_ENV["TINE20_DBHOST"],
@@ -15,7 +13,7 @@ return array(
     ),
 
     // TODO mkdir in Dockerfile if we want to use this
-    // 'confdfolder'       => '/tine/customers/localhost/conf.d',
+    'confdfolder'       => '/tine/conf.d',
 
     'setupuser' => array(
         'username'      => $_ENV["TINE20_SETUPUSER"],
@@ -25,14 +23,6 @@ return array(
    'login' => array(
        'username'      => $_ENV["TINE20_ADMINUSER"],
        'password'      => $_ENV["TINE20_ADMINPASSWD"]
-    ),
-
-    'actionqueue' => array(
-       'active' => $actionqueue,
-       'backend' => 'Redis',
-       'host'    => 'cache',
-       'port'    => 6379,
-       'queueName' => 'actionqueueName'
     ),
 
     'caching' => array (
