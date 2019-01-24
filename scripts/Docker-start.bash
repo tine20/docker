@@ -1,11 +1,10 @@
 #!/bin/bash
-
 PS3='Your choice: '
 options=("Webpack" "Xdebug" "phpMyAdmin" "Mail" "Docservice" "Confroom" "Clamav" "Worker" "Run" "Quit")
 docker='docker-compose -f ../docker-compose.yml '
 select opt in "${options[@]}"
-do
-    case $opt in
+  do
+        case $opt in
         "Webpack")
             docker+='-f ../compose/webpack.yml '
             ;;
@@ -39,6 +38,6 @@ do
             break
             ;;            
         *) echo "invalid option $REPLY ";;
-    esac
-    PS3+=$opt' '
-done
+        esac
+        PS3+=$opt' '
+    done
