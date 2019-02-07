@@ -1,6 +1,10 @@
 tine20-docker
 ----
 
+# linksammlung
+
+* https://linuxize.com/post/how-to-remove-docker-images-containers-volumes-and-networks/
+
 # install and setup docker
 
 ## install docker-io and docker-compose
