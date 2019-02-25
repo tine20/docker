@@ -61,8 +61,8 @@ services:
       TINE20_REDISHOST: cache
 
 networks:
-    default:
-      driver: bridge
+  default:
+    driver: bridge
 
 volumes:
   # DB storage
