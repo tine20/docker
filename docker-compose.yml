@@ -23,10 +23,10 @@ services:
     #image: tine20-cli:latest
     container_name: tine20
     volumes:
-      # tine20 source!!!! Mount it under /tine/tine20
-      - ./tine20/tine20:/tine/tine20/:ro
+      # tine20 source - Mount it under /tine/tine20
+      - ./tine20/tine20:/tine/tine20:ro
 
-      # tine20 file storage!!!! Mount it under /tine/files/
+      # tine20 file storage - Mount it under /tine/files/
       - tine20_files:/tine/files/
 
       # mount nginx config
@@ -35,12 +35,12 @@ services:
       # mount customers config
       - ./configs/customers/:/tine/customers:ro
 
-      # tine20 tests!!!! Mount it under /tine/tests
+      # tine20 tests - Mount it under /tine/tests
       - ./tine20/tests/:/tine/tests/:ro
 
       # tine20 scripts Mount it under /tine/scripts
       - ./tine20/scripts:/tine/scripts/:ro
-
+ 
       # keep history (see https://stackoverflow.com/questions/28279862/docker-and-bash-history)
       # i have no idea why this is "ash_history" in the image ...
       # maybe you have to do "touch ~/.dockerweb_bash_history" before this works correctly

@@ -1,5 +1,4 @@
 FROM richarvey/nginx-php-fpm:latest
-#FROM ubuntu:latest
 
 # needed to pull tarball
 #ENV TINE20_VERSION 2018.02.2
@@ -7,9 +6,10 @@ FROM richarvey/nginx-php-fpm:latest
 WORKDIR /tine
 
 ###########################################
-
 RUN mkdir -p /tine/customers
 RUN mkdir -p /tine/tine20
+RUN mkdir -p /etc/supervisor/conf.d/
+RUN mkdir -p /tine/conf.d/
 
 ###############################################################################
 
@@ -49,24 +49,27 @@ RUN apk del --purge .build-deps
 RUN docker-php-source delete
 RUN apk del autoconf g++ make
 
+## add pcntl (for the worker)
+RUN docker-php-ext-install pcntl
+
+# install supervisor 
+RUN apk add supervisor
+
 #######
-# dev / nodejs / webpack
+# dev
 #######
 #RUN cd /tine/tine20/tine20 && composer install --no-interaction --ignore-platform-reqs
 #RUN cd /tine/tine20/tine20 && COMPOSER_PROCESS_TIMEOUT=2000 composer install --no-interaction --ignore-platform-reqs
 
 # add nodejs
-#RUN apk add nodejs         # does not work for the latest image
 RUN apk add nodejs-current-npm
-
-# add startup config for webpack
-# TODO move to separate config file
-RUN mkdir -p tine20
-RUN mkdir -p /etc/supervisor/conf.d/
-RUN echo -e "[program:webpack]\ncommand=/usr/bin/npm start\ndirectory=/tine/tine20/Tinebase/js/\nautostart=true\nautorestart=true\npriority=10\nstdout_events_enabled=true\nstderr_events_enabled=true\nstdout_logfile=/dev/stdout\nstdout_logfile_maxbytes=0\nstderr_logfile=/dev/stderr\nstderr_logfile_maxbytes=0" > /etc/supervisor/conf.d/webpack.conf
 
 # fix php-fpm startup config
 RUN sed -i 's#/usr/local/etc/php-fpm.d/www.conf#/usr/local/etc/php-fpm.conf#g' /etc/supervisord.conf
+
+#######
+# prod
+#######
 
 #RUN wget http://packages.tine20.org/source/${TINE20_VERSION}/tine20-allinone_${TINE20_VERSION}.tar.bz2
 #RUN tar -xjf tine20-allinone_${TINE20_VERSION}.tar.bz2 -C tine20

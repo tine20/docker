@@ -1,15 +1,19 @@
-<?php return array(
+<?php
+
+$version = 'be'; #tableprefix in database tine20.
+
+return array(
     'database' => array(
         'host'          => $_ENV["TINE20_DBHOST"],
         'dbname'        => $_ENV["TINE20_DBNAME"],
         'username'      => $_ENV["TINE20_DBUSER"],
         'password'      => $_ENV["TINE20_DBPASSWD"],
-        'tableprefix'   => 'local',
+        'tableprefix'   => $version,
         'adapter'       => 'pdo_mysql',
     ),
 
     // TODO mkdir in Dockerfile if we want to use this
-    // 'confdfolder'       => '/tine/customers/localhost/conf.d',
+    'confdfolder'       => '/tine/conf.d',
 
     'setupuser' => array(
         'username'      => $_ENV["TINE20_SETUPUSER"],
@@ -56,4 +60,6 @@
     ),
     'filesdir'  => '/tine/files',
     'tmpdir' => '/tine/tmp',
+
+
 );

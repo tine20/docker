@@ -60,9 +60,17 @@ note: obsolete when we have a docker registry
 
 TODO: add docker registry stuff when we have it
 
-## docker-compose up
+## start tine20
 
-    docker-compose up
+    docker-compose -f docker-compose.yml -f compose/webpack.yml up
+
+or
+    
+    php /scripts/docker.php
+    
+or
+
+    ./scripts/Docker-start.bash
 
 ## show containers
 
@@ -119,6 +127,13 @@ NOTE #2: maybe you need to increase the php memory_limit (i.e. -d memory_limit=5
 
     docker exec --user nginx tine20 sh -c "cd /tine/tests/tine20/ && ../../tine20/vendor/bin/phpunit --color --stop-on-failure --debug AllTests"
 
+## table prefix
+you can change the table prefix in the config.inc.php file:
+
+        <?php
+        $version = 'be'; <- change this
+
+
 ## import handbook
 
 you might to do this first aus we have some BIG pages in the handbook:
@@ -145,6 +160,12 @@ for example the ebhh handbook version:
     docker image ls -a      # shows all containers, as well as deps
     docker image rm <image id/name>
 
+# ActionQueue / Worker in Docker
+
+## Running a actionQueue
+
+    docker-compose -f docker-compose.myl -f compose/worker.yml up
+
 # debugging with PHPSTORM
 
 this is the default xdebug.ini:
@@ -170,16 +191,21 @@ you need to define a "PHP remote debug" server in PHPSTORM:
 
 if you have a different IP, you might need to use the XDEBUG_CONFIG env vars in docker-compose.yml
 
-# building and running a php-cli only container
+# running a tine20 container with ...
 
-    docker build -f dockerfiles/Dockerfile-cli . -t tine20-cli
-    docker-compose -f docker-compose.yml -f compose/cli.yml up
+## webpack
 
-# run with mail (dovecot/postfix) container
+    docker-compose -f docker-compose.yml -f compose/webpack.yml up
+
+## php-cli only container
+
+    docker-compose -f docker-compose.yml up
+
+## mail (dovecot/postfix) container
 
     docker-compose -f docker-compose.yml -f compose/mail.yml up
 
-# run with phpmyadmin container
+## phpmyadmin container
 
     docker-compose -f docker-compose.yml -f compose/pma.yml up
 
@@ -245,6 +271,10 @@ note: this only works with tine20.com/2018.11* branches
 ## docker-compose up
 
     docker-compose -f docker-compose.yml -f compose/docservice.yml up
+    
+## Docker start scripts
+
+    
 
 ## TODO phing aufrufe ergänzen
 ## TODO add install.properties
