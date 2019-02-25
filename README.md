@@ -60,6 +60,14 @@ TODO: add docker registry stuff when we have it
 
     docker-compose -f docker-compose.yml -f compose/webpack.yml up
 
+or
+    
+    php /scripts/docker.php
+    
+or
+
+    ./scripts/Docker-start.bash
+
 ## show containers
 
     docker ps
@@ -115,12 +123,12 @@ NOTE #2: maybe you need to increase the php memory_limit (i.e. -d memory_limit=5
 
     docker exec --user nginx tine20 sh -c "cd /tine/tests/tine20/ && ../../tine20/vendor/bin/phpunit --color --stop-on-failure --debug AllTests"
 
-## tabel prefix
+## table prefix
 you can change the table prefix in the config.inc.php file:
 
         <?php
         $version = 'be'; <- change this
-    
+
 
 ## import handbook
 
@@ -150,18 +158,9 @@ for example the ebhh handbook version:
 
 # ActionQueue / Worker in Docker
 
-## config enable actionQueue in Docker
- (config/customer/localhost/config.inc.php) add:
+## Running a actionQueue
 
-    <?php
-    $version = 'be';
-    $actionqueue = true; #enable for actionqueue
-    return array(
-        'database' => array(
-            ...
-## Running a actionQueue only container
-
-    docker-compose -f docker-compose.myl -f docker-compose.yml up
+    docker-compose -f docker-compose.myl -f compose/worker.yml up
 
 # debugging with PHPSTORM
 
@@ -188,15 +187,21 @@ you need to define a "PHP remote debug" server in PHPSTORM:
 
 if you have a different IP, you might need to use the XDEBUG_CONFIG env vars in docker-compose.yml
 
-# running a php-cli only container
+# running a tine20 container with ...
+
+## webpack
+
+    docker-compose -f docker-compose.yml -f compose/webpack.yml up
+
+## php-cli only container
 
     docker-compose -f docker-compose.yml up
 
-# run with mail (dovecot/postfix) container
+## mail (dovecot/postfix) container
 
     docker-compose -f docker-compose.yml -f compose/mail.yml up
 
-# run with phpmyadmin container
+## phpmyadmin container
 
     docker-compose -f docker-compose.yml -f compose/pma.yml up
 
