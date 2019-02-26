@@ -268,14 +268,8 @@ note: this only works with tine20.com/2018.11* branches
 ),
 ```
 
-## docker-compose up
+## clear tine20 cache
 
-    docker-compose -f docker-compose.yml -f compose/docservice.yml up
+    docker exec --user nginx tine20 sh -c "cd /tine/tine20/ && php tine20.php --method=Tinebase.clearCache --username test --password test"
     
-## Docker start scripts
-
-    
-
 ## TODO phing aufrufe ergänzen
-## TODO add install.properties
-## TODO aliase für z.b. compose up mit pma
