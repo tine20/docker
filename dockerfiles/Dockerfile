@@ -44,16 +44,19 @@ RUN docker-php-ext-install sockets
 # TODO maybe we should add a limit to php-fpm/nginx config
 RUN sed -i 's/memory_limit = 128M//g' /usr/local/etc/php/conf.d/docker-vars.ini
 
+## add pcntl (for the worker)
+RUN docker-php-ext-install pcntl
+
+## add intl
+RUN docker-php-ext-install intl
+
+# install supervisor
+RUN apk add supervisor
+
 # finalize deps installation
 RUN apk del --purge .build-deps
 RUN docker-php-source delete
 RUN apk del autoconf g++ make
-
-## add pcntl (for the worker)
-RUN docker-php-ext-install pcntl
-
-# install supervisor 
-RUN apk add supervisor
 
 #######
 # dev
