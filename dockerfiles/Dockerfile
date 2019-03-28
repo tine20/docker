@@ -17,6 +17,10 @@ RUN mkdir -p /tine/conf.d/
 RUN mkdir cache files logs tmp
 RUN chown nginx:nginx cache files logs tmp
 
+#######
+# install packages/modules
+#######
+
 # add deps and compile php-redis
 RUN apk update
 RUN apk add --no-cache --virtual .build-deps autoconf gcc musl-dev make
@@ -37,38 +41,36 @@ RUN apk add yaml-dev
 RUN pecl channel-update pecl.php.net
 RUN pecl install yaml-2.0.0 && docker-php-ext-enable yaml
 
-# php socket support
-RUN docker-php-ext-install sockets
-
-# php config: no memory limit
-# TODO maybe we should add a limit to php-fpm/nginx config
-RUN sed -i 's/memory_limit = 128M//g' /usr/local/etc/php/conf.d/docker-vars.ini
-
-## add pcntl (for the worker)
-RUN docker-php-ext-install pcntl
-
-## add intl
-RUN docker-php-ext-install intl
+# install some more php modules
+RUN docker-php-ext-install sockets pcntl intl bcmath
 
 # install supervisor
 RUN apk add supervisor
 
-# finalize deps installation
+# add nodejs
+RUN apk add nodejs-current-npm
+
+# cleanup
 RUN apk del --purge .build-deps
 RUN docker-php-source delete
 RUN apk del autoconf g++ make
+
+#######
+# fix configs
+#######
+
+# fix php-fpm startup config
+RUN sed -i 's#/usr/local/etc/php-fpm.d/www.conf#/usr/local/etc/php-fpm.conf#g' /etc/supervisord.conf
+
+# php config: no memory limit
+# TODO maybe we should add a limit to php-fpm/nginx config
+RUN sed -i 's/memory_limit = 128M//g' /usr/local/etc/php/conf.d/docker-vars.ini
 
 #######
 # dev
 #######
 #RUN cd /tine/tine20/tine20 && composer install --no-interaction --ignore-platform-reqs
 #RUN cd /tine/tine20/tine20 && COMPOSER_PROCESS_TIMEOUT=2000 composer install --no-interaction --ignore-platform-reqs
-
-# add nodejs
-RUN apk add nodejs-current-npm
-
-# fix php-fpm startup config
-RUN sed -i 's#/usr/local/etc/php-fpm.d/www.conf#/usr/local/etc/php-fpm.conf#g' /etc/supervisord.conf
 
 #######
 # prod
