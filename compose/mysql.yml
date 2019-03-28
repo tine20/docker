@@ -11,6 +11,9 @@ services:
       MYSQL_DATABASE: &mysqldb tine20
       MYSQL_USER: &mysqluser tine20
       MYSQL_PASSWORD: &mysqlpw tine20pw
+    # see https://github.com/docker-library/mysql/issues/422
+    security_opt:
+      - seccomp:unconfined
 
   web:
     environment:
