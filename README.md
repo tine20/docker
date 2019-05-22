@@ -286,6 +286,8 @@ ramdisk erzeugen:
     sudo mount -t tmpfs -o size=512m tmpfs /mnt/ramdisk
     
 wenn man mag, kann das mount in die /etc/fstab geschoben werden.
+    
+    tmpfs   /mnt/ramdisk tmpfs   nosuid,size=512M   0 0
 
 docker-compose:
 
