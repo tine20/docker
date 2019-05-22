@@ -273,3 +273,25 @@ note: this only works with tine20.com/2018.11* branches
     docker exec --user nginx tine20 sh -c "cd /tine/tine20/ && php tine20.php --method=Tinebase.clearCache --username test --password test"
     
 ## TODO phing aufrufe ergänzen
+
+## use ramdisk for sql storage
+
+davor muss der alte db container gelöscht werden, sonst greift das mount nicht:
+
+    docker rm db
+
+ramdisk erzeugen:
+
+    sudo mkdir /mnt/ramdisk
+    sudo mount -t tmpfs -o size=512m tmpfs /mnt/ramdisk
+    
+wenn man mag, kann das mount in die /etc/fstab geschoben werden.
+
+docker-compose:
+
+    # start docker with ramdisk & webpack
+    php scripts/docker.php webpack ramdisk
+
+achtung: man verliert natürlich seine db nach dem reboot!
+
+achtung 2: man darf sonst nichts in die ramdisk legen, sonst meckert mysql/maria
