@@ -1,4 +1,4 @@
-FROM richarvey/nginx-php-fpm:latest
+FROM richarvey/nginx-php-fpm:1.5.7
 
 # needed to pull tarball
 #ENV TINE20_VERSION 2018.02.2
