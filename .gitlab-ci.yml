@@ -1,0 +1,9 @@
+build:
+ stage: build
+ script:
+   - docker build  -f dockerfiles/Dockerfile . -t tine20
+   
+test:
+ stage: test
+ script:
+   - bash dockerfiles/testDockerfile.sh
