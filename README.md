@@ -56,12 +56,20 @@ _relogin required!_
 
 login to the docker repository [info](https://colab.metaways.net/p/Container)
 
-    docker login 79.99.84.48:443
+might need to add insecure registry first:
+
+    $ sudo vim /etc/docker/daemon.json
+    {
+    	"insecure-registries" : ["79.99.84.48:443"]
+    }
+    $ service docker reload
+
+    $ docker login 79.99.84.48:443
     
 pull and rename image
 
-    docker pull 79.99.84.48:443/tine20/docker
-    docker tag 79.99.84.48:443/tine20/docker:latest tine20
+    $ docker pull 79.99.84.48:443/tine20/docker
+    $ docker tag 79.99.84.48:443/tine20/docker:latest tine20
 
 ### or build it yourself 
 
