@@ -7,3 +7,12 @@ test:
  stage: test
  script:
    - bash dockerfiles/testDockerfile.sh
+   
+deploy:
+ stage: deploy
+ only:
+  refs:
+    - master
+ script:
+   - docker tag tine20:latest 79.99.84.48:443/tine20/docker
+   - docker push 79.99.84.48:443/tine20/docker

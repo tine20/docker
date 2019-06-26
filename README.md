@@ -50,9 +50,28 @@ _relogin required!_
     cd tine20-docker/tine20/tine20/
     composer install --ignore-platform-reqs
 
-## docker build (only needed if you do not want to use the ready image)
+## get docker image
 
-note: obsolete when we have a docker registry
+### use ready made docker image
+
+login to the docker repository [info](https://colab.metaways.net/p/Container)
+
+might need to add insecure registry first:
+
+    $ sudo vim /etc/docker/daemon.json
+    {
+    	"insecure-registries" : ["79.99.84.48:443"]
+    }
+    $ service docker reload
+
+    $ docker login 79.99.84.48:443
+    
+pull and rename image
+
+    $ docker pull 79.99.84.48:443/tine20/docker
+    $ docker tag 79.99.84.48:443/tine20/docker:latest tine20
+
+### or build it yourself 
 
     docker build  -f dockerfiles/Dockerfile . -t tine20
 
