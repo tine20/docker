@@ -1,4 +1,4 @@
-FROM richarvey/nginx-php-fpm:latest
+FROM richarvey/nginx-php-fpm:1.5.7
 
 # needed to pull tarball
 #ENV TINE20_VERSION 2018.02.2
@@ -28,18 +28,18 @@ RUN apk add --no-cache --virtual .build-deps autoconf gcc musl-dev make
 # compile php-redis
 RUN pecl install igbinary
 RUN echo -e "extension=igbinary.so\nigbinary.compact_strings=On" > /usr/local/etc/php/conf.d/docker-php-ext-igbinary.ini
-#RUN echo "yes" | pecl install redis
-#RUN echo "extension=redis.so" > /usr/local/etc/php/conf.d/docker-php-ext-redis.ini
+RUN echo "yes" | pecl install redis
+RUN echo "extension=redis.so" > /usr/local/etc/php/conf.d/docker-php-ext-redis.ini
 
 # xdebug
 RUN pecl install xdebug
 RUN docker-php-ext-enable xdebug
-RUN echo -e "xdebug.default_enable=on\nxdebug.remote_enable=on\nxdebug.remote_handler=dbgp\nxdebug.remote_port=9001\nxdebug.remote_host=172.18.0.1\nxdebug.remote_autostart=on" >> /usr/local/etc/php/conf.d/xdebug.ini
+RUN echo -e "zend_extension=xdebug.so\nxdebug.default_enable=on\nxdebug.remote_enable=on\nxdebug.remote_handler=dbgp\nxdebug.remote_port=9001\nxdebug.remote_host=172.18.0.1\nxdebug.remote_autostart=on" >> /usr/local/etc/php/conf.d/xdebug.ini
 
 # yaml
 RUN apk add yaml-dev
 RUN pecl channel-update pecl.php.net
-RUN pecl install yaml && docker-php-ext-enable yaml
+RUN pecl install yaml-2.0.0 && docker-php-ext-enable yaml
 
 # install some more php modules
 RUN docker-php-ext-install sockets pcntl intl bcmath
