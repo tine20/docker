@@ -1,0 +1,17 @@
+driver = mysql
+connect = host={{getv "/mysql/host"}} dbname={{getv "/mysql/db"}} user={{getv "/mysql/user"}} password={{getv "/mysql/password"}}
+default_pass_scheme = SHA512
+
+password_query = SELECT dovecot_users.username AS user, \
+   password, \
+   home AS userdb_home, \
+   uid AS userdb_uid, \
+   gid AS userdb_gid, \
+   CONCAT('*:bytes=', CAST(quota_bytes AS CHAR), 'M') AS userdb_quota_rule \
+   FROM dovecot_users \
+   WHERE dovecot_users.username='%u'
+
+user_query = SELECT home, uid, gid, \
+   CONCAT('*:bytes=', CAST(quota_bytes AS CHAR), 'M') AS quota_rule \
+   FROM dovecot_users \
+   WHERE dovecot_users.username='%u'

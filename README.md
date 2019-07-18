@@ -228,6 +228,47 @@ if you have a different IP, you might need to use the XDEBUG_CONFIG env vars in 
 
     docker-compose -f docker-compose.yml -f compose/pma.yml up
 
+## mailstack (dovecot postfix userdb)
+
+    docker-compose -f docker-compose.yml -f compose/mailstack.yml up
+  
++ before installing tine20 you musst initialise the mail db 
+`./scripts/cli.php mailstack init` or
+`docker-compose -f docker-compose.yml -f compose/mailstack.yml run mailstack init`
+
++ when you are reinstalling tine20 you should reset the mail db
+`./scripts/cli.php mailstack reset` or
+`docker-compose -f docker-compose.yml -f compose/mailstack.yml run mailstack reset`
+
++ after mailstack containers have changed eg. git pull, rebuild images
+`./scripts/cli.php mailstack build` or
+`docker-compose -f docker-compose.yml -f compose/mailstack.yml build`
+
+##### install.properties
+imap and pop: 
+
++ host: dovecot
++ tls: none / starttls / tls
++ auth: plain
++ db_host: db
++ db: dovecot
++ dovecot_uid:vmail
++ dovecot_gid:vmail
++ dovecot_home:/var/vmail/%d/%u
+
+smtp:
++ host: postfix
++ tls: none
++ auth: none
++ db_host: db
++ db: dovecot
+
+eg:
+```
+imap="active:true,host:dovecot,port:143,useSystemAccount:1,ssl:tls,verifyPeer:0,backend:dovecot_imap,domain:mail.test,instanceName:tine.test,dovecot_host:db,dovecot_dbname:dovecot,dovecot_username:tine20,dovecot_password:tine20pw,dovecot_uid:vmail,dovecot_gid:vmail,dovecot_home:/var/vmail/%d/%u,dovecot_scheme:SSHA256"
+smtp="active:true,backend:postfix,hostname:postfix,port:25,ssl:none,auth:none,name:postfix,primarydomain:mail.test,instanceName:tine.test,postfix_host:db,postfix_dbname:postfix,postfix_username:tine20,postfix_password:tine20pw"
+```
+
 # debug / test stuff with fake previews
 
 sometimes you don't have a working doc service but need to test files with previews.

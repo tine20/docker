@@ -1,0 +1,5 @@
+user     = {{getv "/mysql/user"}}
+password = {{getv "/mysql/password"}}
+hosts    = {{getv "/mysql/host"}}
+dbname   = {{getv "/mysql/db"}}
+query    = SELECT DISTINCT 1 FROM smtp_destinations WHERE SUBSTRING_INDEX(source, '@', -1) = '%s';
