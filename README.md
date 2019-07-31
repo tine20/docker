@@ -228,7 +228,7 @@ if you have a different IP, you might need to use the XDEBUG_CONFIG env vars in 
 
     docker-compose -f docker-compose.yml -f compose/pma.yml up
 
-## mailstack (dovecot postfix userdb)
+## mailstack (dovecot postfix sieve userdb)
 
     docker-compose -f docker-compose.yml -f compose/mailstack.yml up
   
@@ -248,7 +248,7 @@ if you have a different IP, you might need to use the XDEBUG_CONFIG env vars in 
 imap and pop: 
 
 + host: dovecot
-+ tls: none / starttls / tls
++ ssl: none / starttls / tls
 + auth: plain
 + db_host: db
 + db: dovecot
@@ -258,15 +258,21 @@ imap and pop:
 
 smtp:
 + host: postfix
-+ tls: none
++ ssl: none
 + auth: none
 + db_host: db
 + db: dovecot
+
+sieve:
++ hostname dovecot
++ port: 4190
++ ssl: none
 
 eg:
 ```
 imap="active:true,host:dovecot,port:143,useSystemAccount:1,ssl:tls,verifyPeer:0,backend:dovecot_imap,domain:mail.test,instanceName:tine.test,dovecot_host:db,dovecot_dbname:dovecot,dovecot_username:tine20,dovecot_password:tine20pw,dovecot_uid:vmail,dovecot_gid:vmail,dovecot_home:/var/vmail/%d/%u,dovecot_scheme:SSHA256"
 smtp="active:true,backend:postfix,hostname:postfix,port:25,ssl:none,auth:none,name:postfix,primarydomain:mail.test,instanceName:tine.test,postfix_host:db,postfix_dbname:postfix,postfix_username:tine20,postfix_password:tine20pw"
+sieve="hostname:dovecot,port:4190,ssl:none"
 ```
 
 # debug / test stuff with fake previews

@@ -2,7 +2,7 @@ FROM alpine:latest
 
 WORKDIR /root
 
-RUN apk add dovecot dovecot-mysql dovecot-pop3d dovecot-lmtpd
+RUN apk add dovecot dovecot-mysql dovecot-pop3d dovecot-lmtpd dovecot-pigeonhole-plugin
 
 RUN wget https://github.com/kelseyhightower/confd/releases/download/v0.16.0/confd-0.16.0-linux-amd64 &&\
     mv confd-0.16.0-linux-amd64 /usr/bin/confd &&\
