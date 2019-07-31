@@ -6,8 +6,8 @@ services:
     environment:
       MYSQL_HOST: db
       MYSQL_DB: &postfixdb postfix
-      MYSQL_USER: &mysqluser vmail
-      MYSQL_PASSWORD: &mysqlpw vmailpw
+      MYSQL_USER: &mysqluser tine20
+      MYSQL_PASSWORD: &mysqlpw tine20pw
     depends_on:
       - db
     #ports:
