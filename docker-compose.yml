@@ -2,7 +2,7 @@ version: '2'
 services:
 
   db:
-    image: mariadb:latest
+    image: mariadb:10.4.1
     container_name: db
     volumes:
       - mariadb_data:/var/lib/mysql
@@ -17,10 +17,7 @@ services:
     container_name: cache
 
   web:
-    image: tine20:latest
-    # if you don't want webpack to run, you need to comment out the lines below "# add startup config for webpack"
-    #  in the Dockerfile and build a tine20-cli image with this command: "docker build . -t tine20-cli"
-    #image: tine20-cli:latest
+    image: tine20-docker-registry.mws-hosting.net/tine20:latest
     container_name: tine20
     volumes:
       # tine20 source - Mount it under /tine/tine20

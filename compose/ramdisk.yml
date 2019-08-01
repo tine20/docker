@@ -4,4 +4,4 @@ version: '2'
 services:
   db:
     volumes:
-      - /mnt/ramdisk:/var/lib/mysql
+      - /mnt/ramdiski:/var/lib/mysql

@@ -1,0 +1,7 @@
+version: '2'
+services:
+  web:
+    build:
+      context: .
+      dockerfile: dockerfiles/Dockerfile
+    image: tine20-docker-registry.mws-hosting.net/tine20:latest

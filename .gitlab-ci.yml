@@ -1,7 +1,7 @@
 build:
  stage: build
  script:
-   - docker build  -f dockerfiles/Dockerfile . -t tine20
+   - docker-compose -f docker-compose.yml -f compose/mailstack.yml -f compose/mailstack-build.yml -f compose/web-build.yml build
    
 test:
  stage: test
@@ -14,5 +14,4 @@ deploy:
   refs:
     - master
  script:
-   - docker tag tine20:latest 79.99.84.48:443/tine20/docker
-   - docker push 79.99.84.48:443/tine20/docker
+   - docker-compose -f docker-compose.yml -f compose/mailstack.yml -f compose/mailstack-build.yml -f compose/web-build.yml push

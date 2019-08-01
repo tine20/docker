@@ -1,0 +1,9 @@
+{
+  "composeFiles":[
+    "webpack",
+    "mailstack",
+    "pma",
+    "xdebug"
+  ],
+  "build": "false"
+}
