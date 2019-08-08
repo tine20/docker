@@ -232,7 +232,7 @@ if you have a different IP, you might need to use the XDEBUG_CONFIG env vars in 
 
     docker-compose -f docker-compose.yml -f compose/mailstack.yml up
   
-+ before installing tine20 you musst initialise the mail db 
++ before installing tine20 you musst initialise the mail db (mailstack containers must be started)
 `./scripts/cli.php mailstack init` or
 `docker-compose -f docker-compose.yml -f compose/mailstack.yml run mailstack init`
 
