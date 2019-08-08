@@ -3,14 +3,14 @@ services:
   postfix:
     build:
       context: dockerfiles/mailstack/postfix
-    image: tine20-docker-registry.mws-hosting.net/postfix:latest
+    image: tine20-docker-registry.mws-hosting.net/postfix:1.0.0
 
   dovecot:
     build:
       context: dockerfiles/mailstack/dovecot
-    image: tine20-docker-registry.mws-hosting.net/dovecot:latest
+    image: tine20-docker-registry.mws-hosting.net/dovecot:1.0.0
 
   mailstack:
     build:
       context: dockerfiles/mailstack/control
-    image: tine20-docker-registry.mws-hosting.net/mailstackcontrol:latest
+    image: tine20-docker-registry.mws-hosting.net/mailstackcontrol:1.0.0

@@ -1,7 +1,7 @@
 build:
  stage: build
  script:
-   - docker-compose -f docker-compose.yml -f compose/mailstack.yml -f compose/mailstack-build.yml -f compose/web-build.yml build
+   - docker-compose -f docker-compose.yml -f compose/mailstack.yml -f compose/mailstack-build.yml -f compose/web-build.yml -f compose/docservice.yml -f compose/docservice-build.yml build
    
 test:
  stage: test
@@ -14,4 +14,4 @@ deploy:
   refs:
     - master
  script:
-   - docker-compose -f docker-compose.yml -f compose/mailstack.yml -f compose/mailstack-build.yml -f compose/web-build.yml push
+   - docker-compose -f docker-compose.yml -f compose/mailstack.yml -f compose/mailstack-build.yml -f compose/web-build.yml -f compose/docservice.yml -f compose/docservice-build.yml push

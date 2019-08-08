@@ -14,7 +14,7 @@ prerequisite: docker, docker-compose, composer, npm, your user is in the docker 
 6. install docservice dependencies, if pullup has cloned it you dont need to do anything `cd docservice && composer install --ignore-platform-reqs`
 
 ## start
-7. start tine20-docker setup `./pullup docker up`, if you have not done 2 or 3 answer y to clone repos
+7. start tine20-docker setup `./pullup docker up`, if you have not done install 2 or 3 answer y to clone repos
 8. install tine `./pullup tine install`
 9. visit localhost:40001, login as tine20admin pw: tine20admin 
 10. strg+c to stop

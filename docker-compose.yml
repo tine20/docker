@@ -13,11 +13,11 @@ services:
       MYSQL_PASSWORD: &mysqlpw tine20pw
 
   cache:
-    image: redis:latest
+    image: redis:5.0.5
     container_name: cache
 
   web:
-    image: tine20-docker-registry.mws-hosting.net/tine20:latest
+    image: tine20-docker-registry.mws-hosting.net/tine20:1.0.0
     container_name: tine20
     volumes:
       # tine20 source - Mount it under /tine/tine20

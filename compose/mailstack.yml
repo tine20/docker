@@ -1,7 +1,7 @@
 version: '2'
 services:
   postfix:
-    image: tine20-docker-registry.mws-hosting.net/postfix:latest
+    image: tine20-docker-registry.mws-hosting.net/postfix:1.0.0
     environment:
       MYSQL_HOST: db
       MYSQL_DB: &postfixdb postfix
@@ -15,7 +15,7 @@ services:
     #  - "465:465"
 
   dovecot:
-    image: tine20-docker-registry.mws-hosting.net/dovecot:latest
+    image: tine20-docker-registry.mws-hosting.net/dovecot:1.0.0
     environment:
       MYSQL_HOST: db
       MYSQL_DB: &dovecotdb dovecot
@@ -30,7 +30,7 @@ services:
     #  - "995:995"
 
   mailstack:
-    image: tine20-docker-registry.mws-hosting.net/mailstackcontrol:latest
+    image: tine20-docker-registry.mws-hosting.net/mailstackcontrol:1.0.0
     environment:
       MYSQL_ROOT_PASSWORD: m4ru5ja
       MYSQL_USER: *mysqluser
