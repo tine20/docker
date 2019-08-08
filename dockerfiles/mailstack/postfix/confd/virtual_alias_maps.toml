@@ -1,0 +1,11 @@
+[template]
+src = "sql-virtual_alias_maps_aliases.cf.template"
+dest = "/etc/postfix/sql/sql-virtual_alias_maps_aliases.cf"
+owner = "root"
+group = "root"
+keys = [
+  "/mysql/db",
+  "/mysql/user",
+  "/mysql/password",
+  "/mysql/host",
+]

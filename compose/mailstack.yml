@@ -1,0 +1,42 @@
+version: '2'
+services:
+  postfix:
+    build:
+      context: dockerfiles/mailstack/postfix
+    environment:
+      MYSQL_HOST: db
+      MYSQL_DB: &postfixdb postfix
+      MYSQL_USER: &mysqluser tine20
+      MYSQL_PASSWORD: &mysqlpw tine20pw
+    depends_on:
+      - db
+    #ports:
+    #  - "25:25"
+    #  - "587:587"
+    #  - "465:465"
+
+  dovecot:
+    build:
+      context: dockerfiles/mailstack/dovecot
+    environment:
+      MYSQL_HOST: db
+      MYSQL_DB: &dovecotdb dovecot
+      MYSQL_USER: *mysqluser
+      MYSQL_PASSWORD: *mysqlpw
+    depends_on:
+      - db
+    #ports:
+    #  - "143:143"
+    #  - "110:110"
+    #  - "993:993"
+    #  - "995:995"
+
+  mailstack:
+    build:
+      context: dockerfiles/mailstack/control
+    environment:
+      MYSQL_ROOT_PASSWORD: m4ru5ja
+      MYSQL_USER: *mysqluser
+      MYSQL_PASSWORD: *mysqlpw
+      DOVECOT_DATABASE: *dovecotdb
+      POSTFIX_DATABASE: *postfixdb

@@ -1,0 +1,5 @@
+user     = {{getv "/mysql/user"}}
+password = {{getv "/mysql/password"}}
+hosts    = {{getv "/mysql/host"}}
+dbname   = {{getv "/mysql/db"}}
+query    = SELECT destination FROM smtp_destinations WHERE source='%s'
