@@ -1,3 +1,17 @@
+cache:
+  untracked: true
+
+stages:
+  - prepare
+  - build
+  - test
+  - deploy
+
+prepare:
+  stage: prepare
+  script:
+    - mkdir tine20 && mkdir tine20/tine20 && mkdir tine20/tests && mkdir tine20/scripts
+
 build:
  stage: build
  script:
