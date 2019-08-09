@@ -61,5 +61,6 @@ return array(
     'filesdir'  => '/tine/files',
     'tmpdir' => '/tine/tmp',
 
-
+    // needed for shared email accounts and mailinglists
+    'credentialCacheSharedKey' => 't4ZzuAHA5he8',
 );
