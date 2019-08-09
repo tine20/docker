@@ -11,6 +11,7 @@ prepare:
   stage: prepare
   script:
     - mkdir tine20 && mkdir tine20/tine20 && mkdir tine20/tests && mkdir tine20/scripts
+    - touch tine20/tine20/.gitkeep && touch tine20/tests/.gitkeep && touch tine20/scripts/.gitkeep
 
 build:
  stage: build
