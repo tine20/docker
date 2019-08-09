@@ -230,7 +230,7 @@ class Pullup {
     private function getTineDir() {
         $i = readline('tine20 dir is not linked. should it be cloned? y yes/n no/i ignore ');
 
-        if (strtolower($i)[0] != 'i') {
+        if (strtolower($i)[0] == 'i') {
             return 0;
         }
 
@@ -249,7 +249,7 @@ class Pullup {
     private function getDocserviceDir() {
         $i = readline('docservice dir is not linked. Should it be cloned? y yes/n no/i ignore ');
 
-        if (strtolower($i)[0] != 'i') {
+        if (strtolower($i)[0] == 'i') {
             return 0;
         }
 

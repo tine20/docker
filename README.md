@@ -6,7 +6,7 @@ tine20-docker
 
 prerequisite: git, docker, docker-compose, php, composer, npm, your user is in the docker group. If not see [below](install docker-io and docker-compose)
 
-1. clone this git and open it `git clone git@gitlab.metaways.net:tine20/docker.git tine20-docker` and cd `tine20-docker`
+1. clone this git and open it `git clone git@gitlab.metaways.net:tine20/docker.git tine20-docker` and `cd tine20-docker`
 2. link your tine20 source `ln -s /path/to/tine/repo tine20` or just wait for pullup to clone it for you
 3. link docservice source `ln -s /path/to/docservice/repo docservice` or just wait for pullup to clone it for you
 4. login to the tine docker registry `docker login tine20-docker-registry.mws-hosting.net`
