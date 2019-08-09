@@ -12,53 +12,69 @@ class Pullup {
     # FUNKTIONS
 
     public function dockerUp() {
-        if (! is_file('tine20/tine20/composer.json')) {
-            $this->getTineDir();
+        if (! is_file('tine20/tine20/tine20.php')) {
+            $err = $this->getTineDir();
+
+            if (0 != $err) {
+                return $err;
+            }
         }
         if ($this->active('docservice') && ! is_file('docservice/composer.json')) {
-            $this->getDocserviceDir();
+            $err = $this->getDocserviceDir();
+
+            if (0 != $err) {
+                return $err;
+            }
         }
         if (is_file('tine20/tine20/config.ini.php')) {
             $this->anotherConfig();
         }
 
-        passthru($this->getComposeString() . ' up');
+        passthru($this->getComposeString() . ' up', $err);
+
+        return $err;
     }
 
     public function dockerStart() {
-        if (! is_file('tine20/tine20/composer.json')) {
-            $this->getTineDir();
+        if (! is_file('tine20/tine20/tine20.php')) {
+            $err = $this->getTineDir();
+
+            if (0 != $err) {
+                return $err;
+            }
         }
         if ($this->active('docservice') && ! is_file('docservice/composer.json')) {
-            $this->getDocserviceDir();
+            $err = $this->getDocserviceDir();
+
+            if (0 != $err) {
+                return $err;
+            }
         }
         if (is_file('tine20/tine20/config.ini.php')) {
             $this->anotherConfig();
         }
 
-        passthru($this->getComposeString() . ' up -d');
+        passthru($this->getComposeString() . ' up -d', $err);
+
+        return $err;
     }
 
     public function dockerStop() {
-        if (! is_file('tine20/tine20/composer.json')) {
-            $this->getTineDir();
-        }
-        if ($this->active('docservice') && ! is_file('docservice/composer.json')) {
-            $this->getDocserviceDir();
-        }
-        if (is_file('tine20/tine20/config.ini.php')) {
-            $this->anotherConfig();
-        }
+        passthru($this->getComposeString() . ' stop', $err);
 
-        passthru($this->getComposeString() . ' stop');
+        return $err;
     }
 
     public function dockerDown() {
-        passthru($this->getComposeString() . ' down');
+        passthru($this->getComposeString() . ' down', $err);
+
+        return $err;
     }
 
     public function dockerCli($container) {
-        passthru($this->getComposeString() . ' exec ' . $container . ' sh');
+        passthru($this->getComposeString() . ' exec ' . $container . ' sh', $err);
+
+        return $err;
     }
 
     public function dockerBuild() {
@@ -67,19 +83,27 @@ class Pullup {
             exit();
         }
 
-        passthru($this->getComposeString() . ' build');
+        passthru($this->getComposeString() . ' build', $err);
+
+        return $err;
     }
 
     public function dockerPush() {
-        passthru($this->getComposeString() . ' push');
+        passthru($this->getComposeString() . ' push', $err);
+
+        return $err;
     }
 
     public function dockerPull() {
-        passthru($this->getComposeString() . ' pull');
+        passthru($this->getComposeString() . ' pull', $err);
+
+        return $err;
     }
 
     public function dockerLog() {
-        passthru($this->getComposeString() . ' logs -f');
+        passthru($this->getComposeString() . ' logs -f', $err);
+
+        return $err;
     }
 
 
@@ -89,15 +113,19 @@ class Pullup {
             $this->mailstackReset();
         }
 
-        passthru($this->getComposeString() . ' exec --user nginx web sh -c "cd /tine/tine20/ && vendor/bin/phing -D configdir=/tine/customers/' . $this->customer . ' tine-install"');
+        passthru($this->getComposeString() . ' exec --user nginx web sh -c "cd /tine/tine20/ && vendor/bin/phing -D configdir=/tine/customers/' . $this->customer . ' tine-install"', $err);
+
+        return $err;
     }
 
     public function tineUninstall() {
-        passthru($this->getComposeString() . ' exec --user nginx web sh -c "cd /tine/tine20/ && vendor/bin/phing -D configdir=/tine/customers/' . $this->customer . ' tine-uninstall"');
+        passthru($this->getComposeString() . ' exec --user nginx web sh -c "cd /tine/tine20/ && vendor/bin/phing -D configdir=/tine/customers/' . $this->customer . ' tine-uninstall"', $err);
 
         if ($this->active('mailstack')) {
             $this->mailstackReset();
         }
+
+        return $err;
     }
 
     public function tineTest($path) {
@@ -105,15 +133,19 @@ class Pullup {
             $path .= '.php';
         }
 
-        passthru($this->getComposeString() . " exec --user nginx web sh -c \"cd /tine/tests/tine20/ && php -d include_path=/tine/customers/' . $this->customer . '/ ../../tine20/vendor/bin/phpunit --color --stop-on-failure --debug $path\"");
+        passthru($this->getComposeString() . " exec --user nginx web sh -c \"cd /tine/tests/tine20/ && php -d include_path=/tine/customers/' . $this->customer . '/ ../../tine20/vendor/bin/phpunit --color --stop-on-failure --debug $path\"", $err);
+
+        return $err;
     }
 
     public function tineDemoData() {
-        $this->tineCli('--method Tinebase.createAllDemoData  --username=tine20admin --password=tine20admin');
+        return $this->tineCli('--method Tinebase.createAllDemoData  --username=tine20admin --password=tine20admin');
     }
 
     public function tineCli($cmd) {
-        passthru($this->getComposeString() . ' exec --user nginx web sh -c "cd /tine/tine20/ && php tine20.php --config /tine/customers/' . $this->customer . '/config.inc.php ' . $cmd . '"');
+        passthru($this->getComposeString() . ' exec --user nginx web sh -c "cd /tine/tine20/ && php tine20.php --config /tine/customers/' . $this->customer . '/config.inc.php ' . $cmd . '"', $err);
+
+        return $err;
     }
 
 
@@ -122,7 +154,9 @@ class Pullup {
 
         if ('' == $out) {
             echo "mailstack reset successful\n";
+            return 0;
         }
+        return 1;
     }
 
     public function mailstackInit() {
@@ -130,7 +164,9 @@ class Pullup {
 
         if ('' == $out) {
             echo "mailstack init successful\n";
+            return 0;
         }
+        return 1;
     }
 
     # UTILS
@@ -192,39 +228,68 @@ class Pullup {
     }
 
     private function getTineDir() {
-        $i = readline('tine20 dir is not linked. should it be cloned? y/n');
+        $i = readline('tine20 dir is not linked. should it be cloned? y yes/n no/i ignore ');
 
-        if (strtolower($i) != 'y') {
-            echo "link tine20 dir: ln -s /path/to/tine/repo tine20\n";
-            exit();
+        if (strtolower($i)[0] != 'i') {
+            return 0;
         }
 
-        passthru('git clone http://gerrit.tine20.com/customers/tine20.com tine20');
+        if (strtolower($i)[0] != 'y') {
+            echo "link tine20 dir: ln -s /path/to/tine/repo tine20\n";
+            exit(1);
+        }
+
+        passthru('git clone http://gerrit.tine20.com/customers/tine20.com tine20', $err);
 
         echo "tine20 clone, now checkout your branch and install php and npm dependencies\n";
+
+        return $err;
     }
 
     private function getDocserviceDir() {
-        $i = readline('docservice dir is not linked. Should it be cloned? y/n');
+        $i = readline('docservice dir is not linked. Should it be cloned? y yes/n no/i ignore ');
+
+        if (strtolower($i)[0] != 'i') {
+            return 0;
+        }
 
         if (strtolower($i)[0] != 'y') {
             echo "link docservice dir: ln -s /path/to/docservice/repo docservice\n";
-            exit();
+            exit(1);
         }
 
-        passthru('git clone git@gitlab.metaways.net:tine20/documentPreview.git docservice');
-        passthru('cd docservice && composer install --ignore-platform-reqs');
+        passthru('git clone https://gitlab.metaways.net/tine20/documentPreview.git docservice', $err);
+
+        if (0 != $err) {
+            return $err;
+        }
+
+        $i = readline('Make conposer instal for docservice?  y yes/n no ');
+
+        if (strtolower($i)[0] != 'n') {
+            return;
+        }
+
+        passthru('cd docservice && composer install --ignore-platform-reqs', $err);
 
         echo "docservice cloned and installed\n";
+
+        return $err;
     }
 
     private function anotherConfig() {
-        $i = readline('found a config.inc.php in your tine dir, this could cause trouble. Should it be removed? y/n');
+        $i = readline('found a config.inc.php in your tine dir, this could cause trouble. Should it be removed? y yes/n no/i ignore ');
 
         if (strtolower($i)[0] == 'y') {
             unlink('tine20/tine20/config.inc.php');
             echo "removed\n";
         }
+
+        if (strtolower($i)[0] == 'i') {
+            return 0;
+        }
+
+        exit(1);
     }
 }
 
@@ -233,32 +298,23 @@ function docker($argv) {
     $argument = array_shift($argv);
     switch (strtolower($argument)) {
         case 'up':
-            Pullup::getInstance()->dockerUp();
-            break;
+            return Pullup::getInstance()->dockerUp();
         case 'down':
-            Pullup::getInstance()->dockerDown();
-            break;
+            return Pullup::getInstance()->dockerDown();
         case 'cli':
-            Pullup::getInstance()->dockerCli($argv[0]);
-            break;
+            return Pullup::getInstance()->dockerCli($argv[0]);
         case 'build':
-            Pullup::getInstance()->dockerBuild();
-            break;
+            return Pullup::getInstance()->dockerBuild();
         case 'push':
-            Pullup::getInstance()->dockerPush();
-            break;
+            return Pullup::getInstance()->dockerPush();
         case 'pull':
-            Pullup::getInstance()->dockerPull();
-            break;
+            return Pullup::getInstance()->dockerPull();
         case 'start':
-            Pullup::getInstance()->dockerBuild();
-            break;
+            return Pullup::getInstance()->dockerBuild();
         case 'stop':
-            Pullup::getInstance()->dockerPush();
-            break;
+            return Pullup::getInstance()->dockerPush();
         case 'log':
-            Pullup::getInstance()->dockerPull();
-            break;
+            return Pullup::getInstance()->dockerPull();
         default:
             echo "unknown command $argument\nstart start docker\nstop stop docker\nlogs show logs\nup - start foreground docker\n".
                 "down - destroy docker containers\ncli [name] - sh in docker container, eg cli web\n" .
@@ -270,20 +326,15 @@ function tine($argv) {
     $argument = array_shift($argv);
     switch (strtolower($argument)) {
         case 'install':
-            Pullup::getInstance()->tineInstall();
-            break;
+            return Pullup::getInstance()->tineInstall();
         case 'uninstall':
-            Pullup::getInstance()->tineUninstall();
-            break;
+            return Pullup::getInstance()->tineUninstall();
         case 'demodata':
-            Pullup::getInstance()->tineDemoData();
-            break;
+            return Pullup::getInstance()->tineDemoData();
         case 'test':
-            Pullup::getInstance()->tineTest($argv[0]);
-            break;
+            return Pullup::getInstance()->tineTest($argv[0]);
         case 'cli':
-            Pullup::getInstance()->dockerCli(join(' ', $argv));
-            break;
+            return Pullup::getInstance()->dockerCli(join(' ', $argv));
         default:
             echo "unknown command $argument\n" .
                 "install - install tine\nuninstall - uninstall tine\n" .
@@ -296,34 +347,36 @@ function tine($argv) {
 function mailstack($argv) {
     if (!Pullup::getInstance()->active('mailstack')) {
         echo 'mailstack is not active added it to your pullup config';
-        exit();
+        exit(1);
     }
 
     $argument = array_shift($argv);
     switch (strtolower($argument)) {
         case 'init':
-            Pullup::getInstance()->mailstackInit();
-            break;
+            return Pullup::getInstance()->mailstackInit();
         case 'reset':
-            Pullup::getInstance()->mailstackReset();
-            break;
+            return Pullup::getInstance()->mailstackReset();
         default:
             echo "unknown command $argument\ninit - create mailstack db\nreset - empty mailstack db\n";
     }
 }
 
+$err = 0;
+
 array_shift($argv);
 $argument = array_shift($argv);
 switch (strtolower($argument)) {
     case 'docker':
-        docker($argv);
+        $err =  docker($argv);
         break;
     case 'tine':
-        tine($argv);
+        $err =  tine($argv);
         break;
     case 'mailstack':
-        mailstack($argv);
+        $err =  mailstack($argv);
         break;
     default:
         echo "unknown command $argument\ndocker\ntine\n" . (Pullup::getInstance()->active('mailstack') ? "mailstack\n" : '');
 }
+
+exit($err);
