@@ -26,6 +26,7 @@ function tine($args) {
     $argument = array_shift($args);
     switch (strtolower($argument)) {
         case 'install':
+            # TODO allow to install with other install.properties (i.e. multiinstance)
             system('docker exec --user nginx tine20 sh -c "cd /tine/tine20/ && vendor/bin/phing -D configdir=/tine/customers/localhost tine-install"');
             break;
         case 'uninstall':
@@ -48,6 +49,9 @@ function mailstack($args) {
             break;
         case 'reset':
             system('docker-compose -f docker-compose.yml -f compose/mailstack.yml run mailstack reset');
+            break;
+        case 'reset_multiinstance':
+            system('docker-compose -f docker-compose.yml -f compose/mailstack.yml run mailstack reset_multiinstance');
             break;
         case 'build':
             system('docker-compose -f docker-compose.yml -f compose/mailstack.yml build');

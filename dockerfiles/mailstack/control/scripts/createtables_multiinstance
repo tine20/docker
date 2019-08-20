@@ -1,0 +1,3 @@
+#!/bin/sh
+mysql -hdb -uroot -p"$MYSQL_ROOT_PASSWORD" "$DOVECOT_DATABASE" < /root/dovecot_init.sql
+mysql -hdb -uroot -p"$MYSQL_ROOT_PASSWORD" "$POSTFIX_DATABASE" < /root/postfixmultiinstance_init.sql
