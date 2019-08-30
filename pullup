@@ -133,7 +133,7 @@ class Pullup {
             $path .= '.php';
         }
 
-        passthru($this->getComposeString() . " exec --user nginx web sh -c \"cd /tine/tests/tine20/ && php -d include_path=/tine/customers/' . $this->customer . '/ ../../tine20/vendor/bin/phpunit --color --stop-on-failure --debug $path\"", $err);
+        passthru($this->getComposeString() . " exec --user nginx web sh -c \"cd /tine/tests/tine20/ && php -d include_path=.:/tine/customers/$this->customer/ ../../tine20/vendor/bin/phpunit --color --stop-on-failure --debug $path\"", $err);
 
         return $err;
     }
