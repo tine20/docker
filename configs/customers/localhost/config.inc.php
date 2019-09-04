@@ -1,6 +1,6 @@
 <?php
 
-$version = 'be'; #tableprefix in database tine20.
+$version = 'tine20_'; #tableprefix in database tine20.
 
 return array(
     'database' => array(
