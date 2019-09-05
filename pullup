@@ -11,7 +11,7 @@ class Pullup {
 
     # FUNKTIONS
 
-    public function dockerUp() {
+    public function dockerUp($argv) {
         if (! is_file('tine20/tine20/tine20.php')) {
             $err = $this->getTineDir();
 
@@ -26,8 +26,12 @@ class Pullup {
                 return $err;
             }
         }
-        if (is_file('tine20/tine20/config.ini.php')) {
+        if (is_file('tine20/tine20/config.inc.php')) {
             $this->anotherConfig();
+        }
+
+        if (sizeof($argv) > 0) {
+            $this->updateCompose($argv);
         }
 
         passthru($this->getComposeString() . ' up', $err);
@@ -50,7 +54,7 @@ class Pullup {
                 return $err;
             }
         }
-        if (is_file('tine20/tine20/config.ini.php')) {
+        if (is_file('tine20/tine20/config.inc.php')) {
             $this->anotherConfig();
         }
 
@@ -128,12 +132,8 @@ class Pullup {
         return $err;
     }
 
-    public function tineTest($path) {
-        if (substr($path, strlen($path) - 4, 4) != '.php') {
-            $path .= '.php';
-        }
-
-        passthru($this->getComposeString() . " exec --user nginx web sh -c \"cd /tine/tests/tine20/ && php -d include_path=.:/tine/customers/$this->customer/ ../../tine20/vendor/bin/phpunit --color --stop-on-failure --debug $path\"", $err);
+    public function tineTest($test) {
+        passthru($this->getComposeString() . " exec --user nginx web sh -c \"cd /tine/tests/tine20/ && php -d include_path=.:/tine/customers/$this->customer/ ../../tine20/vendor/bin/phpunit --color --stop-on-failure --debug $test\"", $err);
 
         return $err;
     }
@@ -186,14 +186,38 @@ class Pullup {
 
     private function __construct()
     {
-
         if (is_file('pullup.json')) {
             $conf = json_decode(file_get_contents('pullup.json'), true);
         } else {
             $conf = json_decode(file_get_contents('.pullup.json'), true);
         }
 
+        $this->intiCompose($conf);
+    }
+
+    private function getComposeString() {
+        return 'docker-compose -f ' . join(' -f ', $this->composeFiles);
+    }
+
+    private function updateCompose($argv) {
+        if (is_file('pullup.json')) {
+            $conf = json_decode(file_get_contents('pullup.json'), true);
+        } else {
+            $conf = json_decode(file_get_contents('.pullup.json'), true);
+        }
+
+        $conf['composeFiles'] = $argv;
+
+        $f = fopen('pullup.json', 'w+');
+        fwrite($f, json_encode($conf, JSON_PRETTY_PRINT));
+        fclose($f);
+
+        $this->intiCompose($conf);
+    }
+
+    private function intiCompose($conf) {
         $this->composeFiles = ['docker-compose.yml'];
+        $this->composeNames = [];
 
         if (array_key_exists('composeFiles', $conf)) {
             foreach ($conf['composeFiles'] as $compose) {
@@ -221,10 +245,6 @@ class Pullup {
                 }
             }
         }
-    }
-
-    private function getComposeString() {
-        return 'docker-compose -f ' . join(' -f ', $this->composeFiles);
     }
 
     private function getTineDir() {
@@ -298,7 +318,7 @@ function docker($argv) {
     $argument = array_shift($argv);
     switch (strtolower($argument)) {
         case 'up':
-            return Pullup::getInstance()->dockerUp();
+            return Pullup::getInstance()->dockerUp($argv);
         case 'down':
             return Pullup::getInstance()->dockerDown();
         case 'cli':
@@ -310,13 +330,13 @@ function docker($argv) {
         case 'pull':
             return Pullup::getInstance()->dockerPull();
         case 'start':
-            return Pullup::getInstance()->dockerBuild();
+            return Pullup::getInstance()->dockerStart();
         case 'stop':
-            return Pullup::getInstance()->dockerPush();
+            return Pullup::getInstance()->dockerStop();
         case 'log':
-            return Pullup::getInstance()->dockerPull();
+            return Pullup::getInstance()->dockerLog();
         default:
-            echo "unknown command $argument\nstart start docker\nstop stop docker\nlogs show logs\nup - start foreground docker\n".
+            echo "unknown command $argument\nstart start docker\nstop stop docker\nlogs show logs\nup [compose1] [compose2] - start foreground docker, optionally update compose files\n".
                 "down - destroy docker containers\ncli [name] - sh in docker container, eg cli web\n" .
                 "build - rebuild docker images\npull - pull images from registry\npush - push local images as latest to registry\n";
     }
@@ -332,7 +352,7 @@ function tine($argv) {
         case 'demodata':
             return Pullup::getInstance()->tineDemoData();
         case 'test':
-            return Pullup::getInstance()->tineTest($argv[0]);
+            return Pullup::getInstance()->tineTest(join(' ', $argv));
         case 'cli':
             return Pullup::getInstance()->dockerCli(join(' ', $argv));
         default:
