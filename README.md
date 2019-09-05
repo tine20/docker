@@ -16,7 +16,7 @@ prerequisite: git, docker, docker-compose, php, composer, npm, your user is in t
 ## start
 7. start tine20-docker setup `./pullup docker up`, if you have not done install 2 or 3 answer y to clone repos
 8. install tine `./pullup tine install`
-9. visit localhost:40001, login as tine20admin pw: tine20admin 
+9. visit localhost:4001, login as tine20admin pw: tine20admin 
 10. strg+c to stop
 
 ## Man

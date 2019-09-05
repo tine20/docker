@@ -4,7 +4,8 @@ services:
   document-preview:
     image: tine20-docker-registry.mws-hosting.net/docservice:1.0.0
     container_name: docservice
-
+    ports:
+      - "5000:80"
     volumes:
       - ./docservice/:/document-preview/document-preview:ro
       - ./docservice/docker/configs/nginx-site.conf:/etc/nginx/sites-enabled/default.conf:ro
