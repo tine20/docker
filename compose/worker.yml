@@ -3,7 +3,7 @@
 version: '2'
 services:
   web:
-    image: tine20:latest
+    image: tine20-docker-registry.mws-hosting.net/tine20:1.0.0
     container_name: tine20
     volumes:
       # mount supervisor worker config

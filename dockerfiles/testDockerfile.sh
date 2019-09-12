@@ -1,4 +1,4 @@
-phpinfo=$(docker run tine20:latest sh -c "php -info")
+phpinfo=$(docker-compose run web sh -c "php -info")
 
 for i in igbinary xdebug yaml sockets pcntl intl bcmath; do
   if [[ $phpinfo != *"$i"* ]]; then

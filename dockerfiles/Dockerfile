@@ -28,7 +28,7 @@ RUN apk add --no-cache --virtual .build-deps autoconf gcc musl-dev make
 # compile php-redis
 RUN pecl install igbinary
 RUN echo -e "extension=igbinary.so\nigbinary.compact_strings=On" > /usr/local/etc/php/conf.d/docker-php-ext-igbinary.ini
-RUN echo "yes" | pecl install redis
+RUN echo "yes" | pecl install redis-4.3.0
 RUN echo "extension=redis.so" > /usr/local/etc/php/conf.d/docker-php-ext-redis.ini
 
 # xdebug

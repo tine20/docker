@@ -1,7 +1,22 @@
+cache:
+  untracked: true
+
+stages:
+  - prepare
+  - build
+  - test
+  - deploy
+
+prepare:
+  stage: prepare
+  script:
+    - mkdir tine20 && mkdir tine20/tine20 && mkdir tine20/tests && mkdir tine20/scripts
+    - touch tine20/tine20/.gitkeep && touch tine20/tests/.gitkeep && touch tine20/scripts/.gitkeep
+
 build:
  stage: build
  script:
-   - docker build  -f dockerfiles/Dockerfile . -t tine20
+   - docker-compose -f docker-compose.yml -f compose/mailstack.yml -f compose/mailstack-build.yml -f compose/web-build.yml -f compose/docservice.yml -f compose/docservice-build.yml build
    
 test:
  stage: test
@@ -14,5 +29,4 @@ deploy:
   refs:
     - master
  script:
-   - docker tag tine20:latest 79.99.84.48:443/tine20/docker
-   - docker push 79.99.84.48:443/tine20/docker
+   - docker-compose -f docker-compose.yml -f compose/mailstack.yml -f compose/mailstack-build.yml -f compose/web-build.yml -f compose/docservice.yml -f compose/docservice-build.yml push
