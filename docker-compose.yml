@@ -7,7 +7,7 @@ services:
     volumes:
       - mariadb_data:/var/lib/mysql
     environment:
-      MYSQL_ROOT_PASSWORD: m4ru5ja
+      MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: &mysqldb tine20
       MYSQL_USER: &mysqluser tine20
       MYSQL_PASSWORD: &mysqlpw tine20pw
