@@ -1,0 +1,5 @@
+driver = mysql
+connect = host={{getv "/mysql/host"}} dbname={{getv "/mysql/db"}} user={{getv "/mysql/user"}} password={{getv "/mysql/password"}}
+default_pass_scheme = SHA512
+
+password_query = SELECT password FROM dovecot_master_users WHERE username='%u' AND (service = 'all' OR service = '%s')

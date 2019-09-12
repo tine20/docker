@@ -1,0 +1,11 @@
+[template]
+src = "dovecot-master-sql.conf.ext.template"
+dest = "/etc/dovecot/dovecot-master-sql.conf.ext"
+owner = "root"
+group = "root"
+keys = [
+  "/mysql/db",
+  "/mysql/user",
+  "/mysql/password",
+  "/mysql/host",
+]
