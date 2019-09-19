@@ -1,0 +1,8 @@
+version: "2"
+services:
+  web:
+    volumes:
+      - ./configs/supervisor/rsync.conf:/etc/supervisor/conf.d/rsync.conf:ro
+      - ./configs/rsync/web.conf:/etc/rsyncd.conf:ro
+    ports:
+      - "4873:873"     # rsync

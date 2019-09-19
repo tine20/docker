@@ -8,6 +8,7 @@ WORKDIR /tine
 ###########################################
 RUN mkdir -p /tine/customers
 RUN mkdir -p /tine/tine20
+RUN mkdir -p /tine/tests
 RUN mkdir -p /etc/supervisor/conf.d/
 RUN mkdir -p /tine/conf.d/
 
@@ -16,6 +17,7 @@ RUN mkdir -p /tine/conf.d/
 # create directory structure for tine20
 RUN mkdir cache files logs tmp
 RUN chown nginx:nginx cache files logs tmp
+RUN chmod a+w tine20 tests
 
 #######
 # install packages/modules
@@ -49,6 +51,9 @@ RUN apk add supervisor
 
 # add nodejs
 RUN apk add nodejs-current-npm
+
+# add rsync
+RUN apk add rsync
 
 # cleanup
 RUN apk del --purge .build-deps
