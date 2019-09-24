@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS `smtp_users` (
 `username` varchar(80) NOT NULL,
 `passwd` varchar(256) NOT NULL,
 `email` varchar(80) DEFAULT NULL,
-`forward_only` tinyint(1) NOT NULL DEFAULT '0',
+`forward_only` tinyint(1) NOT NULL DEFAULT 0,
 PRIMARY KEY (`id`),
 UNIQUE KEY `username` (`username`),
 UNIQUE KEY `userid-client_idnr` (`userid`,`client_idnr`),
@@ -28,6 +28,7 @@ CREATE TABLE IF NOT EXISTS `smtp_destinations` (
 `users_id` int(11) NOT NULL,
 `source` varchar(80) NOT NULL,
 `destination` varchar(80) NOT NULL,
+`dispatch_address` tinyint(1) NOT NULL DEFAULT 1,
 KEY `users_id` (`users_id`),
 KEY `source` (`source`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
