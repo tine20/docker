@@ -13,4 +13,4 @@ services:
   mailstack:
     build:
       context: dockerfiles/mailstack/control
-    image: tine20-docker-registry.mws-hosting.net/mailstackcontrol:1.0.0
+    image: tine20-docker-registry.mws-hosting.net/mailstackcontrol:1.0.1
