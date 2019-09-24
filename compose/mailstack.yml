@@ -30,7 +30,7 @@ services:
     #  - "995:995"
 
   mailstack:
-    image: tine20-docker-registry.mws-hosting.net/mailstackcontrol:1.0.1
+    image: tine20-docker-registry.mws-hosting.net/mailstackcontrol:1.0.2
     environment:
       MYSQL_ROOT_PASSWORD: m4ru5ja
       MYSQL_USER: *mysqluser
