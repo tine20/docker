@@ -8,7 +8,7 @@ services:
   dovecot:
     build:
       context: dockerfiles/mailstack/dovecot
-    image: tine20-docker-registry.mws-hosting.net/dovecot:1.0.0
+    image: tine20-docker-registry.mws-hosting.net/dovecot:1.0.1
 
   mailstack:
     build:
