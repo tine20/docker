@@ -4,9 +4,9 @@ services:
     image: tine20-docker-registry.mws-hosting.net/postfix:1.0.0
     environment:
       MYSQL_HOST: db
-      MYSQL_DB: &postfixdb postfix
-      MYSQL_USER: &mysqluser tine20
-      MYSQL_PASSWORD: &mysqlpw tine20pw
+      MYSQL_DB: &postfixdb "${MYSQL_DATABASE}"
+      MYSQL_USER: &mysqluser "${MYSQL_USER}"
+      MYSQL_PASSWORD: &mysqlpw "${MYSQL_PASSWORD}"
     depends_on:
       - db
     #ports:
@@ -32,7 +32,7 @@ services:
   mailstack:
     image: tine20-docker-registry.mws-hosting.net/mailstackcontrol:1.0.2
     environment:
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
       MYSQL_USER: *mysqluser
       MYSQL_PASSWORD: *mysqlpw
       DOVECOT_DATABASE: *dovecotdb
