@@ -7,10 +7,10 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: &mysqldb tine20
-      MYSQL_USER: &mysqluser tine20
-      MYSQL_PASSWORD: &mysqlpw tine20pw
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
+      MYSQL_DATABASE: &mysqldb "${MYSQL_DATABASE}"
+      MYSQL_USER: &mysqluser "${MYSQL_USER}"
+      MYSQL_PASSWORD: &mysqlpw "${MYSQL_PASSWORD}"
     # see https://github.com/docker-library/mysql/issues/422
     security_opt:
       - seccomp:unconfined
