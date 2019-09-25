@@ -32,7 +32,7 @@ services:
   mailstack:
     image: tine20-docker-registry.mws-hosting.net/mailstackcontrol:1.0.2
     environment:
-      MYSQL_ROOT_PASSWORD: m4ru5ja
+      MYSQL_ROOT_PASSWORD: root
       MYSQL_USER: *mysqluser
       MYSQL_PASSWORD: *mysqlpw
       DOVECOT_DATABASE: *dovecotdb

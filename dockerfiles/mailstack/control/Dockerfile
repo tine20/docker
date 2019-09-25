@@ -7,6 +7,6 @@ RUN apk add mysql-client
 COPY files /root
 COPY scripts /usr/bin
 
-ENV MYSQL_ROOT_PASSWORD="r00t"
+ENV MYSQL_ROOT_PASSWORD="root"
 ENV DOVECOT_DATABASE="dovecot"
 ENV POSTFIX_DATABASE="postfix"
