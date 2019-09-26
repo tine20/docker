@@ -4,7 +4,7 @@ services:
     image: tine20-docker-registry.mws-hosting.net/postfix:1.0.0
     environment:
       MYSQL_HOST: db
-      MYSQL_DB: &postfixdb "${MYSQL_DATABASE}"
+      MYSQL_DB: &postfixdb postfix
       MYSQL_USER: &mysqluser "${MYSQL_USER}"
       MYSQL_PASSWORD: &mysqlpw "${MYSQL_PASSWORD}"
     depends_on:
