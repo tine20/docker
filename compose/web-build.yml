@@ -4,4 +4,4 @@ services:
     build:
       context: .
       dockerfile: dockerfiles/Dockerfile
-    image: tine20-docker-registry.mws-hosting.net/tine20:1.0.1
+    image: tine20-docker-registry.mws-hosting.net/tine20:1.0.2
