@@ -1,0 +1,17 @@
+# this is a override file to add a documentserver container
+version: '2'
+services:
+
+  documentserver:
+    image: onlyoffice/documentserver:latest
+#    volumes:
+#      - ./configs/onlyoffice/local.json:/etc/onlyoffice/documentserver/local.json:ro
+    ports:
+      - "4020:80"
+    environment:
+      JWT_ENABLED: "true"
+      JWT_SECRET: "4d379ead99817349de233e9edfff3522a91495b4"
+
+  web:
+    volumes:
+      - ./configs/onlyoffice/tine20.conf.php:/tine/customers/localhost/conf.d/onlyofficeintegrator.inc.php

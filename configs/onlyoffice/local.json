@@ -1,0 +1,13 @@
+{
+  "services": {
+    "CoAuthoring": {
+      "server": {
+        "savetimeoutdelay": 1000
+      },
+      "autoAssembly": {
+        "enable": true,
+        "interval": "1m"
+      }
+    }
+  }
+}
