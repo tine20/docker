@@ -32,7 +32,7 @@ class Pullup {
         }
 
         if (sizeof($argv) > 0) {
-            $this->updateConfig(['dockerfiles' => $argv]);
+            $this->updateConfig(['composeFiles' => $argv]);
         }
 
         passthru($this->getComposeString() . ' up', $err);
