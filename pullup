@@ -118,6 +118,9 @@ class Pullup {
             $this->mailstackReset();
         }
 
+        $this->writeInstallProperties();
+        echo "generated install.properties";
+
         passthru($this->getComposeString() . ' exec --user nginx web sh -c "cd /tine/tine20/ && vendor/bin/phing -D configdir=/tine/customers/' . $this->customer . ' tine-install"', $err);
 
         return $err;
@@ -317,6 +320,14 @@ class Pullup {
         }
 
         exit(1);
+    }
+
+    function writeInstallProperties() {
+        ob_start();
+        include './configs/customers/'.$this->customer.'/install.properties.php';
+        $properties = ob_get_clean();
+
+        file_put_contents('./configs/customers/'.$this->customer.'/install.properties', $properties);
     }
 }
 

@@ -1,0 +1,15 @@
+# this is a override file to add a ldap container
+version: '2'
+services:
+  ldap:
+    image: osixia/openldap:1.2.5
+    volumes:
+      - /var/lib/ldap
+      - /etc/ldap/slapd.d
+      - ./configs/ldap/init.ldif:/container/service/slapd/assets/config/bootstrap/ldif/bootstrap.ldif
+    command: --copy-service
+    environment:
+      LDAP_ORGANISATION: "Tine20 dev"
+      LDAP_DOMAIN: "tine.test"
+      LDAP_ADMIN_PASSWORD: "admin"
+
