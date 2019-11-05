@@ -33,6 +33,7 @@ prerequisite: git, docker, docker-compose, php, composer, npm, your user is in t
 
 + `./pullup tine install` install tine
 + `./pullup tine uninstall` uninstall tine
++ `./pullup tine update` update tine: executes setup.php --update
 + `./pullup tine demodata` creates demodata
 + `./pullup tine test <path>` starts test eg `./pullup tine test AllTests`
 + `./pullup tine cli <command>` executes tine20.php with command, dont use the --config option

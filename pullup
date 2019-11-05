@@ -142,12 +142,22 @@ class Pullup {
         return $err;
     }
 
+    public function tineUpdate() {
+        return $this->setupCli('--update');
+    }
+
     public function tineDemoData() {
         return $this->tineCli('--method Tinebase.createAllDemoData  --username=tine20admin --password=tine20admin');
     }
 
     public function tineCli($cmd) {
         passthru($this->getComposeString() . ' exec --user nginx web sh -c "cd /tine/tine20/ && php tine20.php --config /tine/customers/' . $this->customer . '/config.inc.php ' . $cmd . '"', $err);
+
+        return $err;
+    }
+
+    public function setupCli($cmd) {
+        passthru($this->getComposeString() . ' exec --user nginx web sh -c "cd /tine/tine20/ && php setup.php --config /tine/customers/' . $this->customer . '/config.inc.php ' . $cmd . '"', $err);
 
         return $err;
     }
@@ -371,6 +381,8 @@ function tine($argv) {
             return Pullup::getInstance()->tineDemoData();
         case 'test':
             return Pullup::getInstance()->tineTest(join(' ', $argv));
+        case 'update':
+            return Pullup::getInstance()->tineUpdate();
         case 'cli':
             return Pullup::getInstance()->dockerCli(join(' ', $argv));
         default:
