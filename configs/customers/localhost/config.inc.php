@@ -62,4 +62,8 @@ return array(
 
     // needed for shared email accounts and mailinglists
     'credentialCacheSharedKey' => 't4ZzuAHA5he8',
+
+    'filesystem' => [
+        'modLogActive' => true,
+    ],
 );
