@@ -2,6 +2,5 @@
 version: '2'
 services:
   document-preview:
-    image: tine20-docker-registry.mws-hosting.net/docservice:1.0.0
     build:
       context: dockerfiles/docservice
