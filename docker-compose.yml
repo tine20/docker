@@ -60,6 +60,9 @@ services:
 networks:
   default:
     driver: bridge
+    ipam:
+      config:
+        - subnet: 172.118.0.0/16
 
 volumes:
   # DB storage
