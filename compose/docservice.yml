@@ -13,3 +13,7 @@ services:
     environment:
         PHP_IDE_CONFIG: "serverName=documentPreview"
         #XDEBUG_CONFIG: "remote_host=192.168.33.1 remote_enable=on remote_port=9000"
+  web:
+    volumes:
+      # mount supervisor worker config
+      - ./configs/conf.d/docservice.inc.php:/tine/conf.d/docservice.inc.php:ro

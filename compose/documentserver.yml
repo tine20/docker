@@ -14,4 +14,4 @@ services:
 
   web:
     volumes:
-      - ./configs/onlyoffice/tine20.conf.php:/tine/customers/localhost/conf.d/onlyofficeintegrator.inc.php
+      - ./configs/onlyoffice/tine20.conf.php:/tine/conf.d/onlyofficeintegrator.inc.php:ro

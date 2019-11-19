@@ -1,0 +1,5 @@
+version: '2'
+services:
+  web:
+    volumes:
+      - ./configs/conf.d/tika.inc.php:/tine/conf.d/tika.inc.php:ro

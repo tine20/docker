@@ -73,6 +73,10 @@ RUN sed -i 's#/usr/local/etc/php-fpm.d/www.conf#/usr/local/etc/php-fpm.conf#g' /
 # TODO maybe we should add a limit to php-fpm/nginx config
 RUN sed -i 's/memory_limit = 128M/memory_limit = 512M/g' /usr/local/etc/php/conf.d/docker-vars.ini
 
+# tika
+RUN wget https://packages.tine20.org/tika/tika-app-1.14.jar -o /usr/share/tika.jar
+RUN chmod +x /usr/share/tika.jar
+
 #######
 # dev
 #######

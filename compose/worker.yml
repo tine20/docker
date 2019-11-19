@@ -6,4 +6,5 @@ services:
     volumes:
       # mount supervisor worker config
       - ./configs/supervisor/worker.conf:/etc/supervisor/conf.d/worker.conf:ro
-      - ./configs/worker/:/tine/conf.d/:ro
+      - ./configs/worker/worker.inc.php:/tine/conf.d/worker.inc.php:ro
+      - ./configs/worker/actionQueue.ini:/tine/conf.d/actionQueue.ini:ro

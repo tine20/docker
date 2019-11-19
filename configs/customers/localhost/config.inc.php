@@ -12,7 +12,7 @@ return array(
         'adapter'       => 'pdo_mysql',
     ),
 
-    'confdfolder'       => __DIR__ . '/conf.d',
+    'confdfolder'       => '/tine/conf.d',
 
     'setupuser' => array(
         'username'      => $_ENV["TINE20_SETUPUSER"],
