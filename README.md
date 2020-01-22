@@ -388,6 +388,13 @@ note: this only works with tine20.com/2018.11* branches
     
 ## TODO phing aufrufe ergänzen
 
+## restart webpack-dev-server
+
+im tine container:
+
+    ps aux | grep webpack
+    kill [PID]
+
 ## use ramdisk for sql storage
 
 davor muss der alte db container gelöscht werden, sonst greift das mount nicht:
