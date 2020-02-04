@@ -19,6 +19,7 @@ build:
   stage: build
   before_script:
     - docker login dockerregistry.metaways.net --username $CI_REGISTRY_USER --password $CI_REGISTRY_PASSWORD
+    - apk add docker-compose
   script:
     - docker-compose -f docker-compose.yml -f compose/mailstack.yml -f compose/mailstack-build.yml -f compose/web-build.yml -f compose/docservice.yml -f compose/docservice-build.yml build
    
@@ -27,6 +28,7 @@ test:
   stage: test
   before_script:
    - docker login dockerregistry.metaways.net --username $CI_REGISTRY_USER --password $CI_REGISTRY_PASSWORD
+   - apk add docker-compose
   script:
    - bash dockerfiles/testDockerfile.sh
    
@@ -38,5 +40,6 @@ deploy:
     - master
   before_script:
    - docker login dockerregistry.metaways.net --username $CI_REGISTRY_USER --password $CI_REGISTRY_PASSWORD
+   - apk add docker-compose
   script:
    - docker-compose -f docker-compose.yml -f compose/mailstack.yml -f compose/mailstack-build.yml -f compose/web-build.yml -f compose/docservice.yml -f compose/docservice-build.yml push
