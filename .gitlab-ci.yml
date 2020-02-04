@@ -29,6 +29,7 @@ test:
   before_script:
    - docker login dockerregistry.metaways.net --username $CI_REGISTRY_USER --password $CI_REGISTRY_PASSWORD
    - apk add docker-compose
+   - apk add bash
   script:
    - bash dockerfiles/testDockerfile.sh
    
