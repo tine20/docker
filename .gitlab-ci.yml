@@ -14,19 +14,25 @@ prepare:
     - touch tine20/tine20/.gitkeep && touch tine20/tests/.gitkeep && touch tine20/scripts/.gitkeep
 
 build:
- stage: build
- script:
-   - docker-compose -f docker-compose.yml -f compose/mailstack.yml -f compose/mailstack-build.yml -f compose/web-build.yml -f compose/docservice.yml -f compose/docservice-build.yml build
+  stage: build
+  before_script:
+    - docker login dockerregistry.metaways.net --username $CI_REGISTRY_USER --password $CI_REGISTRY_PASSWORD
+  script:
+    - docker-compose -f docker-compose.yml -f compose/mailstack.yml -f compose/mailstack-build.yml -f compose/web-build.yml -f compose/docservice.yml -f compose/docservice-build.yml build
    
 test:
- stage: test
- script:
+  stage: test
+  before_script:
+   - docker login dockerregistry.metaways.net --username $CI_REGISTRY_USER --password $CI_REGISTRY_PASSWORD
+  script:
    - bash dockerfiles/testDockerfile.sh
    
 deploy:
- stage: deploy
- only:
-  refs:
+  stage: deploy
+  only:
+   refs:
     - master
- script:
+  before_script:
+   - docker login dockerregistry.metaways.net --username $CI_REGISTRY_USER --password $CI_REGISTRY_PASSWORD
+  script:
    - docker-compose -f docker-compose.yml -f compose/mailstack.yml -f compose/mailstack-build.yml -f compose/web-build.yml -f compose/docservice.yml -f compose/docservice-build.yml push
