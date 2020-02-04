@@ -17,7 +17,7 @@ services:
     container_name: cache
 
   web:
-    image: tine20-docker-registry.mws-hosting.net/tine20:1.2.0
+    image: dockerregistry.metaways.net/tine20/docker/tine20:1.2.0
     container_name: tine20
     volumes:
       # tine20 source - Mount it under /tine/tine20

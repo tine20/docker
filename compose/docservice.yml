@@ -2,7 +2,7 @@
 version: '2'
 services:
   document-preview:
-    image: tine20-docker-registry.mws-hosting.net/docservice:1.0.0
+    image: dockerregistry.metaways.net/tine20/docker/docservice:1.0.0
     container_name: docservice
     ports:
       - "5000:80"
