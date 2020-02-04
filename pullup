@@ -384,7 +384,7 @@ function tine($argv) {
         case 'update':
             return Pullup::getInstance()->tineUpdate();
         case 'cli':
-            return Pullup::getInstance()->dockerCli(join(' ', $argv));
+            return Pullup::getInstance()->tineCli(join(' ', $argv));
         default:
             echo "unknown command $argument\n" .
                 "install - install tine\nuninstall - uninstall tine\n" .
