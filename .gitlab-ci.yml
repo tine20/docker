@@ -9,7 +9,7 @@ build:
   stage: build
   before_script:
     - docker login dockerregistry.metaways.net --username $CI_REGISTRY_USER --password $CI_REGISTRY_PASSWORD
-    - apk add docker-compose
+    - apk add docker-compose bash
   script:
     - mkdir tine20 && mkdir tine20/tine20 && mkdir tine20/tests && mkdir tine20/scripts
     - touch tine20/tine20/.gitkeep && touch tine20/tests/.gitkeep && touch tine20/scripts/.gitkeep
