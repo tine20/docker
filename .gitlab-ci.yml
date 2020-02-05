@@ -7,6 +7,12 @@ stages:
   - test
   - deploy
 
+variables:
+  DOCKER_TLS_CERTDIR: "/certs"
+
+services:
+  - docker:19.03.1-dind
+
 prepare:
   image: docker:19.03.1
   stage: prepare
