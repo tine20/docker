@@ -9,7 +9,7 @@ prerequisite: git, docker, docker-compose, php, composer, npm, your user is in t
 1. clone this git and open it `git clone git@gitlab.metaways.net:tine20/docker.git tine20-docker` and `cd tine20-docker`
 2. link your tine20 source `ln -s /path/to/tine/repo tine20` or just wait for pullup to clone it for you
 3. link docservice source `ln -s /path/to/docservice/repo docservice` or just wait for pullup to clone it for you
-4. login to the tine docker registry `docker login tine20-docker-registry.mws-hosting.net`
+4. login to the tine docker registry, with your gitlab credentials `docker login dockerregistry.metaways.net` ([gitlab docu, for MFA](https://docs.gitlab.com/ee/user/packages/container_registry/#authenticating-to-the-gitlab-container-registry))
 5. checkout your branch and install tine20 dependencies `cd tine20/tine20 && composer install --ignore-platform-reqs` and `cd tine20/tine20/Tinebase/js && npm install`
 6. install docservice dependencies, if pullup has cloned it you dont need to do anything `cd docservice && composer install --ignore-platform-reqs`
 
