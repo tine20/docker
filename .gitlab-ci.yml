@@ -1,24 +1,8 @@
-cache:
-  untracked: true
-
-stages:
-  - prepare
-  - build
-  - test
-  - deploy
-
 variables:
   DOCKER_TLS_CERTDIR: "/certs"
 
 services:
   - docker:19.03.1-dind
-
-prepare:
-  image: docker:19.03.1
-  stage: prepare
-  script:
-    - mkdir tine20 && mkdir tine20/tine20 && mkdir tine20/tests && mkdir tine20/scripts
-    - touch tine20/tine20/.gitkeep && touch tine20/tests/.gitkeep && touch tine20/scripts/.gitkeep
 
 build:
   image: docker:19.03.1
@@ -27,26 +11,8 @@ build:
     - docker login dockerregistry.metaways.net --username $CI_REGISTRY_USER --password $CI_REGISTRY_PASSWORD
     - apk add docker-compose
   script:
+    - mkdir tine20 && mkdir tine20/tine20 && mkdir tine20/tests && mkdir tine20/scripts
+    - touch tine20/tine20/.gitkeep && touch tine20/tests/.gitkeep && touch tine20/scripts/.gitkeep
     - docker-compose -f docker-compose.yml -f compose/mailstack.yml -f compose/mailstack-build.yml -f compose/web-build.yml -f compose/docservice.yml -f compose/docservice-build.yml build
-   
-test:
-  image: docker:19.03.1
-  stage: test
-  before_script:
-   - docker login dockerregistry.metaways.net --username $CI_REGISTRY_USER --password $CI_REGISTRY_PASSWORD
-   - apk add docker-compose
-   - apk add bash
-  script:
-   - bash dockerfiles/testDockerfile.sh
-   
-deploy:
-  image: docker:19.03.1
-  stage: deploy
-  only:
-   refs:
-    - master
-  before_script:
-   - docker login dockerregistry.metaways.net --username $CI_REGISTRY_USER --password $CI_REGISTRY_PASSWORD
-   - apk add docker-compose
-  script:
-   - docker-compose -f docker-compose.yml -f compose/mailstack.yml -f compose/mailstack-build.yml -f compose/web-build.yml -f compose/docservice.yml -f compose/docservice-build.yml push
+    - bash dockerfiles/testDockerfile.sh
+    - docker-compose -f docker-compose.yml -f compose/mailstack.yml -f compose/mailstack-build.yml -f compose/web-build.yml -f compose/docservice.yml -f compose/docservice-build.yml push
