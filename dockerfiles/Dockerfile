@@ -57,6 +57,9 @@ RUN apk add nodejs-current-npm
 # add rsync
 RUN apk add rsync
 
+# ytnef (for extracting winmail.dat files)
+RUN apk add ytnef
+
 # cleanup
 RUN apk del --purge .build-deps
 RUN docker-php-source delete
