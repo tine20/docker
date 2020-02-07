@@ -38,3 +38,13 @@ KEY `source` (`source`)
 --
 ALTER TABLE `smtp_destinations`
 ADD CONSTRAINT `smtp_destinations_ibfk_1` FOREIGN KEY (`users_id`) REFERENCES `smtp_users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Table structure for table `smtp_virtual_domains`
+--
+
+CREATE TABLE `smtp_virtual_domains` (
+  `domain` varchar(50) NOT NULL,
+  `instancename` varchar(40) NOT NULL,
+  PRIMARY KEY (`domain`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
