@@ -40,7 +40,7 @@ return array(
         'backend' => 'Redis',
         'host' => 'cache',
         'port' => 6379,
-        /**** TODO: add prefix here *****/
+        'prefix' => 'localhost',
     ),
 
     'logger' => array (
