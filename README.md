@@ -418,3 +418,15 @@ docker-compose:
 achtung: man verliert natürlich seine db nach dem reboot!
 
 achtung 2: man darf sonst nichts in die ramdisk legen, sonst meckert mysql/maria
+
+## SENTRY
+
+you need to add sentry to your /etc/hosts file (because of CSRF):
+
+    127.0.0.1       localhost sentry
+
+First boot:
+
+    ./pullup docker up sentry [...]
+    docker exec -it sentry bash
+    ./entrypoint.sh sentry upgrade
