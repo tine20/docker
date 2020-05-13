@@ -1,0 +1,96 @@
+version: '2'
+services:
+
+  db:
+    image: mariadb:10.4.1
+    container_name: db
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
+      MYSQL_DATABASE: &mysqldb "${MYSQL_DATABASE}"
+      MYSQL_USER: &mysqluser "${MYSQL_USER}"
+      MYSQL_PASSWORD: &mysqlpw "${MYSQL_PASSWORD}"
+
+  cache:
+    image: redis:5.0.5
+    container_name: cache
+
+  # php 7.4 image
+  # run this (from the tine20 repo) to get the image (docker image ls shows the ID to insert here ...):
+  # $ DOCKER_BUILDKIT=1 docker build --target dev --file ci/dockerimage/Dockerfile --build-arg PHP_IMAGE_TAG=7.4-fpm-alpine .
+  # NOTE: standard pullup + config might not work, because tine20 paths and env vars have changed!
+  web:
+    image: 4afc1881c023
+    container_name: tine20
+    ports:
+      - "4000:80"      # tine
+      - "4001:10443"   # webpack
+    environment:
+      TINE20_DATABASE_HOST: db
+      TINE20_DATABASE_DBNAME: *mysqldb
+      TINE20_DATABASE_USERNAME: *mysqluser
+      TINE20_DATABASE_PASSWORD: *mysqlpw
+      TINE20_SETUPUSER_USERNAME: tine20setup
+      TINE20_SETUPUSER_PASSWORD: tine20setup
+      TINE20_LOGIN_USERNAME: tine20admin
+      TINE20_CREDENTIALCACHESHAREDKEY: "something"
+      TINE20_REDISHOST: cache
+    volumes:
+      - ./tine20/tine20:/usr/share/tine20:ro
+      - ./tine20/tests:/usr/share/tests:ro
+      - tine20_files:/var/lib/tine20/files/
+
+#  web:
+#    image: dockerregistry.metaways.net/tine20/docker/tine20:1.2.0
+#    container_name: tine20
+#    volumes:
+#      # tine20 source - Mount it under /tine/tine20
+#      - ./tine20/tine20:/tine/tine20:ro
+#
+#      # tine20 file storage - Mount it under /tine/files/
+#      - tine20_files:/tine/files/
+#
+#      # mount nginx config
+#      - ./configs/nginx/nginx-site.conf:/etc/nginx/sites-enabled/default.conf:ro
+#
+#      # mount customers config
+#      - ./configs/customers/:/tine/customers:ro
+#
+#      # tine20 tests - Mount it under /tine/tests
+#      - ./tine20/tests/:/tine/tests/:ro
+#
+#      # tine20 scripts Mount it under /tine/scripts
+#      - ./tine20/scripts:/tine/scripts/:ro
+#
+#      # keep history (see https://stackoverflow.com/questions/28279862/docker-and-bash-history)
+#      # i have no idea why this is "ash_history" in the image ...
+#      # maybe you have to do "touch ~/.dockerweb_bash_history" before this works correctly
+#      - ~/.dockerweb_bash_history:/root/.ash_history
+#    ports:
+#      - "4000:80"      # tine
+#      - "4001:10443"   # webpack
+#    environment:
+#      TINE20_DBHOST: db
+#      TINE20_DBNAME: *mysqldb
+#      TINE20_DBUSER: *mysqluser
+#      TINE20_DBPASSWD: *mysqlpw
+#      TINE20_SETUPUSER: tine20setup
+#      TINE20_SETUPPASSWD: tine20setup
+#      TINE20_ADMINUSER: tine20admin
+#      TINE20_ADMINPASSWD: tine20admin
+#      TINE20_REDISHOST: cache
+
+networks:
+  default:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.118.0.0/16
+
+volumes:
+  # DB storage
+  mariadb_data:
+
+  # Volume for tine20 file storage
+  tine20_files:
