@@ -258,6 +258,33 @@ you need to define a "PHP remote debug" server in PHPSTORM:
 
 if you have a different IP, you might need to use the XDEBUG_CONFIG env vars in docker-compose.yml
 
+## troubleshooting
+
+some tips on testing your xdebug/phpstorm setup:
+
+### check connectivity 
+
+on docker host:
+
+    $ netstat -tulpen | grep 9001
+    tcp        0      0 0.0.0.0:9001            0.0.0.0:*               LISTEN      1000       2918160    14641/java
+
+in container:
+
+    $ nc -vz 172.118.0.1 9001
+    172.118.0.1 (172.118.0.1:9001) open
+
+### check xdebug log
+
+- activate xdebug log in container
+- look into log (default path: /tine/logs/xdebug.log)
+
+### allow iptables access from container -> host
+
+    sudo iptables -I INPUT 1 -i <docker-bridge-interface> -j ACCEPT
+    
+<docker-bridge-interface> is something like "br-3ff4120010e5" (visible with ifconfig)
+
 # running a tine20 container with ...
 
 ## webpack
