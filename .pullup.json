@@ -4,7 +4,8 @@
     "mailstack",
     "docservice",
     "pma",
-    "xdebug"
+    "xdebug",
+    "spam"
   ],
   "build": "false"
 }
