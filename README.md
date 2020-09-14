@@ -247,15 +247,25 @@ this is the default xdebug.ini:
 
 you need to define a "PHP remote debug" server in PHPSTORM:
 
-     name: tine20docker
+     name: debugger
+     server: 
+       name: tine20docker
+       host: 172.18.0.1 (or tine20docker)
+       port: 9001 
+       debugger: Xdebug
+       path mapping:
+         /local/tine  -> /tine (must have)
+         /local/tine/tests -> /tine/tests
+         /local/tine/tine20 -> /tine/tine20
+     
      ide key: serverName=tine20docker
-     port: 9001 (xdebug)
-     host: 172.18.0.1
-     path mapping:
-       /local/tine  -> /tine
-       /local/tine/tests -> /tine/tests
-       /local/tine/tine20 -> /tine/tine20
 
+open Xdebug port in PHPSTORM
+
+    File | Settings | Languages & Frameworks | PHP | Debug | Xdebug
+    - Debug port : 9001
+    - [x] can accept external connections 
+    
 if you have a different IP, you might need to use the XDEBUG_CONFIG env vars in docker-compose.yml
 
 ## troubleshooting
@@ -276,14 +286,14 @@ in container:
 
 ### check xdebug log
 
-- activate xdebug log in container
+- activate xdebug log in container (add `remote_log=/tine/logs/xdebug.log` in xdebug.yml)
 - look into log (default path: /tine/logs/xdebug.log)
 
 ### allow iptables access from container -> host
 
     sudo iptables -I INPUT 1 -i <docker-bridge-interface> -j ACCEPT
     
-<docker-bridge-interface> is something like "br-3ff4120010e5" (visible with ifconfig)
+<docker-bridge-interface> is something like "br-3ff4120010e5" which has ip:172.118.0.1 (visible with ifconfig)
 
 # running a tine20 container with ...
 
