@@ -32,6 +32,7 @@ services:
       - 9000:9000
     networks:
       - sentry-net
+      - internal_network
 
   sentry_celery_beat:
     container_name: sentry_celery_beat
@@ -61,7 +62,7 @@ services:
 
 #  web:
 #    volumes:
-#      - ./configs/sentry/tine20.conf.php:/tine/conf.d/sentry.inc.php:ro
+#      - ./configs/sentry/sentry.inc.php:/etc/tine20/conf.d/sentry.inc.php:ro
 
 networks:
   sentry-net:

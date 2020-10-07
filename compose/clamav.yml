@@ -10,3 +10,5 @@ services:
     volumes:
       - ./data/clamav:/data
       #- ./logs/clamav:/var/log/clamav
+    networks:
+      - internal_network

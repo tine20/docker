@@ -11,9 +11,11 @@ services:
       - ./docservice/docker/configs/nginx-site.conf:/etc/nginx/sites-enabled/default.conf:ro
       - ./docservice/docker/configs/sample_config.php:/etc/documentPreviewService/VERSION/config.php:ro
     environment:
-        PHP_IDE_CONFIG: "serverName=documentPreview"
-        #XDEBUG_CONFIG: "remote_host=192.168.33.1 remote_enable=on remote_port=9000"
+      PHP_IDE_CONFIG: "serverName=documentPreview"
+      #XDEBUG_CONFIG: "remote_host=192.168.33.1 remote_enable=on remote_port=9000"
+    networks:
+      - internal_network
   web:
     volumes:
       # mount supervisor worker config
-      - ./configs/conf.d/docservice.inc.php:/tine/conf.d/docservice.inc.php:ro
+      - ./configs/docservice/docservice.inc.php:/etc/tine20/conf.d/docservice.inc.php:ro

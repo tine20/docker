@@ -6,6 +6,5 @@
     "pma",
     "xdebug",
     "spam"
-  ],
-  "build": "false"
+  ]
 }

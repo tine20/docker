@@ -2,6 +2,6 @@
 
 return array(
     'fulltext' => array(
-        'tikaJar' => '/usr/share/tika.jar'
+        'tikaJar' => '/usr/local/bin/tika.jar'
     ),
 );

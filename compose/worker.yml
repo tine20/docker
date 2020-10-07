@@ -5,6 +5,7 @@ services:
   web:
     volumes:
       # mount supervisor worker config
-      - ./configs/supervisor/worker.conf:/etc/supervisor/conf.d/worker.conf:ro
-      - ./configs/worker/worker.inc.php:/tine/conf.d/worker.inc.php:ro
-      - ./configs/worker/actionQueue.ini:/tine/conf.d/actionQueue.ini:ro
+      - ./configs/worker/worker.ini:/etc/supervisor.d/worker.ini:ro
+      - ./configs/worker/tail-worker.ini:/etc/supervisor.d/tail-worker.ini:ro
+      - ./configs/worker/worker.inc.php:/etc/tine20/conf.d/worker.inc.php:ro
+      - ./configs/worker/actionQueue.ini:/etc/tine20/conf.d/actionQueue.ini:ro

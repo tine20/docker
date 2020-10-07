@@ -1,6 +1,0 @@
-# run this with
-# $ docker-compose -f docker-compose.yml -f compose/cli.yml up
-version: '2'
-services:
-  web:
-    image: tine20-cli:latest

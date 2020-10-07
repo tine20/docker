@@ -100,32 +100,17 @@ _relogin required!_
 
 ## get docker image
 
-### use ready made docker image
+Our dev image `tine20/dev:2020.11-7.3-fpm-alpine` is on docker hub. 
+You can also use an image from our registry. 
 
-login to the docker repository [info](https://colab.metaways.net/p/Container)
+`dockerregistry.metaways.net/tine20/tine20/dev:<tag>`
 
-might need to add insecure registry first:
+[Here you can find all the available tags](https://gitlab.metaways.net/tine20/tine20/container_registry/eyJuYW1lIjoidGluZTIwL3RpbmUyMC9kZXYiLCJ0YWdzX3BhdGgiOiIvdGluZTIwL3RpbmUyMC9yZWdpc3RyeS9yZXBvc2l0b3J5LzU0L3RhZ3M%2FZm9ybWF0PWpzb24iLCJpZCI6NTR9)
 
-    $ sudo vim /etc/docker/daemon.json
-    {
-    	"insecure-registries" : ["79.99.84.48:443"]
-    }
-    $ service docker reload
-
-    $ docker login 79.99.84.48:443
-    
-pull and rename image
-
-    $ docker pull 79.99.84.48:443/tine20/docker
-    $ docker tag 79.99.84.48:443/tine20/docker:latest tine20
-
-### or build it yourself 
-
-    docker build  -f dockerfiles/Dockerfile . -t tine20
-
-# run tine20 dockerized
-
-TODO: add docker registry stuff when we have it
+Tags:
+    2020.11-7.3-fpm-alpine
+    <branch name>-<php version>-fpm-alpine
+    The branch name dose not need to match the tine20 branch, you are developing on.
 
 ## start tine20
 

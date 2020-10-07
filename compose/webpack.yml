@@ -5,4 +5,4 @@ services:
   web:
     volumes:
     # mount supervisor webpack config
-    - ./configs/supervisor/webpack.conf:/etc/supervisor/conf.d/webpack.conf:ro 
+    - ./configs/webpack/webpack.ini:/etc/supervisor.d/webpack.ini:ro
