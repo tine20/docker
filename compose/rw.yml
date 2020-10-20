@@ -1,0 +1,5 @@
+web:
+  volumes:
+    - ./tine20/tine20:/usr/share/tine20/:rw
+    - ./tine20/tests:/usr/share/tests/:rw
+    - ./tine20/scripts:/usr/share/scripts/:rw
