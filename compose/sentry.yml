@@ -29,9 +29,10 @@ services:
       - SENTRY_SECRET_KEY=${SENTRY_SECRET}
       - SENTRY_POSTGRES_HOST=postgres
     ports:
-      - 9000:9000
+      - 127.0.0.1:9000:9000
     networks:
       - sentry-net
+      - external_network
       - internal_network
 
   sentry_celery_beat:

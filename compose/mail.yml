@@ -10,10 +10,11 @@ services:
       MAIL_ADDRESS: test@example.org
       MAIL_PASS: test
     networks:
+      - external_network
       - internal_network
 
   web:
     ports:
-      - "4025:25"      # smtp
-      - "4143:143"     # imap2 (LOGIN DISABLED!!!!!)
-      - "4993:993"     # imaps
+      - "127.0.0.1:4025:25"      # smtp
+      - "127.0.0.1:4143:143"     # imap2 (LOGIN DISABLED!!!!!)
+      - "127.0.0.1:4993:993"     # imaps
