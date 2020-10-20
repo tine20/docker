@@ -8,3 +8,5 @@ services:
       PHP_IDE_CONFIG: "serverName=tine20docker"
       # this can be used to overwrite some xdebug config settings
       XDEBUG_CONFIG: "remote_host=172.118.0.1 remote_enable=on remote_port=9001"
+    volumes:
+      - ./configs/xdebug/xdebug.ini:/etc/php7/conf.d/xdebug.ini:ro
