@@ -1,3 +1,4 @@
+version: "2"
 web:
   volumes:
     - ./tine20/tine20:/usr/share/tine20/:rw
