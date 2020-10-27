@@ -1,0 +1,17 @@
+[req]
+distinguished_name = req_distinguished_name
+req_extensions = v3_req
+prompt = no
+[req_distinguished_name]
+O = se
+CN = localhost
+[v3_req]
+keyUsage = keyEncipherment, dataEncipherment
+extendedKeyUsage = serverAuth
+subjectAltName = @alt_names
+[alt_names]
+DNS.1 = localhost
+DNS.2 = web
+DNS.3 = tine.local
+DNS.4 = tine.test
+IP.1 = 127.0.0.1

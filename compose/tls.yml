@@ -1,0 +1,12 @@
+# run this with
+# $ docker-compose -f docker-compose.yml -f compose/worker.yml up
+version: '2'
+services:
+  web:
+    volumes:
+    - ./configs/tls/nginx.conf:/etc/nginx/conf.d/tls.conf
+    - ./configs/tls/cert.pem:/etc/nginx/certs/cert.pem
+    - ./configs/tls/key.pem:/etc/nginx/certs/key.pem
+    ports:
+      - "127.0.0.1:4430:4430"
+      - "127.0.0.1:4431:4431"
