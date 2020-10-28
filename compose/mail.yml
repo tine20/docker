@@ -15,6 +15,6 @@ services:
 
   web:
     ports:
-      - "127.0.0.1:4025:25"      # smtp
-      - "127.0.0.1:4143:143"     # imap2 (LOGIN DISABLED!!!!!)
-      - "127.0.0.1:4993:993"     # imaps
+      - "4025:25"      # smtp
+      - "4143:143"     # imap2 (LOGIN DISABLED!!!!!)
+      - "4993:993"     # imaps

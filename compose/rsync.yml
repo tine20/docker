@@ -5,6 +5,6 @@ services:
       - ./configs/rsync/rsync.ini:/etc/supervisor.d/rsync.ini:ro
       - ./configs/rsync/web.conf:/etc/rsyncd.conf:ro
     ports:
-      - "127.0.0.1:4873:873"     # rsync
+      - "4873:873"     # rsync
     networks:
       - external_network

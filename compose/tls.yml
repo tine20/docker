@@ -8,5 +8,5 @@ services:
     - ./configs/tls/cert.pem:/etc/nginx/certs/cert.pem
     - ./configs/tls/key.pem:/etc/nginx/certs/key.pem
     ports:
-      - "127.0.0.1:4430:4430"
-      - "127.0.0.1:4431:4431"
+      - "4430:4430"
+      - "4431:4431"

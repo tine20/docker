@@ -19,7 +19,7 @@ services:
       # mount nginx config
       - ./confroom/docker/nginx-site.conf:/etc/nginx/sites-enabled/default.conf:ro
     ports:
-      - "127.0.0.1:4010:80"      # confroom url: http://localhost:4010
+      - "4010:80"      # confroom url: http://localhost:4010
     environment:
       TINE20_USER: test
       TINE20_PASSWD: test

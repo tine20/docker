@@ -7,7 +7,7 @@ services:
 #    volumes:
 #      - ./configs/onlyoffice/local.json:/etc/onlyoffice/documentserver/local.json:ro
     ports:
-      - "127.0.0.1:4020:80"
+      - "4020:80"
     environment:
       JWT_ENABLED: "true"
       JWT_SECRET: "4d379ead99817349de233e9edfff3522a91495b4"

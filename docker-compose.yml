@@ -47,8 +47,8 @@ services:
       - external_network
       - internal_network
     ports:
-      - "127.0.0.1:4000:80"
-      - "127.0.0.1:4001:10443"
+      - "4000:80"
+      - "4001:10443"
 
 networks:
   internal_network:
