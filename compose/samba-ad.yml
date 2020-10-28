@@ -1,0 +1,21 @@
+version: '2'
+services:
+  samba:
+    image: rsippl/samba-ad-dc
+    environment:
+      SAMBA_DOMAIN: SAMBA
+      SAMBA_REALM: SAMBA.TEST
+      ROOT_PASSWORD: sambaPassword!
+      SAMBA_ADMIN_PASSWORD: sambaPassword!
+    networks:
+      - internal_network
+    privileged: true
+    volumes:
+    - ./configs/samba-ad/custom.sh:/usr/local/bin/custom.sh
+
+  web:
+    environment:
+      TINE20_ACCOUNTS: "backend:ActiveDirectory,host:samba,useStartTls:1,username:cn=Administrator\\,cn=Users\\,dc=samba\\,dc=test,password:sambaPassword!,userDn:cn=Users\\,dc=samba\\,dc=test,userFilter:objectClass=user,groupsDn:cn=Users\\,dc=samba\\,dc=test,groupFilter:objectclass=group,defaultUserGroupName:Domain Users,defaultAdminGroupName:Domain Admins"
+      TINE20_AUTHENTICATION: "bindRequiresDn:1,backend:ldap,host:samba,port:389,useStartTls:1,username:cn=Administrator\\,cn=Users\\,dc=samba\\,dc=test,password:sambaPassword!,baseDn:cn=Users\\,dc=samba\\,dc=test,accountFilterFormat:(&(objectClass=user)(sAMAccountName=%s)),accountCanonicalForm:2"
+    volumes:
+      - ./configs/samba-ad/samba.inc.php:/etc/tine20/conf.d/samba.inc.php:ro
