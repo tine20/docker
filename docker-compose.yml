@@ -43,12 +43,15 @@ services:
       - ./tine20/tine20:/usr/share/tine20/:ro
       - ./tine20/tests:/usr/share/tests/:ro
       - ./tine20/scripts:/usr/share/scripts/:ro
+      - ./configs/default/proxy.conf:/etc/nginx/conf.d/proxy.conf:ro
+      - ./configs/default/cert.pem:/etc/nginx/certs/cert.pem:ro
+      - ./configs/default/key.pem:/etc/nginx/certs/key.pem:ro
     networks:
       - external_network
       - internal_network
     ports:
-      - "4000:80"
-      - "4001:10443"
+      - "4000:4000"
+      - "4430:4430"
 
 networks:
   internal_network:
