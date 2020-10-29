@@ -98,6 +98,9 @@ class Pullup {
             $this->mailstackReset();
         }
 
+        echo "Flushing redis ...\n";
+        passthru($this->getComposeString() . ' exec cache sh -c "redis-cli flushall"', $err);
+        echo "Installing Tine 2.0 ...\n";
         passthru($this->getComposeString() . ' exec --user tine20 web tine20_install', $err);
 
         return $err;
