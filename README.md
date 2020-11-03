@@ -16,7 +16,7 @@ prerequisite: git, docker, docker-compose, php, composer, npm, your user is in t
 ## start
 7. start tine20-docker setup `./pullup docker up`, if you have not done install 2 or 3 answer y to clone repos
 8. install tine `./pullup tine install`
-9. visit localhost:4001, login as tine20admin pw: tine20admin 
+9. visit localhost:4000, login as tine20admin pw: tine20admin 
 10. strg+c to stop
 
 ## Man
@@ -136,9 +136,9 @@ or
 
 [localhost:4000](http://localhost:4000/) - nginx
 
-[localhost:4001](http://localhost:4001/) - webpack served
+[localhost:4000](http://localhost:4000/) - webpack served
 
-[localhost:4001/setup.php](http://localhost:4001/setup.php) - webpack served setup
+[localhost:4000/setup.php](http://localhost:4000/setup.php) - webpack served setup
 
 [localhost:4002](http://localhost:4002) Phpmyadmin Username:tine20 Password:tine20pw
 
