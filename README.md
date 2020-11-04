@@ -452,3 +452,7 @@ First boot:
     ./pullup docker up sentry [...]
     docker exec -it sentry bash
     ./entrypoint.sh sentry upgrade
+
+## use mysql instead of mariadb
+
+add "mysql" to your pullup.json!
