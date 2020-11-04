@@ -117,7 +117,9 @@ class Pullup {
     }
 
     public function tineTest($test) {
-        passthru($this->getComposeString() . " exec --user tine20 web sh -c \"cd /usr/share/tests/tine20/ && php -d include_path=.:/etc/tine20/ /usr/share/tine20/vendor/bin/phpunit --color --stop-on-failure --debug $test\"", $err);
+        passthru($this->getComposeString() . " exec --user tine20 web sh -c \"cd /usr/share/tests/tine20/" .
+            " && php -d include_path=.:/etc/tine20/ /usr/share/tine20/vendor/bin/phpunit" .
+            " --cache-result-file /var/lib/tine20/caching/.phpunit.result.cache --color --stop-on-failure --debug $test\"", $err);
 
         return $err;
     }
