@@ -165,6 +165,10 @@ class Pullup {
         return 1;
     }
 
+    public function mailstackCreateUsers($argv) {
+        system($this->getComposeString() . " run mailstack sh -c /scripts/users.sh");
+    }
+
     # UTILS
 
     public static function getInstance(): Pullup
@@ -365,8 +369,10 @@ function mailstack($argv) {
             return Pullup::getInstance()->mailstackInit();
         case 'reset':
             return Pullup::getInstance()->mailstackReset();
+        case 'createusers':
+            return Pullup::getInstance()->mailstackCreateUsers($argv);
         default:
-            echo "unknown command $argument\ninit - create mailstack db\nreset - empty mailstack db\n";
+            echo "unknown command $argument\ninit - create mailstack db\nreset - empty mailstack db\n.createUsers - adds email users:test4@extern.test pw: test1 to test4";
     }
 }
 

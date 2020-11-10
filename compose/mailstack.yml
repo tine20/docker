@@ -11,8 +11,8 @@ services:
       - db
     networks:
       - internal_network
-    #ports:
-    #  - "25:25"
+    ports:
+    - "4025:25"
     #  - "587:587"
     #  - "465:465"
 
@@ -27,8 +27,8 @@ services:
       - db
     networks:
       - internal_network
-    #ports:
-    #  - "143:143"
+    ports:
+    - "4143:143"
     #  - "110:110"
     #  - "993:993"
     #  - "995:995"
@@ -41,6 +41,8 @@ services:
       MYSQL_PASSWORD: *mysqlpw
       DOVECOT_DATABASE: *dovecotdb
       POSTFIX_DATABASE: *postfixdb
+    volumes:
+      - ./configs/mailstack/scripts:/scripts
     networks:
       - internal_network
 
