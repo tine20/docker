@@ -374,6 +374,18 @@ function mailstack($argv) {
     }
 }
 
+function cmd($argv) {
+    $argument = array_shift($argv);
+    switch (strtolower($argument)) {
+        case 'install-dependencies':
+            system("cd tine20/tine20 && composer install --ignore-platform-reqs");
+            system("cd tine20/tine20/Tinebase/js && npm install");
+            break;
+        default:
+            echo "unknown command $argument";
+    }
+}
+
 $err = 0;
 
 array_shift($argv);
@@ -387,6 +399,9 @@ switch (strtolower($argument)) {
         break;
     case 'mailstack':
         $err =  mailstack($argv);
+        break;
+    case 'cmd':
+        $err =  cmd($argv);
         break;
     default:
         echo "unknown command $argument\ndocker\ntine\n" . (Pullup::getInstance()->active('mailstack') ? "mailstack\n" : '');
