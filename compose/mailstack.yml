@@ -11,6 +11,7 @@ services:
       - db
     networks:
       - internal_network
+      - external_network
     ports:
     - "4025:25"
     #  - "587:587"
@@ -27,6 +28,7 @@ services:
       - db
     networks:
       - internal_network
+      - external_network
     ports:
     - "4143:143"
     #  - "110:110"
