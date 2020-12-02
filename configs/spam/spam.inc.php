@@ -3,15 +3,24 @@
 return [
     'Felamimail' => [
         'features' => [
-            Felamimail_Config::FEATURE_SPAM_SUSPICION_STRATEGY => true,
+            Felamimail_Config::FEATURE_SPAM_SUSPICION_STRATEGY => TRUE,
         ],
         
         'spamSuspicionStrategy' => 'subject',
         
-        'spamInfoDialogContent' => 'This message is probably spam.',
+        // this should be changed in ansible in the future
+        'spamInfoDialogContent' => 
+            'Diese Nachricht wird vom System als eine mögliche Spammail klassifiziert.<br/>
+            <br/>
+            Sie haben die Möglichkeit diese Mail als „Ja es ist Spam“ abzuweisen und damit zu löschen.<br/>
+            <br/>
+            Oder Sie können mit der Antwort „Nein kein Spam“ dem System mitzuteilen, dass es sich hierbei um keinen Spammail handelt. 
+            Die Spamverdachtsmarkierung wird dann entfernt und Sie können die Mail normal weiterverarbeiten.<br/>
+            <br/>
+            Der Filter lernt mit Ihrer Entscheidung und wird zukünftige ähnliche E-Mails automatisch als Spam behandeln können.',
     
         'spamSuspicionStrategyConfig' => [
-            'pattern' => '/^SPAM\? \([^)]+\) \*\*\* /',
+            'pattern' => '/^SPAM\? \(.+\) \*\*\* /',
         ],
       
         'spamUserProcessingPipeline' => [
@@ -25,18 +34,14 @@ return [
                         ]
                     ]
                 ], 
-                [ // copy mail to sent messages 
+                [   // copy mail to local directory
                     'strategy' => 'copy',
                     'config' => [
                         'target' => [
-                            'folder' => '#sent' // use configured sent folder of current user
-                        ],
-                        'wrap' => [ // original message gets appended as attachment to this wrap
-                            'to' => 'sclever@mail.test',
-                            'subject' => 'This message is SPAM'
+                            'local_directory' => '/var/lib/tine20/rspamd/spam/'
                         ]
                     ]
-                ], 
+                ],    
                 [ // move mail to trash 
                     'strategy' => 'move',
                     'config' => [
@@ -57,18 +62,14 @@ return [
                         ]
                     ]
                 ], 
-                [ // copy mail to sent messages 
+                [   // copy mail to local directory
                     'strategy' => 'copy',
                     'config' => [
                         'target' => [
-                            'folder' => '#sent'
-                        ],
-                        'wrap' => [ // original message gets appended as attachment to this wrap
-                            'to' => 'sclever@mail.test',
-                            'subject' => 'This message is not SPAM'
+                            'local_directory' => '/var/lib/tine20/rspamd/ham/'
                         ]
                     ]
-                ], 
+                ],   
                 [ // rewrite subject - copys mail with new subject / delete original message
                     'strategy' => 'rewrite_subject',
                     'config' => [
