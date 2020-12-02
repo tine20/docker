@@ -47,6 +47,11 @@ services:
       - ./configs/default/proxy.conf:/etc/nginx/conf.d/proxy.conf:ro
       - ./configs/default/cert.pem:/etc/nginx/certs/cert.pem:ro
       - ./configs/default/key.pem:/etc/nginx/certs/key.pem:ro
+      # keep history (see https://stackoverflow.com/questions/28279862/docker-and-bash-history)
+      # i have no idea why this is "ash_history" in the image ...
+      # you have to do "touch ~/.dockerweb_bash_history" before this works correctly
+      - ~/.dockerweb_bash_history:/root/.ash_history
+
     networks:
       - external_network
       - internal_network
