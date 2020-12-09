@@ -240,8 +240,8 @@ you need to define a "PHP remote debug" server in PHPSTORM:
        debugger: Xdebug
        path mapping:
          /local/tine  -> /tine (must have)
-         /local/tine/tests -> /tine/tests
-         /local/tine/tine20 -> /tine/tine20
+         /local/tine/tests -> /user/share/tests
+         /local/tine/tine20 -> /usr/share/tine20
      
      ide key: serverName=tine20docker
 
