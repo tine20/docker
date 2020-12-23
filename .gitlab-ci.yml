@@ -1,0 +1,47 @@
+workflow:
+  rules:
+    - if: $RUN_CI_PIPELINE == "false"
+      when: never
+    - if: $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_REF_NAME =~ /(^feat)|(^pu)|(change)/
+      when: never
+    - when: always
+
+.docker:
+  tags:
+    - dind
+  variables:
+    DOCKER_DRIVER: overlay2
+    DOCKER_HOST: tcp://docker:2375
+    DOCKER_TLS_CERTDIR: ""
+  services:
+    - docker:19.03.1-dind
+  image: docker:19.03.1
+  before_script:
+    - export DOCKER_BUILDKIT=0
+    - export PROGRESS_NO_TRUNC=1
+
+test:
+  extends: .docker
+  script:
+    - cp $DOCKER_GIT_CONFIG /root/.gitconfig
+    - apk add git composer npm docker-compose
+    - git clone https://gitlab.metaways.net/tine20/tine20.git tine20
+    - cd tine20/tine20
+    - git checkout ${TINE20_BRANCH}
+    - composer install --ignore-platform-reqs
+    - cd Tinebase/js
+    - npm install
+    - cd $CI_PROJECT_DIR
+    - git clone https://gitlab.metaways.net/tine20/documentPreview.git docservice
+    - cd docservice
+    - composer install --ignore-platform-reqs
+    - cd $CI_PROJECT_DIR
+    - echo '{"composeFiles":["webpack","docservice","pma","xdebug","spam"]}' > pullup.json
+    - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" "$CI_REGISTRY" --password-stdin
+    - ./pullup docker pull
+    - ./pullup docker up -d
+    - sleep 3m
+    - ./pullup tine awaitdb
+    - ./pullup tine install
+    - ./pullup tine test --do-not-stop-on-failure --exclude-group nogitlabci,nodockerci AllTests
+    - ./pullup tine uninstall

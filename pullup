@@ -28,11 +28,17 @@ class Pullup {
             $this->anotherConfig();
         }
 
+        $detached=false;
+        if (isset($argv[0]) && $argv[0] == "-d") {
+            array_shift($argv);
+            $detached = true;
+        }
+
         if (sizeof($argv) > 0) {
             $this->updateConfig(['composeFiles' => $argv]);
         }
 
-        passthru($this->getComposeString() . ' up', $err);
+        passthru($this->getComposeString() . ' up' . ($detached === true ? ' -d' : ''), $err);
 
         return $err;
     }
@@ -92,6 +98,12 @@ class Pullup {
     }
 
 
+    public function tineAwaitDb() {
+        passthru($this->getComposeString() . ' exec -T --user tine20 web tine20_await_db', $err);
+
+        return $err;
+    }
+
     public function tineInstall() {
         if ($this->active('mailstack')) {
             $this->mailstackInit();
@@ -99,15 +111,15 @@ class Pullup {
         }
 
         echo "Flushing redis ...\n";
-        passthru($this->getComposeString() . ' exec cache sh -c "redis-cli flushall"', $err);
+        passthru($this->getComposeString() . ' exec -T cache sh -c "redis-cli flushall"', $err);
         echo "Installing Tine 2.0 ...\n";
-        passthru($this->getComposeString() . ' exec --user tine20 web tine20_install', $err);
+        passthru($this->getComposeString() . ' exec -T --user tine20 web tine20_install', $err);
 
         return $err;
     }
 
     public function tineUninstall() {
-        passthru($this->getComposeString() . ' exec --user tine20 web sh -c "cd /usr/share/tine20/ && vendor/bin/phing -D configdir=/etc/tine20 tine-uninstall"', $err);
+        passthru($this->getComposeString() . ' exec -T --user tine20 web sh -c "cd /usr/share/tine20/ && vendor/bin/phing -D configdir=/etc/tine20 tine-uninstall"', $err);
 
         if ($this->active('mailstack')) {
             $this->mailstackReset();
@@ -116,8 +128,22 @@ class Pullup {
         return $err;
     }
 
-    public function tineTest($test) {
-        passthru($this->getComposeString() . " exec --user tine20 web sh -c \"cd /usr/share/tests/tine20/ && php -d include_path=.:/etc/tine20/ /usr/share/tine20/vendor/bin/phpunit --color --stop-on-failure --debug $test\"", $err);
+    public function tineTest($argv) {
+        $stopOnFailure=true;
+        if (isset($argv[0]) && $argv[0] == "--do-not-stop-on-failure") {
+            array_shift($argv);
+            $stopOnFailure = false;
+        }
+
+        passthru(
+                $this->getComposeString()
+                    . " exec -T --user tine20 web sh -c \"cd /usr/share/tests/tine20/ && php -d include_path=.:/etc/tine20/ /usr/share/tine20/vendor/bin/phpunit --color --debug"
+                    . ($stopOnFailure === true ? ' --stop-on-failure' : '')
+                    . ' '
+                    . join(' ', $argv)
+                    . "\""
+                , $err
+        );
 
         return $err;
     }
@@ -341,16 +367,18 @@ function tine($argv) {
         case 'demodata':
             return Pullup::getInstance()->tineDemoData();
         case 'test':
-            return Pullup::getInstance()->tineTest(join(' ', $argv));
+            return Pullup::getInstance()->tineTest($argv);
         case 'update':
             return Pullup::getInstance()->tineUpdate();
         case 'cli':
             return Pullup::getInstance()->tineCli(join(' ', $argv));
+        case 'awaitdb':
+            return PUllup::getInstance()->tineAwaitDb();
         default:
             echo "unknown command $argument\n" .
                 "install - install tine\nuninstall - uninstall tine\n" .
                 "demoData - create demodata\n" .
-                "test [name/path] - run test eg AllTests or Crm/Import/CsvTest\n" .
+                "test [name/path] - run test eg AllTests or Crm/Import/CsvTest - --do-not-stop-on-failure to not stop on failure\n" .
                 "cli [command] - run tine20.php commands. do not use --config\n";
     }
 }
