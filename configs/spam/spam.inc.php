@@ -29,7 +29,6 @@ return [
                     'strategy' => 'copy',
                     'config' => [
                         'target' => [
-                            //'accountid' => 'd74368b57ca6f26e853d6d31700818aa895d41ad' , // optional shared account to use instead of own account
                             'folder' => 'Spam' // folder called spam at root level
                         ]
                     ]
@@ -57,7 +56,6 @@ return [
                     'strategy' => 'copy',
                     'config' => [
                         'target' => [
-                            //'accountid' => 'd74368b57ca6f26e853d6d31700818aa895d41ad', // optional shared account to use instead of own account
                             'folder' => 'Ham' // folder called ham at root level
                         ]
                     ]
@@ -70,7 +68,7 @@ return [
                         ]
                     ]
                 ],   
-                [ // rewrite subject - copys mail with new subject / delete original message
+                [ // rewrite subject - copies mail with new subject / delete original message
                     'strategy' => 'rewrite_subject',
                     'config' => [
                         'pattern' => '/^SPAM\? \(.+\) \*\*\* /',
