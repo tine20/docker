@@ -36,7 +36,7 @@ services:
     #  - "995:995"
 
   mailstack:
-    image: dockerregistry.metaways.net/tine20/docker/mailstackcontrol:1.0.2
+    image: dockerregistry.metaways.net/tine20/docker/mailstackcontrol:1.0.3
     environment:
       MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
       MYSQL_USER: *mysqluser

@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `smtp_destinations` (
 -- Table structure for table `smtp_virtual_domains`
 --
 
-CREATE TABLE `smtp_virtual_domains` (
+CREATE TABLE IF NOT EXISTS `smtp_virtual_domains` (
   `domain` varchar(50) NOT NULL,
   `instancename` varchar(40) NOT NULL,
   PRIMARY KEY (`domain`)
