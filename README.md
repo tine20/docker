@@ -239,8 +239,7 @@ you need to define a "PHP remote debug" server in PHPSTORM:
        port: 9001 
        debugger: Xdebug
        path mapping:
-         /local/tine  -> /tine (must have)
-         /local/tine/tests -> /user/share/tests
+         /local/tine/tests -> /usr/share/tests
          /local/tine/tine20 -> /usr/share/tine20
      
      ide key: serverName=tine20docker
