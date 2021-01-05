@@ -1,3 +1,5 @@
+INSERT IGNORE INTO `smtp_virtual_domains` (`domain`, `instancename`) VALUES ('extern.test', 'extern.test');
+
 INSERT IGNORE INTO `smtp_users` (`userid`, `client_idnr`, `username`, `passwd`, `email`, `forward_only`) VALUES ('1', '', '1@extern.test', '{PLAIN}test1', 'test1@extern.test', '0');
 INSERT IGNORE INTO `smtp_destinations` (`userid`, `source`, `destination`, `dispatch_address`) VALUES ('1', 'test1@extern.test', '1@extern.test', '1');
 INSERT IGNORE INTO `smtp_destinations` (`userid`, `source`, `destination`, `dispatch_address`) VALUES ('1', '1@extern.test', '1@extern.test', '1');

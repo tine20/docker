@@ -191,6 +191,12 @@ class Pullup {
 
     public function mailstackCreateUsers($argv) {
         system($this->getComposeString() . " run mailstack sh -c /scripts/users.sh");
+
+        echo "users:\n";
+        echo "test1@extern.test pw: test1\n";
+        echo "test2@extern.test pw: test2\n";
+        echo "test3@extern.test pw: test3\n";
+        echo "test4@extern.test pw: test4\n";
     }
 
     # UTILS
@@ -398,7 +404,7 @@ function mailstack($argv) {
         case 'createusers':
             return Pullup::getInstance()->mailstackCreateUsers($argv);
         default:
-            echo "unknown command $argument\ninit - create mailstack db\nreset - empty mailstack db\n.createUsers - adds email users:test4@extern.test pw: test1 to test4";
+            echo "unknown command $argument\ninit - create mailstack db\nreset - empty mailstack db\ncreateUsers - adds extern.test emails\n";
     }
 }
 
