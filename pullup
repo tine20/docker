@@ -382,7 +382,9 @@ function tine($argv) {
             return PUllup::getInstance()->tineAwaitDb();
         default:
             echo "unknown command $argument\n" .
-                "install - install tine\nuninstall - uninstall tine\n" .
+                "install - install tine20\n" .
+                "uninstall - uninstall tine20\n" .
+                "update - run tine20 update scripts\n" .
                 "demoData - create demodata\n" .
                 "test [name/path] - run test eg AllTests or Crm/Import/CsvTest - --do-not-stop-on-failure to not stop on failure\n" .
                 "cli [command] - run tine20.php commands. do not use --config\n";
