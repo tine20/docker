@@ -29,7 +29,8 @@ return [
                     'strategy' => 'copy',
                     'config' => [
                         'target' => [
-                            'folder' => 'Spam' // folder called spam at root level
+                            //'accountid' => 'd74368b57ca6f26e853d6d31700818aa895d41ad' , // optional shared account to use instead of own account
+                            'folder' => 'INBOX/SPAM' // folder called spam at root level
                         ]
                     ]
                 ], 
@@ -56,7 +57,8 @@ return [
                     'strategy' => 'copy',
                     'config' => [
                         'target' => [
-                            'folder' => 'Ham' // folder called ham at root level
+                            //'accountid' => 'd74368b57ca6f26e853d6d31700818aa895d41ad', // optional shared account to use instead of own account
+                            'folder' => 'INBOX/HAM' // folder called ham at root level
                         ]
                     ]
                 ], 
