@@ -3,7 +3,7 @@
 return [
     'Felamimail' => [
         'features' => [
-            Felamimail_Config::FEATURE_SPAM_SUSPICION_STRATEGY => TRUE,
+            'featureSpamSuspicionStrategy' => TRUE,
         ],
         
         'spamSuspicionStrategy' => 'subject',
