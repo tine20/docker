@@ -6,9 +6,9 @@ services:
         TEST_DOCKER: "true"
         TEST_URL: http://web:10443
         TEST_BROWSER_LANGUAGE: en
-    working_dir: /e2etests
+    working_dir: /tine20/tests/e2etests
     user: node
     volumes:
-      - "./tine20/tests/e2etests:/e2etests"
+      - "./tine20/:/tine20"
     networks:
       - internal_network
