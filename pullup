@@ -85,6 +85,12 @@ class Pullup {
         return $err;
     }
 
+    public function dockerRun($container) {
+        passthru($this->getComposeString() . ' run ' . $container . ' sh', $err);
+
+        return $err;
+    }
+
     public function dockerPull() {
         passthru($this->getComposeString() . ' pull', $err);
 
@@ -344,6 +350,8 @@ function docker($argv) {
             return Pullup::getInstance()->dockerDown();
         case 'cli':
             return Pullup::getInstance()->dockerCli($argv[0]);
+        case 'run':
+            return Pullup::getInstance()->dockerRun($argv[0]);
         case 'build':
             return Pullup::getInstance()->dockerBuild();
         case 'push':
