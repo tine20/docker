@@ -45,6 +45,7 @@ services:
       - ./tine20/tine20:/usr/share/tine20/:ro
       - ./tine20/tests:/usr/share/tests/:ro
       - ./tine20/scripts:/usr/share/scripts/:ro
+      - ./configs/conf.d/custom.inc.php:/etc/tine20/conf.d/custom.inc.php:ro
       - ./configs/default/proxy.conf:/etc/nginx/conf.d/proxy.conf:ro
       - ./configs/default/cert.pem:/etc/nginx/certs/cert.pem:ro
       - ./configs/default/key.pem:/etc/nginx/certs/key.pem:ro
