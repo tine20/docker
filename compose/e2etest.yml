@@ -1,7 +1,7 @@
 version: '2'
 services:
   e2e:
-    image: dockerregistry.metaways.net/tine20/tine20/puppeteer:1.0.1
+    image: dockerregistry.metaways.net/tine20/tine20/puppeteer:1.0.2
     environment:
         TEST_DOCKER: "true"
         TEST_URL: http://web:10443
