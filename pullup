@@ -143,7 +143,7 @@ class Pullup {
 
         passthru(
                 $this->getComposeString()
-                    . " exec -T --user tine20 web sh -c \"cd /usr/share/tests/tine20/ && php -d include_path=.:/etc/tine20/ /usr/share/tine20/vendor/bin/phpunit --color --debug"
+                    . " exec -T web sh -c \"cd /usr/share/tests/tine20/ && php -d include_path=.:/etc/tine20/ /usr/share/tine20/vendor/bin/phpunit --color --debug"
                     . ($stopOnFailure === true ? ' --stop-on-failure' : '')
                     . ' '
                     . join(' ', $argv)
