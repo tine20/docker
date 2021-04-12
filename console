@@ -1,0 +1,45 @@
+#!/usr/bin/env php
+
+<?php 
+
+require_once __DIR__ . '/vendor/autoload.php'; 
+
+use Symfony\Component\Console\Application; 
+use App\Commands\Docker\DockerUpCommand;
+use App\Commands\Docker\DockerStartCommand;
+use App\Commands\Docker\DockerStopCommand;
+use App\Commands\Docker\DockerDownCommand;
+use App\Commands\Docker\DockerCliCommand;
+use App\Commands\Docker\DockerPullCommand;
+use App\Commands\Docker\DockerLogCommand;
+
+//tineAwaitDB
+use App\Commands\Tine\TineInstallCommand;
+use App\Commands\Tine\TineUninstallCommand;
+use App\Commands\Tine\TineTestCommand;
+use App\Commands\Tine\TineUpdateCommand;
+use App\Commands\Tine\TineDemodataCommand;
+use App\Commands\Tine\TineCliCommand;
+use App\Commands\Tine\TineAwaitDbCommand;
+
+$app = new Application();
+
+//Docker Commands
+$app->add(new DockerUpCommand());
+$app->add(new DockerStartCommand());
+$app->add(new DockerStopCommand());
+$app->add(new DockerDownCommand());
+$app->add(new DockerCliCommand());
+$app->add(new DockerPullCommand());
+$app->add(new DockerLogCommand());
+
+//Tine Commands
+$app->add(new TineInstallCommand());
+$app->add(new TineUninstallCommand());
+$app->add(new TineTestCommand());
+$app->add(new TineUpdateCommand());
+$app->add(new TineDemodataCommand());
+$app->add(new TineCliCommand());
+$app->add(new TineAwaitDbCommand());
+
+$app->run();

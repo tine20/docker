@@ -39,17 +39,18 @@ test:
     - cd $CI_PROJECT_DIR
     - echo '{"composeFiles":["webpack","docservice","pma","xdebug","spam"]}' > pullup.json
     - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" "$CI_REGISTRY" --password-stdin
-    - ./pullup docker pull
-    - ./pullup docker up -d
+    - composer install
+    - ./console docker:pull
+    - ./console docker:start
     - sleep 3m
-    - ./pullup tine awaitdb
-    - ./pullup tine install
-    - ./pullup tine test --do-not-stop-on-failure --exclude-group nogitlabci,nodockerci AllTests
-    - ./pullup tine uninstall
+    - ./console tine:awaitdb
+    - ./console tine:install
+    - ./console tine:test --do-not-stop-on-failure --exclude-group nogitlabci,nodockerci AllTests
+    - ./console tine:uninstall
 
 githubbranch:
   script:
    - ./.gitlab/scripts/rename_images.sh
-   - ./.gitlab/scripts/push_githup_branch.sh 
+   - ./.gitlab/scripts/push_githup_branch.sh
   only:
     - master

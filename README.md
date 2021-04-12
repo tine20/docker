@@ -7,36 +7,36 @@ tine20-docker
 prerequisite: git, docker, docker-compose, php, composer, npm, your user is in the docker group. If not see [below](install docker-io and docker-compose)
 
 1. clone this git and open it `git clone git@gitlab.metaways.net:tine20/docker.git tine20-docker` and `cd tine20-docker`
-2. link your tine20 source `ln -s /path/to/tine/repo tine20` or just wait for pullup to clone it for you
+2. link your tine20 source `ln -s /path/to/tine/repo tine20` or just wait for console to clone it for you
 3. link docservice source `ln -s /path/to/docservice/repo docservice` or just wait for pullup to clone it for you
 4. login to the tine docker registry, with your gitlab credentials `docker login dockerregistry.metaways.net` ([gitlab docu, for MFA](https://docs.gitlab.com/ee/user/packages/container_registry/#authenticating-to-the-gitlab-container-registry))
 5. checkout your branch and install tine20 dependencies `cd tine20/tine20 && composer install --ignore-platform-reqs` and `cd tine20/tine20/Tinebase/js && npm install`
 6. install docservice dependencies, if pullup has cloned it you dont need to do anything `cd docservice && composer install --ignore-platform-reqs`
 
 ## start
-7. start tine20-docker setup `./pullup docker up`, if you have not done install 2 or 3 answer y to clone repos
-8. install tine `./pullup tine install`
+7. start tine20-docker setup `./console docker:up`, if you have not done install 2 or 3 answer y to clone repos
+8. install tine `./console tine:install`
 9. visit localhost:4000, login as tine20admin pw: tine20admin 
 10. strg+c to stop
 
 ## Man
 
-+ `./pullup docker up` start docker setup.  pulls/builds images, creates containers, starts containers and shows logs
-+ `./pullup docker start` start docker setup. pulls/builds images, creates containers, starts containers
-+ `./pullup docker stop` stops docker, if you used `up` you can stop with strg+c
-+ `./pullup docker logs` displays logs (interactive)
-+ `./pullup docker down` destroys docker setup.  stops containers, removes containers and networks, volumes will persist
-+ `./pullup docker cli <service name>` start shell in service name eg. db or web for tine20
-+ `./pullup docker build` build docker containers locally, build needs to be enabled
-+ `./pullup docker pull` pull docker images
-+ `./pullup docker push` push updates to docker images
++ `./console docker:up` start docker setup.  pulls/builds images, creates containers, starts containers and shows logs
++ `./console docker:start` start docker setup. pulls/builds images, creates containers, starts containers
++ `./console docker:stop` stops docker, if you used `up` you can stop with strg+c
++ `./console docker:logs` displays logs (interactive)
++ `./console docker:down` destroys docker setup.  stops containers, removes containers and networks, volumes will persist
++ `./console docker:cli <service name>` start shell in service name eg. db or web for tine20
++ `./console docker:build` build docker containers locally, build needs to be enabled
++ `./console docker:pull` pull docker images
++ `./console docker:push` push updates to docker images
 
-+ `./pullup tine install` install tine
-+ `./pullup tine uninstall` uninstall tine
-+ `./pullup tine update` update tine: executes setup.php --update
-+ `./pullup tine demodata` creates demodata
-+ `./pullup tine test <path>` starts test eg `./pullup tine test AllTests`
-+ `./pullup tine cli <command>` executes tine20.php with command, dont use the --config option
++ `./console tine:install` install tine
++ `./console tine:uninstall` uninstall tine
++ `./console tine:update` update tine: executes setup.php --update
++ `./console tine:demodata` creates demodata
++ `./console tine:test <path>` starts test eg `./pullup tine test AllTests`
++ `./console tine:cli <command>` executes tine20.php with command, dont use the --config option
 
 + missing a command > issue tracker
 
@@ -448,7 +448,7 @@ you need to add sentry to your /etc/hosts file (because of CSRF):
 
 First boot:
 
-    ./pullup docker up sentry [...]
+    ./console docker:up sentry [...]
     docker exec -it sentry bash
     ./entrypoint.sh sentry upgrade
 

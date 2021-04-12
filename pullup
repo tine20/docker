@@ -432,6 +432,8 @@ function cmd($argv) {
 
 $err = 0;
 
+echo "pullup is deprecated! use ./console instead.\n";
+
 array_shift($argv);
 $argument = array_shift($argv);
 switch (strtolower($argument)) {
