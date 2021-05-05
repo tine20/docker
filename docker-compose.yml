@@ -16,7 +16,7 @@ services:
       - internal_network
 
   web:
-    image: dockerregistry.metaways.net/tine20/tine20/dev:2020.11-7.4-fpm-alpine
+    image: dockerregistry.metaways.net/tine20/tine20/dev:2020.11-7.4
     depends_on:
       - db
       - cache
