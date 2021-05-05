@@ -46,3 +46,10 @@ test:
     - ./pullup tine install
     - ./pullup tine test --do-not-stop-on-failure --exclude-group nogitlabci,nodockerci AllTests
     - ./pullup tine uninstall
+
+githubbranch:
+  script:
+   - ./.gitlab/scripts/rename_images.sh
+   - ./.gitlab/scripts/push_githup_branch.sh 
+  only:
+    - master
