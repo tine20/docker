@@ -1,0 +1,16 @@
+# this is a override file to add a phpldapadmin container
+version: '2'
+services:
+
+  pla:
+    image: osixia/phpldapadmin:0.9.0
+    container_name: pla
+    ports:
+      - "4007:80"
+    environment:
+      # TODO make this work for ldap, too (host: ldap)
+      PHPLDAPADMIN_LDAP_HOSTS: samba 
+      PHPLDAPADMIN_HTTPS: "false"
+    networks:
+      - external_network
+      - internal_network

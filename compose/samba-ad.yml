@@ -7,6 +7,7 @@ services:
       SAMBA_REALM: SAMBA.TEST
       ROOT_PASSWORD: sambaPassword!
       SAMBA_ADMIN_PASSWORD: sambaPassword!
+      LDAP_ALLOW_INSECURE: "true"
     networks:
       - internal_network
     privileged: true
