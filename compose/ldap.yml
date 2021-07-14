@@ -2,12 +2,10 @@
 version: '2'
 services:
   ldap:
-    image: osixia/openldap:1.2.5
+    image: dockerregistry.metaways.net/tine20/docker/ldap:1.2.5-r0
     volumes:
       - /var/lib/ldap
       - /etc/ldap/slapd.d
-      - ./configs/ldap/init.ldif:/container/service/slapd/assets/config/bootstrap/ldif/bootstrap.ldif
-      - ./configs/ldap/mozillaabalpha.schema:/container/service/slapd/assets/config/bootstrap/schema/mozillaabalpha.schema
     command: --copy-service
     environment:
       LDAP_ORGANISATION: "Tine20 dev"
