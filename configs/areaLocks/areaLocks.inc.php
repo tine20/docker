@@ -4,7 +4,7 @@ return [
     'areaLocks' => ['records' => [[
         'area_name'         => 'Tasks',
         'areas'             => ['Tasks', 'Addressbook.List', 'Tinebase_datasafe'/*, 'Tinebase_login' /*...Calendar or Calendar.Event.create or Calendar.searchEvent(s?), etc.*/],
-        'mfas'              => ['Vodafone', 'hello', 'hotp', 'totp'],
+        'mfas'              => ['Vodafone', 'pin', 'hotp', 'totp'],
         'validity'          => 'session',
     ]]],
     
@@ -24,7 +24,7 @@ return [
         'provider_class'        => 'Tinebase_Auth_MFA_MockSmsAdapter',
         'user_config_class'     => 'Tinebase_Model_MFA_SmsUserConfig'
     ], [
-        'id'                    => 'hello',
+        'id'                    => 'pin',
         'provider_config_class' => 'Tinebase_Model_MFA_PinConfig',
         'provider_config'       => [
             
