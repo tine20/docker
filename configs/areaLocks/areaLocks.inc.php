@@ -4,7 +4,7 @@ return [
     'areaLocks' => ['records' => [[
         'area_name'         => 'Tasks',
         'areas'             => ['Tasks', 'Addressbook.List', 'Tinebase_datasafe'/*, 'Tinebase_login' /*...Calendar or Calendar.Event.create or Calendar.searchEvent(s?), etc.*/],
-        'mfas'              => ['Vodafone', 'hello'],
+        'mfas'              => ['Vodafone', 'hello', 'hotp', 'totp'],
         'validity'          => 'session',
     ]]],
     
@@ -31,6 +31,22 @@ return [
         ],
         'provider_class'        => 'Tinebase_Auth_MFA_PinAdapter',
         'user_config_class'     => 'Tinebase_Model_MFA_PinUserConfig'
+    ], [
+        'id'                    => 'hotp',
+        'provider_config_class' => 'Tinebase_Model_MFA_HTOTPConfig',
+        'provider_config'       => [
+            
+        ],
+        'provider_class'        => 'Tinebase_Auth_MFA_HTOTPAdapter',
+        'user_config_class'     => 'Tinebase_Model_MFA_HTOTPUserConfig'
+    ], [
+        'id'                    => 'totp',
+        'provider_config_class' => 'Tinebase_Model_MFA_HTOTPConfig',
+        'provider_config'       => [
+            
+        ],
+        'provider_class'        => 'Tinebase_Auth_MFA_HTOTPAdapter',
+        'user_config_class'     => 'Tinebase_Model_MFA_HTOTPUserConfig'
     ]]],
 ];
 
