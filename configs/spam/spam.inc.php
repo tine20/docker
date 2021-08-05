@@ -20,7 +20,7 @@ return [
             Der Filter lernt mit Ihrer Entscheidung und wird zukünftige ähnliche E-Mails automatisch als Spam behandeln können.',
     
         'spamSuspicionStrategyConfig' => [
-            'pattern' => '/^SPAM\? \(.+\) \*\*\* /',
+            'pattern' => '/SPAM\? \(.+\) \*\*\* /',
         ],
       
         'spamUserProcessingPipeline' => [
@@ -73,7 +73,7 @@ return [
                 [ // rewrite subject - copies mail with new subject / delete original message
                     'strategy' => 'rewrite_subject',
                     'config' => [
-                        'pattern' => '/^SPAM\? \(.+\) \*\*\* /',
+                        'pattern' => '/SPAM\? \(.+\) \*\*\* /',
                         'replacement' => '',
                     ]
                 ]
