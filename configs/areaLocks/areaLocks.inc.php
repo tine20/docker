@@ -47,6 +47,16 @@ return [
         ],
         'provider_class'        => 'Tinebase_Auth_MFA_HTOTPAdapter',
         'user_config_class'     => 'Tinebase_Model_MFA_TOTPUserConfig'
+    ], [
+        'id'                    => 'webauthn',
+        'provider_config_class' => 'Tinebase_Model_MFA_WebAuthnConfig',
+        'provider_config'       => [
+            'authenticator_attachment' => 'cross-platform', // may be null, platform, cross-platform
+            'user_verification_requirement' => 'preferred', // may be required, preferred, discouraged
+            'resident_key_requirement' => null, // may be null, required, preferred, discouraged
+        ],
+        'provider_class'        => 'Tinebase_Auth_MFA_WebAuthnAdapter',
+        'user_config_class'     => 'Tinebase_Model_MFA_WebAuthnUserConfig'
     ]]],
 ];
 
