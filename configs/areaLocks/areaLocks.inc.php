@@ -2,14 +2,20 @@
 
 return [
     'areaLocks' => ['records' => [[
-        'area_name'         => 'Tasks',
-        'areas'             => ['Tasks', 'Addressbook.List', 'Tinebase_datasafe'/*, 'Tinebase_login' /*...Calendar or Calendar.Event.create or Calendar.searchEvent(s?), etc.*/],
-        'mfas'              => ['Vodafone', 'pin', 'hotp', 'totp'],
+        'area_name'         => 'Login',
+        'areas'             => ['Tinebase_login'],
+        'mfas'              => ['sms', 'pin', 'hotp', 'totp', 'webauthn'],
         'validity'          => 'session',
+    ], [
+        'area_name'         => 'Tasks',
+        'areas'             => ['Tasks', 'Addressbook.List', 'Tinebase_datasafe' /*...Calendar or Calendar.Event.create or Calendar.searchEvent(s?), etc.*/],
+        'mfas'              => ['sms', 'pin', 'hotp', 'totp', 'webauthn'],
+        'validity'          => 'presence',
+        'lifetime'          => 3,
     ]]],
     
     'mfa' => ['records' => [[
-        'id'                    => 'Vodafone',
+        'id'                    => 'sms',
         'provider_config_class' => 'Tinebase_Model_MFA_GenericSmsConfig',
         'provider_config'       => [
             'url' => 'https://shoo.tld/restapi/message',
