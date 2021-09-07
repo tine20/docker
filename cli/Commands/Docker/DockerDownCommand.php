@@ -24,12 +24,10 @@ class DockerDownCommand extends DockerCommand{
     {
         $io = new ConsoleStyle($input, $output);
         
-        $this->initCompose();
+        $this->initDockerCommand();
         passthru($this->getComposeString() . ' down', $err);
 
         return $err;
-
-        
 
         return Command::SUCCESS;
     }

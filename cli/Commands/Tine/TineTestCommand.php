@@ -5,6 +5,7 @@ namespace App\Commands\Tine;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use App\ConsoleStyle;
@@ -17,7 +18,22 @@ class TineTestCommand extends TineCommand{
             ->setName('tine:test')
             ->setDescription('starts test')
             ->setHelp('')
-            ->addArgument('path', InputArgument::REQUIRED, 'the path for the tests')
+            ->addArgument(
+                'path', 
+                InputArgument::REQUIRED, 
+                'the path for the tests')
+            ->addOption(
+                'stopOnFailure',
+                's',
+                InputOption::VALUE_NONE,
+                'stop on failure'
+            )
+            ->addOption(
+                'exclude',
+                'e',
+                InputOption::VALUE_IS_ARRAY | InputOption::VALUE_REQUIRED,
+                'excludes group'
+            )
         ;
     }
 
@@ -28,27 +44,39 @@ class TineTestCommand extends TineCommand{
         $path = $input->getArgument('path');
 
         $this->initCompose();
-        $stopOnFailure=true;
-        if (isset($path[0]) && $path[0] == "--do-not-stop-on-failure") {
-            array_shift($path);
+        
+        if ($input->getOption('stopOnFailure')) {
+            $stopOnFailure = true;
+        } else {
             $stopOnFailure = false;
         }
-            $stopOnFailure = true;        
 
-        $output = system(
-                $this->getComposeString()
-                    . " exec -T --user tine20 web sh -c \"cd /usr/share/tests/tine20/ && php -d include_path=.:/etc/tine20/ /usr/share/tine20/vendor/bin/phpunit --color --debug"
-                    . ($stopOnFailure === true ? ' --stop-on-failure' : '')
-                    . ' '
-                    //. join(' ', $path)
-                    . $path
-                    . "\""
-                    . '2>&1'
+       
+
+        ob_start();
+        system(
+            $this->getComposeString()
+            . " exec -T --user tine20 web sh -c \"cd /usr/share/tests/tine20/ && php -d include_path=.:/etc/tine20/ /usr/share/tine20/vendor/bin/phpunit --color --debug "
+            . ($stopOnFailure === true ? ' --stop-on-failure ' : '')
+            . (!empty($input->getOption('exclude')) ? ' --exclude ' . implode(",", $input->getOption('exclude')) . " ": "")
+            . $path
+            . "\""
+            . ' 2>&1'
         );
 
-        
-        //$io->notice(var_dump($output));
 
+        $output = ob_get_contents();
+        ob_get_clean();
+        $output = strstr($output, 'There');
+        
+        if(empty($output))
+        {
+            $io->success("There were 0 errors");
+        } else {
+            $io->warning($output);
+        } 
+
+        
         return Command::SUCCESS;
     }
 

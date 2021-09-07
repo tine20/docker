@@ -13,9 +13,9 @@ use App\Commands\Docker\DockerCliCommand;
 use App\Commands\Docker\DockerPullCommand;
 use App\Commands\Docker\DockerLogCommand;
 
-//tineAwaitDB
 use App\Commands\Tine\TineInstallCommand;
 use App\Commands\Tine\TineUninstallCommand;
+use App\Commands\Tine\TineReinstallCommand;
 use App\Commands\Tine\TineTestCommand;
 use App\Commands\Tine\TineUpdateCommand;
 use App\Commands\Tine\TineDemodataCommand;
@@ -36,6 +36,7 @@ $app->add(new DockerLogCommand());
 //Tine Commands
 $app->add(new TineInstallCommand());
 $app->add(new TineUninstallCommand());
+$app->add(new TineReinstallCommand());
 $app->add(new TineTestCommand());
 $app->add(new TineUpdateCommand());
 $app->add(new TineDemodataCommand());

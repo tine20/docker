@@ -5,6 +5,7 @@ namespace App\Commands\Docker;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use App\ConsoleStyle;
@@ -17,37 +18,52 @@ class DockerUpCommand extends DockerCommand{
             ->setName('docker:up')
             ->setDescription('start docker setup.  pulls/builds images, creates containers, starts containers and shows logs')
             ->setHelp('')
+            /* ->addOption(
+                'container',
+                'c',
+                InputOption::VALUE_IS_ARRAY | InputOption::VALUE_OPTIONAL,
+                'names of additional containers',
+            ) */
+            ->addArgument(
+                'container',
+                InputArgument::IS_ARRAY | InputArgument::OPTIONAL,
+                'names of additional containers'
+            )
+            ->addOption(
+                'detached',
+                'd',
+                InputOption::VALUE_NONE,
+                'set detached mode'
+            )
+            ->addOption(
+                'default',
+                'D',
+                InputOption::VALUE_NONE,
+                'start docker with the default containers'
+            )
         ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $this->initDockerCommand();
         $io = new ConsoleStyle($input, $output);
-        
-        $this->initCompose();
+        $inputOptions = $input->getArgument('container');
+
         $this->getTineDir($io);
-
-        //Composer install not working (name)
         $this->getDocserviceDir($io);
-
-        $this->anotherConfig();
+        $this->anotherConfig($io);
         
-
-        $detached=false;
-        if (isset($argv[0]) && $argv[0] == "-d") {
-            array_shift($argv);
-            $detached = true;
+        if(!empty($inputOptions)) {
+            $this->updateConfig(['composeFiles' => $inputOptions]);
+        }else if($input->getOption('default') === true && is_file('pullup.json')){
+            unlink('pullup.json');
         }
-
-        passthru($this->getComposeString() . ' up' . ($detached === true ? ' -d' : ''), $err);
-
         
-
-        
-
-        return Command::SUCCESS;
+        passthru($this->getComposeString() . ' up' .
+        ($input->getOption('detached') === true ? ' -d' : ''), $err);
+        return Command::SUCCESS; 
     }
 
-    
 }
 

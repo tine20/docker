@@ -17,20 +17,30 @@ class TineUninstallCommand extends TineCommand{
             ->setName('tine:uninstall')
             ->setDescription('uninstall tine')
             ->setHelp('')
-        ;
+            ->addArgument(
+                'modules',
+                InputArgument::OPTIONAL | InputArgument::IS_ARRAY,
+                'The modules you want to uninstall'
+            );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new ConsoleStyle($input, $output);
-        
+        $inputArguments = $input->getArgument('modules');
         $this->initCompose();
-        passthru($this->getComposeString() . ' exec -T --user tine20 web sh -c "cd /usr/share/tine20/ && vendor/bin/phing -D configdir=/etc/tine20 tine-uninstall"', $err);
 
-        if ($this->active('mailstack')) {
-            $this->mailstackReset($io);
+        if(empty($inputArguments)) {
+            passthru($this->getComposeString() . ' exec -T --user tine20 web sh -c "cd /usr/share/tine20/ && vendor/bin/phing -D configdir=/etc/tine20 tine-uninstall"', $err);
+
+            if ($this->active('mailstack')) {
+                $this->mailstackReset($io);
+            }
+        }else {
+            passthru($this->getComposeString() . ' exec -T --user tine20 web sh -c "cd tine20 && php setup.php --uninstall "'
+            . implode(" ", $inputArguments), $err);
         }
-
+        
         return Command::SUCCESS;
     }
 

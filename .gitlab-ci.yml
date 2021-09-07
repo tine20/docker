@@ -45,7 +45,7 @@ test:
     - sleep 3m
     - ./console tine:awaitdb
     - ./console tine:install
-    - ./console tine:test --do-not-stop-on-failure --exclude-group nogitlabci,nodockerci AllTests
+    - ./console tine:test -e nogitlabci -e nodockerci AllTests
     - ./console tine:uninstall
 
 githubbranch:

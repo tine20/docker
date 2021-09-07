@@ -30,8 +30,6 @@ class TineCliCommand extends TineCommand{
         passthru($this->getComposeString() . ' exec --user tine20 web sh -c "cd /usr/share/tine20/ && php tine20.php --config /etc/tine20/config.inc.php ' . $cmd . '"', $err);
 
         return Command::SUCCESS;
-    }
-
-    
+    }    
 }
 

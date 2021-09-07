@@ -24,11 +24,8 @@ class DockerStopCommand extends DockerCommand{
     {
         $io = new ConsoleStyle($input, $output);
         
-        $this->initCompose();
+        $this->initDockerCommand();
         passthru($this->getComposeString() . ' stop', $err);
-
-
-        
 
         return Command::SUCCESS;
     }

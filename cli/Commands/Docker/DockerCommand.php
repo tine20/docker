@@ -13,9 +13,19 @@ class DockerCommand extends Command{
     
     private static $instance;
 
-    private $composeNames = [];
+    private $composeNames;
     private $composeFiles;
     private $ignoreTineConfig;
+
+    public function initDockerCommand() {
+        if (is_file('pullup.json')) {
+            $conf = json_decode(file_get_contents('pullup.json'), true);
+        } else {
+            $conf = json_decode(file_get_contents('.pullup.json'), true);
+        }
+
+        $this->initCompose($conf);
+    }
 
     public function getTineDir($io)
     {
@@ -125,24 +135,28 @@ class DockerCommand extends Command{
         }
     }
 
-    private function updateConfig($updates) {
+   
+    
+    public function getComposeString() {
+        return 'docker-compose -f ' . join(' -f ', $this->composeFiles);
+    }
+
+    public function updateConfig($updates)
+    {
         if (is_file('pullup.json')) {
             $conf = json_decode(file_get_contents('pullup.json'), true);
         } else {
             $conf = json_decode(file_get_contents('.pullup.json'), true);
         }
-
+        
         $conf = array_merge($conf, $updates);
-
         $f = fopen('pullup.json', 'w+');
         fwrite($f, json_encode($conf, JSON_PRETTY_PRINT));
         fclose($f);
 
         $this->initCompose($conf);
     }
-    
-    public function getComposeString() {
-        return 'docker-compose -f ' . join(' -f ', $this->composeFiles);
-    }
+
+
 }
 

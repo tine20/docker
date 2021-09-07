@@ -24,9 +24,8 @@ class DockerPullCommand extends DockerCommand{
     {
         $io = new ConsoleStyle($input, $output);
         
-        $this->initCompose();
+        $this->initDockerCommand();
         passthru($this->getComposeString() . ' pull', $err);
-              
 
         return Command::SUCCESS;
     }

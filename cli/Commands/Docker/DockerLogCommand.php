@@ -22,17 +22,10 @@ class DockerLogCommand extends DockerCommand{
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new ConsoleStyle($input, $output);
-        
-        $this->initCompose();
-
-        //Test
-        echo $this->getComposeString();
-        exit;
+        $io = new ConsoleStyle($input, $output);        
+        $this->initDockerCommand();
 
         passthru($this->getComposeString() . ' logs -f', $err);
-
-        
 
         return Command::SUCCESS;
     }

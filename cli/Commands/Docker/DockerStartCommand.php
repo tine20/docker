@@ -22,16 +22,12 @@ class DockerStartCommand extends DockerCommand{
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $this->initDockerCommand();
         $io = new ConsoleStyle($input, $output);
-        
-        $this->initCompose();
+
         $this->getTineDir($io);
-
-        //Composer install not working (name)
         $this->getDocserviceDir($io);
-
-        $this->anotherConfig();
-        
+        $this->anotherConfig($io);
 
         passthru($this->getComposeString() . ' up -d', $err);
         

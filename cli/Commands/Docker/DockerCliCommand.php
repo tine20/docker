@@ -17,24 +17,30 @@ class DockerCliCommand extends DockerCommand{
             ->setName('docker:cli')
             ->setDescription('start shell in service name eg db or web for tine20')
             ->setHelp('')
-            ->addArgument('container', InputArgument::REQUIRED, 'The name of your container')
+            ->addArgument('container', InputArgument::OPTIONAL, 'The name of your container')
         ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new ConsoleStyle($input, $output);
-        
-
-
-        $this->initCompose();
+        $this->initDockerCommand();
         
         $container = $input->getArgument('container');
-        passthru($this->getComposeString() . ' exec ' . $container . ' sh', $err);
+        if(empty($container)) {
+            ob_start();
+            passthru('docker ps --format "{{.Names}}"');
+            $runningContainers = preg_split("/\r\n|\n|\r/", ob_get_contents());
+            ob_end_clean();
 
+            $input = $io->choice('Select a Container', $runningContainers, '0');
+            
+            passthru('docker exec -it ' . $input . ' sh', $err);
+            
+        }else {
+            passthru($this->getComposeString() . ' exec ' . $container . ' sh', $err);
 
-        
-
+        }         
         return Command::SUCCESS;
     }
 
