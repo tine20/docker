@@ -51,9 +51,6 @@ class TineTestCommand extends TineCommand{
             $stopOnFailure = false;
         }
 
-       
-
-        ob_start();
         system(
             $this->getComposeString()
             . " exec -T --user tine20 web sh -c \"cd /usr/share/tests/tine20/ && php -d include_path=.:/etc/tine20/ /usr/share/tine20/vendor/bin/phpunit --color --debug "
@@ -61,25 +58,15 @@ class TineTestCommand extends TineCommand{
             . (!empty($input->getOption('exclude')) ? ' --exclude ' . implode(",", $input->getOption('exclude')) . " ": "")
             . $path
             . "\""
-            . ' 2>&1'
+            . ' 2>&1', $result_code
         );
 
-
-        $output = ob_get_contents();
-        ob_get_clean();
-        $output = strstr($output, 'There');
-        
-        if(empty($output))
-        {
+        if ($result_code === 0) {
             $io->success("There were 0 errors");
+            return Command::SUCCESS;
         } else {
-            $io->warning($output);
-        } 
-
-        
-        return Command::SUCCESS;
+            $io->error('TESTS FAILED');
+            return Command::FAILURE;
+        }
     }
-
-    
 }
-
