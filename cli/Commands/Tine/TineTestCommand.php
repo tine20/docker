@@ -48,9 +48,7 @@ class TineTestCommand extends TineCommand{
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new ConsoleStyle($input, $output);
-
         $paths = $input->getArgument('path');
-
         $this->initCompose();
         
         if ($input->getOption('stopOnFailure')) {
@@ -58,7 +56,6 @@ class TineTestCommand extends TineCommand{
         } else {
             $stopOnFailure = false;
         }
-
 
         foreach($paths as $path) {
             system(
@@ -73,7 +70,6 @@ class TineTestCommand extends TineCommand{
             );
         }
         
-
         if ($result_code === 0) {
             $io->success("There were 0 errors");
             return Command::SUCCESS;

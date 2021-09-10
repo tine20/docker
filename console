@@ -4,7 +4,9 @@
 
 require_once __DIR__ . '/vendor/autoload.php'; 
 
-use Symfony\Component\Console\Application; 
+use Symfony\Component\Console\Application;
+
+use App\ConsoleApplication;
 use App\Commands\Docker\DockerUpCommand;
 use App\Commands\Docker\DockerStartCommand;
 use App\Commands\Docker\DockerStopCommand;
@@ -22,7 +24,7 @@ use App\Commands\Tine\TineDemodataCommand;
 use App\Commands\Tine\TineCliCommand;
 use App\Commands\Tine\TineAwaitDbCommand;
 
-$app = new Application();
+$app = new ConsoleApplication();
 
 //Docker Commands
 $app->add(new DockerUpCommand());

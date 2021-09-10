@@ -1,6 +1,7 @@
 {
     "require": {
-        "symfony/console": "^5.2"
+        "symfony/console": "^5.2",
+        "stecman/symfony-console-completion": "^0.11.0"
     },
     "autoload": {
         "psr-4": {
