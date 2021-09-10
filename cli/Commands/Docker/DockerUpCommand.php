@@ -50,6 +50,10 @@ class DockerUpCommand extends DockerCommand{
         $io = new ConsoleStyle($input, $output);
         $inputOptions = $input->getArgument('container');
 
+        if($input->getOptions('default') && is_file('pullup.json')) {
+            unlink('pullup.json');
+        }
+
         $this->getTineDir($io);
         $this->getDocserviceDir($io);
         $this->anotherConfig($io);
