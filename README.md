@@ -7,17 +7,19 @@ tine20-docker
 prerequisite: git, docker, docker-compose, php, composer, npm, your user is in the docker group. If not see [below](install docker-io and docker-compose)
 
 1. clone this git and open it `git clone git@gitlab.metaways.net:tine20/docker.git tine20-docker` and `cd tine20-docker`
-2. link your tine20 source `ln -s /path/to/tine/repo tine20` or just wait for console to clone it for you
-3. link docservice source `ln -s /path/to/docservice/repo docservice` or just wait for pullup to clone it for you
-4. login to the tine docker registry, with your gitlab credentials `docker login dockerregistry.metaways.net` ([gitlab docu, for MFA](https://docs.gitlab.com/ee/user/packages/container_registry/#authenticating-to-the-gitlab-container-registry))
-5. checkout your branch and install tine20 dependencies `cd tine20/tine20 && composer install --ignore-platform-reqs` and `cd tine20/tine20/Tinebase/js && npm install`
-6. install docservice dependencies, if pullup has cloned it you dont need to do anything `cd docservice && composer install --ignore-platform-reqs`
+2. install symfony/console dependencies `composer install`
+3. add `eval $(~/path/to//docker/console _completion --generate-hook)` to your shell's profile (e.g. ~/.bashrc or ~/.zshrc) to enable autocomplete
+4. link your tine20 source `ln -s /path/to/tine/repo tine20` or just wait for console to clone it for you
+5. link docservice source `ln -s /path/to/docservice/repo docservice` or just wait for pullup to clone it for you
+6. login to the tine docker registry, with your gitlab credentials `docker login dockerregistry.metaways.net` ([gitlab docu, for MFA](https://docs.gitlab.com/ee/user/packages/container_registry/#authenticating-to-the-gitlab-container-registry))
+7. checkout your branch and install tine20 dependencies `cd tine20/tine20 && composer install --ignore-platform-reqs` and `cd tine20/tine20/Tinebase/js && npm install`
+8. install docservice dependencies, if pullup has cloned it you dont need to do anything `cd docservice && composer install --ignore-platform-reqs`
 
 ## start
-7. start tine20-docker setup `./console docker:up`, if you have not done install 2 or 3 answer y to clone repos
-8. install tine `./console tine:install`
-9. visit localhost:4000, login as tine20admin pw: tine20admin 
-10. strg+c to stop
+9. start tine20-docker setup `./console docker:up`, if you have not done install 2 or 3 answer y to clone repos
+10. install tine `./console tine:install`
+12. visit localhost:4000, login as tine20admin pw: tine20admin 
+13. strg+c to stop
 
 ## Man
 

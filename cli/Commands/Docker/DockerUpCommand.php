@@ -18,12 +18,6 @@ class DockerUpCommand extends DockerCommand{
             ->setName('docker:up')
             ->setDescription('start docker setup.  pulls/builds images, creates containers, starts containers and shows logs')
             ->setHelp('')
-            /* ->addOption(
-                'container',
-                'c',
-                InputOption::VALUE_IS_ARRAY | InputOption::VALUE_OPTIONAL,
-                'names of additional containers',
-            ) */
             ->addArgument(
                 'container',
                 InputArgument::IS_ARRAY | InputArgument::OPTIONAL,
@@ -50,6 +44,10 @@ class DockerUpCommand extends DockerCommand{
         $io = new ConsoleStyle($input, $output);
         $inputOptions = $input->getArgument('container');
 
+        if($input->getOptions('default') && is_file('pullup.json')) {
+            unlink('pullup.json');
+        }
+
         $this->getTineDir($io);
         $this->getDocserviceDir($io);
         $this->anotherConfig($io);
@@ -64,6 +62,5 @@ class DockerUpCommand extends DockerCommand{
         ($input->getOption('detached') === true ? ' -d' : ''), $err);
         return Command::SUCCESS; 
     }
-
 }
 

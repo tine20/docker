@@ -17,10 +17,12 @@ class TineTestCommand extends TineCommand{
         $this
             ->setName('tine:test')
             ->setDescription('starts test')
+            ->addUsage('AllTests')
+            ->addUsage('Addressbook/Frontend/JsonTest -f testGetAllContacts')
             ->setHelp('')
             ->addArgument(
                 'path', 
-                InputArgument::REQUIRED, 
+                InputArgument::REQUIRED | InputArgument::IS_ARRAY, 
                 'the path for the tests')
             ->addOption(
                 'stopOnFailure',
@@ -34,15 +36,19 @@ class TineTestCommand extends TineCommand{
                 InputOption::VALUE_IS_ARRAY | InputOption::VALUE_REQUIRED,
                 'excludes group'
             )
+            ->addOption(
+                'filter',
+                'f',
+                InputOption::VALUE_REQUIRED,
+                'sets filters'
+            )
         ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new ConsoleStyle($input, $output);
-
-        $path = $input->getArgument('path');
-
+        $paths = $input->getArgument('path');
         $this->initCompose();
         
         if ($input->getOption('stopOnFailure')) {
@@ -51,16 +57,19 @@ class TineTestCommand extends TineCommand{
             $stopOnFailure = false;
         }
 
-        system(
-            $this->getComposeString()
-            . " exec -T --user tine20 web sh -c \"cd /usr/share/tests/tine20/ && php -d include_path=.:/etc/tine20/ /usr/share/tine20/vendor/bin/phpunit --color --debug "
-            . ($stopOnFailure === true ? ' --stop-on-failure ' : '')
-            . (!empty($input->getOption('exclude')) ? ' --exclude ' . implode(",", $input->getOption('exclude')) . " ": "")
-            . $path
-            . "\""
-            . ' 2>&1', $result_code
-        );
-
+        foreach($paths as $path) {
+            system(
+                $this->getComposeString()
+                . " exec -T --user tine20 web sh -c \"cd /usr/share/tests/tine20/ && php -d include_path=.:/etc/tine20/ /usr/share/tine20/vendor/bin/phpunit --color --debug "
+                . ($stopOnFailure === true ? ' --stop-on-failure ' : '')
+                . (!empty($input->getOption('exclude')) ? ' --exclude ' . implode(",", $input->getOption('exclude')) . " ": "")
+                . (!empty($input->getOption('filter')) ? ' --filter ' . $input->getOption('filter') . " ": "")
+                . $path
+                . "\""
+                . ' 2>&1', $result_code
+            );
+        }
+        
         if ($result_code === 0) {
             $io->success("There were 0 errors");
             return Command::SUCCESS;
