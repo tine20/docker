@@ -40,22 +40,20 @@ class DockerUpCommand extends DockerCommand{
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->initDockerCommand();
-        $io = new ConsoleStyle($input, $output);
-        $inputOptions = $input->getArgument('container');
-
-        if($input->getOptions('default') && is_file('pullup.json')) {
+        if($input->getOption('default') && is_file('pullup.json')) {
             unlink('pullup.json');
         }
+
+        $this->initDockerCommand();
+        $io = new ConsoleStyle($input, $output);
+        $inputContainer = $input->getArgument('container');
 
         $this->getTineDir($io);
         $this->getDocserviceDir($io);
         $this->anotherConfig($io);
         
-        if(!empty($inputOptions)) {
-            $this->updateConfig(['composeFiles' => $inputOptions]);
-        }else if($input->getOption('default') === true && is_file('pullup.json')){
-            unlink('pullup.json');
+        if(!empty($inputContainer)) {
+            $this->updateConfig(['composeFiles' => $inputContainer]);
         }
         
         passthru($this->getComposeString() . ' up' .
