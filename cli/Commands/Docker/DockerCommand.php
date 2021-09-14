@@ -53,7 +53,6 @@ class DockerCommand extends Command{
                     break;
             } 
         }
-        
     }
 
     public function getDocserviceDir($io)
@@ -135,8 +134,6 @@ class DockerCommand extends Command{
         }
     }
 
-   
-    
     public function getComposeString() {
         return 'docker-compose -f ' . join(' -f ', $this->composeFiles);
     }
@@ -156,7 +153,5 @@ class DockerCommand extends Command{
 
         $this->initCompose($conf);
     }
-
-
 }
 
