@@ -110,7 +110,7 @@ class DockerCommand extends Command{
         }
     }
 
-    public function anotherConfig() {
+    public function anotherConfig($io) {
         if (is_file('tine20/tine20/config.inc.php')) {
             if ($this->ignoreTineConfig) {
                 return 0;
