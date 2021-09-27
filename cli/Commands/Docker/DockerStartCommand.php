@@ -27,6 +27,7 @@ class DockerStartCommand extends DockerCommand{
 
         $this->getTineDir($io);
         $this->getDocserviceDir($io);
+        $this->getBroadcasthubDir($io);
         $this->anotherConfig($io);
 
         passthru($this->getComposeString() . ' up -d', $err);

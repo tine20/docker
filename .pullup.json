@@ -2,6 +2,7 @@
   "composeFiles":[
     "webpack",
     "docservice",
+    "broadcasthub",
     "pma",
     "mailstack",
     "xdebug",

@@ -1,27 +1,32 @@
 tine20-docker
 ----
-# pullup
 
-## install
+[[_TOC_]]
 
-prerequisite: git, docker, docker-compose, php, composer, npm, your user is in the docker group. If not see [below](install docker-io and docker-compose)
+# Pullup
+
+## Install
+
+prerequisite: git, docker, docker-compose, php, composer, npm, your user is in the docker group. If not see [below](#install-docker-io-and-docker-compose)
 
 1. clone this git and open it `git clone git@gitlab.metaways.net:tine20/docker.git tine20-docker` and `cd tine20-docker`
 2. install symfony/console dependencies `composer install`
 3. add `eval $(~/path/to//docker/console _completion --generate-hook)` to your shell's profile (e.g. ~/.bashrc or ~/.zshrc) to enable autocomplete
 4. link your tine20 source `ln -s /path/to/tine/repo tine20` or just wait for console to clone it for you
-5. link docservice source `ln -s /path/to/docservice/repo docservice` or just wait for pullup to clone it for you
-6. login to the tine docker registry, with your gitlab credentials `docker login dockerregistry.metaways.net` ([gitlab docu, for MFA](https://docs.gitlab.com/ee/user/packages/container_registry/#authenticating-to-the-gitlab-container-registry))
-7. checkout your branch and install tine20 dependencies `cd tine20/tine20 && composer install --ignore-platform-reqs` and `cd tine20/tine20/Tinebase/js && npm install`
-8. install docservice dependencies, if pullup has cloned it you dont need to do anything `cd docservice && composer install --ignore-platform-reqs`
+5. link docservice source `ln -s /path/to/docservice/repo docservice` or just wait for console to clone it for you
+6. link broadcasthub source `ln -s /path/to/tine20-broadcsthub/repo broadcasthub` or just wait for console to clone it for you
+7. login to the tine docker registry, with your gitlab credentials `docker login dockerregistry.metaways.net` ([gitlab docu, for MFA](https://docs.gitlab.com/ee/user/packages/container_registry/#authenticating-to-the-gitlab-container-registry))
+8. checkout your branch and install tine20 dependencies `cd tine20/tine20 && composer install --ignore-platform-reqs` and `cd tine20/tine20/Tinebase/js && npm install`
+9. install docservice dependencies, if console has cloned it you dont need to do anything: `cd docservice && composer install --ignore-platform-reqs`
+10. install broadcasthub dependencies, if console has cloned it you dont need to do anything: `cd broadcasthub && npm install`
 
-## start
-9. start tine20-docker setup `./console docker:up`, if you have not done install 2 or 3 answer y to clone repos
-10. install tine `./console tine:install`
-12. visit localhost:4000, login as tine20admin pw: tine20admin 
-13. strg+c to stop
+## Start
+11. start tine20-docker setup `./console docker:up`, if you have not done install 4 to 6 answer y to clone repos
+12. install tine `./console tine:install`
+13. visit localhost:4000, login as tine20admin pw: tine20admin
+14. strg+c to stop
 
-## Man
+## Console Commands
 
 + `./console docker:up` start docker setup.  pulls/builds images, creates containers, starts containers and shows logs
 + `./console docker:start` start docker setup. pulls/builds images, creates containers, starts containers
@@ -51,13 +56,12 @@ to override default settings copy .pullup.json to pullup.json
 + more: any wishes? > issue tracker 
 
 
-# linksammlung
+# Links
 
 * https://linuxize.com/post/how-to-remove-docker-images-containers-volumes-and-networks/
 
-# install and setup docker
-
-## install docker-io and docker-compose
+# Install and Setup Docker
+## Install docker-io and docker-compose
 
     sudo apt install docker.io docker-compose
 
@@ -71,25 +75,23 @@ some hints to performance with mac osx:
   and .. docker chokes with suspend on macos, restart docker each time to speed it up
   if possible use cached volumes, that helps a lot
 
-## add yourself to the docker group (to work without sudo) - no need for macOS
+## Add Yourself to the Docker Group (to work without sudo - no need for macOS)
 
 _relogin required!_
 
     sudo usermod -a -G docker <your userid>
 
-# init repos
-
-## clone this repo
+# Init Repositories
+## Clone this Repository
 
     git clone git@gitlab.metaways.net:tine20/docker.git tine20-docker
 
-## link your tine20 repo
+## Link your Tine 2.0 Repository
 
     cd tine20-docker
     ln -s /path/to/tine/repo tine20
 
-# build image
-
+# Build Image
 ## npm install
 
     cd tine20-docker/tine20/tine20/Tinebase/js
@@ -100,7 +102,7 @@ _relogin required!_
     cd tine20-docker/tine20/tine20/
     composer install --ignore-platform-reqs
 
-## get docker image
+# Get Docker Image
 
 Our dev image `tine20/dev:2020.11-7.3-fpm-alpine` is on docker hub. 
 You can also use an image from our registry. 
@@ -114,7 +116,7 @@ Tags:
     <branch name>-<php version>-fpm-alpine
     The branch name dose not need to match the tine20 branch, you are developing on.
 
-## start tine20
+# Start Tine 2.0
 
     docker-compose -f docker-compose.yml -f compose/webpack.yml up
 
@@ -126,15 +128,15 @@ or
 
     ./scripts/Docker-start.bash
 
-## show containers
+# Show Containers
 
     docker ps
 
-## run bash in container
+# Run bash in Container
 
     docker exec -it tine20 /bin/sh
 
-## open tine20 in browser
+# Open tine20 in Browser
 
 [localhost:4000](http://localhost:4000/) - nginx
 
@@ -144,7 +146,7 @@ or
 
 [localhost:4002](http://localhost:4002) Phpmyadmin Username:tine20 Password:tine20pw
 
-## install tine
+# Install Tine 2.0
 
 Also configures the mailserver & system account.
 
@@ -158,7 +160,7 @@ or via phing:
     docker exec --user nginx tine20 sh -c "cd /tine/tine20/ && vendor/bin/phing -D configdir=/tine/customers/localhost tine-install"
 
 
-## uninstall tine
+# Uninstall Tine 2.0
 
     docker exec --user nginx tine20 sh -c "cd /tine/tine20/ && php setup.php --uninstall --config /tine/customers/localhost/config.inc.php"
 
@@ -166,29 +168,29 @@ or via phing:
 
     docker exec --user nginx tine20 sh -c "cd /tine/tine20/ && vendor/bin/phing -D configdir=/tine/customers/localhost tine-uninstall"
 
-## update tine
+# Update Tine 2.0
 
     docker exec --user nginx tine20 sh -c "cd /tine/tine20/ && php setup.php --update --config /tine/customers/localhost/config.inc.php"
 
-## create demodata tine
+# Create Demodata Tine 2.0
 
     docker exec --user nginx tine20 sh -c "cd /tine/tine20/ && php tine20.php --config /tine/customers/localhost/config.inc.php --method Tinebase.createAllDemoData  --username=test --password=test"
 
-## run unittests
+# Run Unittests
 
 NOTE #1: php://stdout is not working for logging ServerTests ...
 NOTE #2: maybe you need to increase the php memory_limit (i.e. -d memory_limit=512M - or more)
 
     docker exec --user nginx tine20 sh -c "cd /tine/tests/tine20/ && ../../tine20/vendor/bin/phpunit --color --stop-on-failure --debug AllTests"
 
-## table prefix
+# Table Prefix
 you can change the table prefix in the config.inc.php file:
 
         <?php
         $version = 'be'; <- change this
 
 
-## import handbook
+# Import Handbook
 
 you might to do this first aus we have some BIG pages in the handbook:
 
@@ -200,27 +202,25 @@ for example the ebhh handbook version:
 
     docker exec --user nginx tine20 sh -c "cd /tine/tine20/ && php -d memory_limit=512M tine20.php --method UserManual.importHandbookBuild  --username=test --password=test https://erzbistum:****@packages.tine20.com/erzbistum/tine20-handbook_html_chunked_build-369_commit-1debfeda9e3831feccd7ca66f8fa7cae89cda150.zip"
 
-# other useful functions
-
-## containers
+# Other Useful Functions
+## Containers
 
     docker ps
     docker ps -a            # shows all (not running only) containers
     docker rm <container id/name>
 
-## images
+## Images
 
     docker image ls
     docker image ls -a      # shows all containers, as well as deps
     docker image rm <image id/name>
 
 # ActionQueue / Worker in Docker
-
-## Running a actionQueue
+## Running an ActionQueue
 
     docker-compose -f docker-compose.myl -f compose/worker.yml up
 
-# debugging with PHPSTORM
+# Debugging with PhpStorm
 
 this is the default xdebug.ini:
 
@@ -232,7 +232,7 @@ this is the default xdebug.ini:
     xdebug.remote_host=172.18.0.1
     xdebug.remote_autostart=on
 
-you need to define a "PHP remote debug" server in PHPSTORM:
+you need to define a "PHP remote debug" server in PhpStorm:
 
      name: debugger
      server: 
@@ -246,7 +246,7 @@ you need to define a "PHP remote debug" server in PHPSTORM:
      
      ide key: serverName=tine20docker
 
-open Xdebug port in PHPSTORM
+open Xdebug port in PhpStorm
 
     File | Settings | Languages & Frameworks | PHP | Debug | Xdebug
     - Debug port : 9001
@@ -254,11 +254,11 @@ open Xdebug port in PHPSTORM
     
 if you have a different IP, you might need to use the XDEBUG_CONFIG env vars in docker-compose.yml
 
-## troubleshooting
+## Troubleshooting
 
 some tips on testing your xdebug/phpstorm setup:
 
-### check connectivity 
+### Check Connectivity
 
 on docker host:
 
@@ -270,32 +270,32 @@ in container:
     $ nc -vz 172.118.0.1 9001
     172.118.0.1 (172.118.0.1:9001) open
 
-### check xdebug log
+### Check xdebug Log
 
 - activate xdebug log in container (add `remote_log=/tine/logs/xdebug.log` in xdebug.yml)
 - look into log (default path: /tine/logs/xdebug.log)
 
-### allow iptables access from container -> host
+### Allow iptables Access from Container -> Host
 
     sudo iptables -I INPUT 1 -i <docker-bridge-interface> -j ACCEPT
     
 <docker-bridge-interface> is something like "br-3ff4120010e5" which has ip:172.118.0.1 (visible with ifconfig)
 
-# running a tine20 container with ...
+# Running a Tine 2.0 container with ...
 
 ## webpack
 
     docker-compose -f docker-compose.yml -f compose/webpack.yml up
 
-## php-cli only container
+## php-cli Only Container
 
     docker-compose -f docker-compose.yml up
 
-## mail (dovecot/postfix) container
+## mail (dovecot/postfix) Container
 
     docker-compose -f docker-compose.yml -f compose/mail.yml up
 
-## phpmyadmin container
+## phpmyadmin Container
 
     docker-compose -f docker-compose.yml -f compose/pma.yml up
 
@@ -315,7 +315,7 @@ in container:
 `./scripts/cli.php mailstack build` or
 `docker-compose -f docker-compose.yml -f compose/mailstack.yml build`
 
-##### install.properties
+### install.properties
 imap and pop: 
 
 + host: dovecot
@@ -346,16 +346,16 @@ smtp="active:true,backend:postfix,hostname:postfix,port:25,ssl:none,auth:none,na
 sieve="hostname:dovecot,port:4190,ssl:none"
 ```
 
-# debug / test stuff with fake previews
+# Debug / Test Stuff with Fake Previews
 
 sometimes you don't have a working doc service but need to test files with previews.
 
-## copy some images to container:
+## Copy Some Images to Container:
 
     docker cp ~/Pictures/image1.png tine20:/tine/files
     docker cp ~/Pictures/image2.png tine20:/tine/files
     
-## patch tine20/Tinebase/FileSystem/Preview/ServiceV1.php
+## Patch tine20/Tinebase/FileSystem/Preview/ServiceV1.php
 
 ```php
      public function getPreviewsForFile($_filePath, array $_config)
@@ -367,7 +367,7 @@ sometimes you don't have a working doc service but need to test files with previ
         // [...]
      }
 ```
-## configure previews (config.inc.php)
+## Configure Previews (config.inc.php)
 
 ```php
 'filesystem' => array(
@@ -376,16 +376,16 @@ sometimes you don't have a working doc service but need to test files with previ
 ),
 ```
 
-## create previews for files
+## Create Previews for files
 
      docker exec --user nginx tine20 sh -c "cd /tine/tine20/ && php tine20.php  --method Tinebase.fileSystemCheckPreviews  --username=test --password=test"
 
-# add document service
+# Add Document Service
 
 NOTE: some fonts are not available on the minimal docker image ... so don't
  wonder about strange looking texts ... ;) 
 
-## clone, initialize and link repo
+## Clone, Initialize and Link Repository
 
     git clone git@gitlab.metaways.net:tine20/documentPreview.git
     cd documentPreview
@@ -393,7 +393,7 @@ NOTE: some fonts are not available on the minimal docker image ... so don't
     cd /path/to/tine20-docker
     ln -s /patch/to/docservice docservice
     
-## configure
+## Configure
 
 note: this only works with tine20.com/2018.11* branches
 
@@ -405,20 +405,58 @@ note: this only works with tine20.com/2018.11* branches
 ),
 ```
 
-## clear tine20 cache
+# Add Tine 2.0 Broadcasthub
+## Clone, Initialize and Link Repository
+
+    git clone git@gitlab.metaways.net:tine20/tine20-broadcasthub.git broadcasthub
+    cd broadcasthub
+    # Make sure NODE_ENV is not set or is not "production"
+    # development dependencies have to get installed
+    npm install
+    cd /path/to/tine20-docker
+    ln -s /patch/to/broadcasthub broadcasthub
+
+Make sure to always fetch the latest production docker image for the Tine 2.0 broadcasthub, change the tag in file `compose/broadcasthub` accordingly.
+
+
+## Configure
+As long as there is no setup task in the Tine 2.0 repository for adding an `auth_token` record this record has to be inserted manually via [phpMyAdmin](#open-tine20-in-browser) in order to connect with a websocket client to the Tine 2.0 Broadcasthub websocket server:
+
+    INSERT INTO tine20_auth_token (id, auth_token, account_id, valid_until, channels) VALUES ('longlongid', 'longlongtoken', (select id from tine20_accounts where login_name = "tine20admin"), ADDDATE(NOW(), INTERVAL 1 YEAR), '["broadcasthub"]');
+
+See https://taiga.metaways.net/project/admin-tine20-service/us/3941 for setup task status.
+
+
+## Development
+Follow the setup instructions above. Make sure to link your local Tine 2.0 Broadcasthub repository into the docker setup. Prior to run `./console docker:up` copy `.pullup.json` to `pullup.json` and change the entry `broadcasthub` to `broadcasthub-dev`. This way a development container for the Tine 2.0 Broadcasthub is ran rather than the production container. The development container has the following features (see `compose/broadcasthub-dev.yml` for complete setup):
+
+* The Tine 2.0 Broadcasthub code is mounted from localhost into the container
+* DEBUG is set to full debug output. This output is displayed along with all other logs when `./console docker:up` is used to pullup the `tine20/docker` setup
+* Node is executed by `nodemon` within the container. `nodemon` automatically restarts `node` in the container on file changes in the local Tine 2.0 Broadcasthub repository. A file change can also be simulated with `touch app.js` on localhost
+
+Adapt the websocket URL in `broadcasthub/dev/client.js` to match the URL of the Tine 2.0 Broadcasthub in the docker setup, i.e. change the port in `ws://localhost:8080` to whatever port the Tine 2.0 Broadcasthub is exposed to in the docker setup (see `compose/broadcasthub-dev.yml`).
+
+Now you can start the development websocket client: `node broadcasthub/dev/client.js` and check if broadcast messages are received.
+
+In order to trigger a websocket broadcast message, either log into the Redis CLI of the `tine20/docker` setup using something like `docker exec -it cache redis-cli` and execute something like `publish broadcasthub "A broadcast message!"`. Or log into the Tine 2.0 frontend, open the file manager and upload a file. Running `dev/trigger.js` does not work here because the `tine20/docker` Redis service is not exposed to the localhost and only available from within the `docker-compose` environment.
+
+NOTE (2021-09-29): The websocket client in the Tine 2.0 client and the markup of changed files in file manager do not exist yet.
+
+
+# Clear Tine 2.0 Cache
 
     docker exec --user nginx tine20 sh -c "cd /tine/tine20/ && php tine20.php --method=Tinebase.clearCache --username test --password test"
     
-## TODO phing aufrufe ergänzen
+# TODO: Add phing invocations
 
-## restart webpack-dev-server
+# Restart webpack-dev-server
 
 im tine container:
 
     ps aux | grep webpack
     kill [PID]
 
-## use ramdisk for sql storage
+# Use ramdisk for SQL Storage
 
 davor muss der alte db container gelöscht werden, sonst greift das mount nicht:
 
@@ -442,7 +480,7 @@ achtung: man verliert natürlich seine db nach dem reboot!
 
 achtung 2: man darf sonst nichts in die ramdisk legen, sonst meckert mysql/maria
 
-## SENTRY
+# Sentry
 
 you need to add sentry to your /etc/hosts file (because of CSRF):
 
@@ -454,6 +492,6 @@ First boot:
     docker exec -it sentry bash
     ./entrypoint.sh sentry upgrade
 
-## use mysql instead of mariadb
+# Use MySQL Instead of MariaDB
 
 add "mysql" to your pullup.json!
