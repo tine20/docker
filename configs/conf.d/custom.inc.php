@@ -41,4 +41,15 @@ return [
             'featureYearView' => true,
         ],
     ],
+    'authTokenChanels' => [
+        'records' => [
+            'name' => 'broadcasthub'
+        ],
+    ],
+    'broadcasthub' => [
+        'active' => true,
+        'redis' => [
+            'host' => 'cache',
+        ],
+    ],
 ];

@@ -81,6 +81,32 @@ class DockerCommand extends Command{
         }
     }
 
+    public function getBroadcasthubDir($io)
+    {
+
+        if (($this->active('broadcasthub') || $this->active('broadcasthub-dev')) && ! is_file('broadcasthub/package.json')) {
+            $input = $io->choice('broadcasthub dir is not linked. Should it be cloned and installed?', ['yes', 'no', 'ignore'], 'yes');
+
+            switch($input) {
+                case 'yes':
+                    system('git clone git@gitlab.metaways.net:tine20/tine20-broadcasthub.git broadcasthub 2>&1');
+                    $output = system('cd broadcasthub && npm install');
+
+                    $io->notice($output);
+
+
+                    break;
+
+                case 'no':
+                    $io->notice('link broadcasthub dir: ln -s /path/to/broadcasthub/repo broadcasthub');
+                    break;
+
+                case 'ignore':
+                    break;
+            }
+        }
+    }
+
     public function active($composeName) {
         return in_array($composeName, $this->composeNames);
     }
