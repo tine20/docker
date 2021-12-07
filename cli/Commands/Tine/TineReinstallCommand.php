@@ -26,7 +26,7 @@ class TineReinstallCommand extends TineCommand{
         
         $io->notice("Uninstalling Tine 2.0...");
         $this->initCompose();
-        passthru($this->getComposeString() . ' exec -T --user tine20 web sh -c "cd /usr/share/tine20/ && vendor/bin/phing -D configdir=/etc/tine20 tine-uninstall"', $err);
+        passthru($this->getComposeString() . ' exec -T web sh -c "cd /usr/share/tine20/ && vendor/bin/phing -D configdir=/etc/tine20 tine-uninstall"', $err);
 
         if ($this->active('mailstack')) {
             $this->mailstackReset($io);

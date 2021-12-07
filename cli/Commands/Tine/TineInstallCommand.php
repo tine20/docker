@@ -41,7 +41,7 @@ class TineInstallCommand extends TineCommand{
             $io->notice("Installing Tine 2.0 ...");
             passthru($this->getComposeString() . ' exec -T web tine20_install', $err);
         }else {
-            passthru($this->getComposeString() . ' exec -T --user tine20 web sh -c "cd tine20 && php setup.php --install "'
+            passthru($this->getComposeString() . ' exec -T web sh -c "cd tine20 && php setup.php --install "'
             . implode(" ", $inputOptions), $err);
         }
 
