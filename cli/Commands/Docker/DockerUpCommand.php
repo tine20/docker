@@ -49,7 +49,6 @@ class DockerUpCommand extends DockerCommand{
         $inputContainer = $input->getArgument('container');
 
         $this->getTineDir($io);
-        $this->getDocserviceDir($io);
         $this->getBroadcasthubDir($io);
         $this->anotherConfig($io);
         

@@ -26,7 +26,6 @@ class DockerStartCommand extends DockerCommand{
         $io = new ConsoleStyle($input, $output);
 
         $this->getTineDir($io);
-        $this->getDocserviceDir($io);
         $this->getBroadcasthubDir($io);
         $this->anotherConfig($io);
 

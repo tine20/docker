@@ -55,32 +55,6 @@ class DockerCommand extends Command{
         }
     }
 
-    public function getDocserviceDir($io)
-    {
-        
-        if ($this->active('docservice') && ! is_file('docservice/composer.json')) {
-            $input = $io->choice('docservice dir is not linked. Should it be cloned and installed?', ['yes', 'no', 'ignore'], 'yes');
-
-            switch($input) {
-                case 'yes':
-                    system('git clone git@gitlab.metaways.net:tine20/documentPreview.git docservice 2>&1');
-                    $output = system('cd docservice && composer install --ignore-platform-reqs');
-
-                    $io->notice($output);
-                    
-                    
-                    break;
-
-                case 'no':
-                    $io->notice('link docservice dir: ln -s /path/to/docservice/repo docservice');
-                    break;
-
-                case 'ignore':
-                    break;
-            }
-        }
-    }
-
     public function getBroadcasthubDir($io)
     {
 
