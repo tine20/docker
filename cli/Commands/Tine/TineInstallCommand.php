@@ -45,6 +45,17 @@ class TineInstallCommand extends TineCommand{
             . implode(" ", $inputOptions), $err);
         }
 
+        if ($this->active('broadcasthub') || $this->active('broadcasthub-dev')) {
+            // Key authTokenChanels needs to be set in config,
+            // table tine20_auth_token will be created:
+            //    'authTokenChanels' => [
+            //        'records' => [
+            //            'name' => 'broadcasthub'
+            //        ],
+            //    ],
+            passthru($this->getComposeString() . ' exec -T web sh -c "cd tine20 && php setup.php --add_auth_token -- user=tine20admin id=longlongid auth_token=longlongtoken valid_until=' . date('Y-m-d', strtotime('+1 year', time())) . ' channels=broadcasthub"');
+        }
+
         return Command::SUCCESS;
     }
 
