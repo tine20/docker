@@ -70,13 +70,13 @@ class TineCommand extends Command{
     }
 
     public function setupCli($cmd) {
-        passthru($this->getComposeString() . ' exec --user tine20 web sh -c "cd /usr/share/tine20/ && php setup.php --config /etc/tine20/config.inc.php ' . $cmd . '"', $err);
+        passthru($this->getComposeString() . ' exec --user tine20 web sh -c "cd /usr/share/tine20/ && php setup.php --config \$TINE20_CONFIG_PATH ' . $cmd . '"', $err);
 
         return $err;
     }
 
     public function tineCli($cmd) {
-        passthru($this->getComposeString() . ' exec --user tine20 web sh -c "cd /usr/share/tine20/ && php tine20.php --config /etc/tine20/config.inc.php ' . $cmd . '"', $err);
+        passthru($this->getComposeString() . ' exec --user tine20 web sh -c "cd /usr/share/tine20/ && php tine20.php --config \$TINE20_CONFIG_PATH ' . $cmd . '"', $err);
 
         return $err;
     }

@@ -23,15 +23,14 @@ class TineDemodataCommand extends TineCommand{
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new ConsoleStyle($input, $output);
-        
+
         $this->initCompose();
-        $username = $io->ask('Username: ');
-        $password = $io->ask('Password: ');
-        $this->tineCli('--method Tinebase.createAllDemoData  --username=' . $username . ' --password='. $password);
+
+        $this->tineCli('--method Tinebase.createAllDemoData  --username=\$TINE20_LOGIN_USERNAME --password=\$TINE20_LOGIN_PASSWORD');
 
         return Command::SUCCESS;
     }
 
-    
+
 }
 
