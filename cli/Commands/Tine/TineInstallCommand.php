@@ -40,10 +40,12 @@ class TineInstallCommand extends TineCommand{
             passthru($this->getComposeString() . ' exec -T cache sh -c "redis-cli flushall"', $err);
             $io->notice("Installing Tine 2.0 ...");
             passthru($this->getComposeString() . ' exec -T web tine20_install', $err);
-        }else {
+        } else {
             passthru($this->getComposeString() . ' exec -T web sh -c "cd tine20 && php setup.php --install "'
             . implode(" ", $inputOptions), $err);
         }
+
+        passthru($this->getComposeString() . ' exec -T web sh -c "test -f ${TINE20ROOT}/scripts/postInstallDocker.sh && ${TINE20ROOT}/scripts/postInstallDocker.sh"', $err);
 
         if ($this->active('broadcasthub') || $this->active('broadcasthub-dev')) {
             // Key authTokenChanels needs to be set in config,

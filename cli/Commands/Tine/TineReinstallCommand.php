@@ -35,6 +35,7 @@ class TineReinstallCommand extends TineCommand{
         passthru($this->getComposeString() . ' exec -T cache sh -c "redis-cli flushall"', $err);
         $io->notice("Installing Tine 2.0 ...");
         passthru($this->getComposeString() . ' exec -T web tine20_install', $err);
+        passthru($this->getComposeString() . ' exec -T web sh -c "test -f ${TINE20ROOT}/scripts/postInstallDocker.sh && ${TINE20ROOT}/scripts/postInstallDocker.sh"', $err);
 
         return Command::SUCCESS;
     }
