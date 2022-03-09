@@ -2,6 +2,7 @@ version: '2'
 services:
   db:
     image: mariadb:10.4.1
+    command: --max-allowed-packet=209715210
     environment:
       MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
       MYSQL_DATABASE: &MYSQL_DATABASE "${MYSQL_DATABASE}"
