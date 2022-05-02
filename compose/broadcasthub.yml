@@ -1,6 +1,9 @@
 # this is a override file to add a broadcasthub container
 version: '2'
 services:
+  web:
+    volumes:
+      - ./configs/broadcasthub/broadcasthub.inc.php:/etc/tine20/conf.d/broadcasthub.inc.php:ro
   broadcasthub-service:
     image: dockerregistry.metaways.net/tine20/docker/tine20-broadcasthub:0.1
     container_name: broadcasthub
