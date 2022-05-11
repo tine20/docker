@@ -1,0 +1,5 @@
+version: '2'
+services:
+  web:
+    environment:
+      TINE20_LOGGER_PRIORITY: "5"
