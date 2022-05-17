@@ -420,12 +420,11 @@ Make sure to always fetch the latest production docker image for the Tine 2.0 br
 
 
 ## Configure
-As long as there is no setup task in the Tine 2.0 repository for adding an `auth_token` record this record has to be inserted manually via [phpMyAdmin](#open-tine20-in-browser) in order to connect with a websocket client to the Tine 2.0 Broadcasthub websocket server:
+There is a setup task in the Tine 2.0 repository for adding an `auth_token` record: `setup.php --add_auth_token --`.
+
+Formerly this record had to be inserted manually via [phpMyAdmin](#open-tine20-in-browser) in order to connect with a websocket client to the Tine 2.0 Broadcasthub websocket server:
 
     INSERT INTO tine20_auth_token (id, auth_token, account_id, valid_until, channels) VALUES ('longlongid', 'longlongtoken', (select id from tine20_accounts where login_name = "tine20admin"), ADDDATE(NOW(), INTERVAL 1 YEAR), '["broadcasthub"]');
-
-See https://taiga.metaways.net/project/admin-tine20-service/us/3941 for setup task status.
-
 
 ## Development
 Follow the setup instructions above. Make sure to link your local Tine 2.0 Broadcasthub repository into the docker setup. Prior to run `./console docker:up` copy `.pullup.json` to `pullup.json` and change the entry `broadcasthub` to `broadcasthub-dev`. This way a development container for the Tine 2.0 Broadcasthub is ran rather than the production container. The development container has the following features (see `compose/broadcasthub-dev.yml` for complete setup):
