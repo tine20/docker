@@ -3,7 +3,8 @@
 return [
     'broadcasthub' => [
         'active' => true,
-        'redis' => [
+        'url'    => 'ws://localhost:4003',
+        'redis'  => [
             'host' => 'cache',
         ],
     ],
