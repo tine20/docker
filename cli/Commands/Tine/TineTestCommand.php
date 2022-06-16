@@ -57,18 +57,26 @@ class TineTestCommand extends TineCommand{
             $stopOnFailure = false;
         }
 
-        foreach($paths as $path) {
+        foreach ($paths as $path) {
+            $filter = null;
+            if (strpos($path, "::")) {
+                [$path, $filter] = explode("::", $path);    
+            } else if (!empty($input->getOption('filter'))) {
+                $filter = $input->getOption('filter');
+            }
+
             system(
                 $this->getComposeString()
                 . " exec -T --user tine20 web sh -c \"cd /usr/share/tests/tine20/ && php -d include_path=.:/etc/tine20/ /usr/share/tine20/vendor/bin/phpunit --color --debug "
                 . ($stopOnFailure === true ? ' --stop-on-failure ' : '')
                 . (!empty($input->getOption('exclude')) ? ' --exclude ' . implode(",", $input->getOption('exclude')) . " ": "")
-                . (!empty($input->getOption('filter')) ? ' --filter ' . $input->getOption('filter') . " ": "")
+                . ($filter ? ' --filter ' . $filter . " ": "")
                 . $path
                 . "\""
                 . ' 2>&1', $result_code
             );
         }
+        
         
         if ($result_code === 0) {
             $io->success("There were 0 errors");
