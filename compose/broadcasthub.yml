@@ -5,7 +5,7 @@ services:
     volumes:
       - ./configs/broadcasthub/broadcasthub.inc.php:/etc/tine20/conf.d/broadcasthub.inc.php:ro
   broadcasthub-service:
-    image: dockerregistry.metaways.net/tine20/docker/tine20-broadcasthub:0.4
+    image: dockerregistry.metaways.net/tine20/docker/tine20-broadcasthub:0.5
     container_name: broadcasthub
     ports:
       - "4003:80"
