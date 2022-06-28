@@ -31,13 +31,13 @@ class TineUninstallCommand extends TineCommand{
         $this->initCompose();
 
         if(empty($inputArguments)) {
-            passthru($this->getComposeString() . ' exec -T --user tine20 web sh -c "cd /usr/share/tine20/ && vendor/bin/phing -D configdir=/etc/tine20 tine-uninstall"', $err);
+            passthru($this->getComposeString() . ' exec -T --user tine20 web sh -c "cd /usr/share/tine20 && vendor/bin/phing -D configdir=/etc/tine20 tine-uninstall"', $err);
 
             if ($this->active('mailstack')) {
                 $this->mailstackReset($io);
             }
-        }else {
-            passthru($this->getComposeString() . ' exec -T --user tine20 web sh -c "cd tine20 && php setup.php --uninstall "'
+        } else {
+            passthru($this->getComposeString() . ' exec -T --user tine20 web sh -c "cd /usr/share/tine20 && php setup.php --uninstall "'
             . implode(" ", $inputArguments), $err);
         }
         
