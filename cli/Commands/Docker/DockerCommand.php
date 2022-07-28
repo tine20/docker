@@ -13,6 +13,7 @@ class DockerCommand extends Command{
     
     private static $instance;
 
+    private $composeCommand = 'docker-compose';
     private $composeNames;
     private $composeFiles;
     private $ignoreTineConfig;
@@ -92,6 +93,7 @@ class DockerCommand extends Command{
             $conf = json_decode(file_get_contents('.pullup.json'), true);
         }
 
+        $this->composeCommand = in_array('mutagen', $conf['composeFiles']) ? 'mutagen-compose' : $this->composeCommand;
         $this->composeFiles = ['docker-compose.yml'];
         $this->composeNames = [];
         $this->ignoreTineConfig = array_key_exists('ignoreConfig', $conf) and $conf['ignoreConfig'];
@@ -135,7 +137,7 @@ class DockerCommand extends Command{
     }
 
     public function getComposeString() {
-        return 'docker-compose -f ' . join(' -f ', $this->composeFiles);
+        return $this->composeCommand . ' -f ' . join(' -f ', $this->composeFiles);
     }
 
     public function updateConfig($updates)
