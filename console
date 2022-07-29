@@ -14,6 +14,7 @@ use App\Commands\Docker\DockerDownCommand;
 use App\Commands\Docker\DockerCliCommand;
 use App\Commands\Docker\DockerPullCommand;
 use App\Commands\Docker\DockerLogCommand;
+use App\Commands\Docker\DockerWebpackRestartCommand;
 
 use App\Commands\Tine\TineInstallCommand;
 use App\Commands\Tine\TineUninstallCommand;
@@ -24,6 +25,7 @@ use App\Commands\Tine\TineUpdateCommand;
 use App\Commands\Tine\TineDemodataCommand;
 use App\Commands\Tine\TineCliCommand;
 use App\Commands\Tine\TineAwaitDbCommand;
+use App\Commands\Tine\TineClearCacheCommand;
 
 $app = new ConsoleApplication();
 
@@ -35,6 +37,7 @@ $app->add(new DockerDownCommand());
 $app->add(new DockerCliCommand());
 $app->add(new DockerPullCommand());
 $app->add(new DockerLogCommand());
+$app->add(new DockerWebpackRestartCommand());
 
 //Tine Commands
 $app->add(new TineInstallCommand());
@@ -46,5 +49,6 @@ $app->add(new TineUpdateCommand());
 $app->add(new TineDemodataCommand());
 $app->add(new TineCliCommand());
 $app->add(new TineAwaitDbCommand());
+$app->add(new TineClearCacheCommand());
 
 $app->run();
