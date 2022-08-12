@@ -4,6 +4,7 @@
     "docservice",
     "broadcasthub",
     "pma",
+    "rediscommander",
     "mailstack",
     "xdebug",
     "spam"

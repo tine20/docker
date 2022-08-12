@@ -1,0 +1,14 @@
+version: '3'
+services:
+  redis-commander:
+    container_name: redis-commander
+    hostname: redis-commander
+    image: ghcr.io/joeferner/redis-commander:latest
+    restart: always
+    environment:
+    - REDIS_HOSTS=local:cache:6379
+    ports:
+    - "4004:8081"
+    networks:
+      - external_network
+      - internal_network
