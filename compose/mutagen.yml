@@ -10,10 +10,14 @@ services:
     volumes:
       - code:/usr/share/tine20/:ro
       - tests:/usr/share/tests/:ro
+  webpack:
+    volumes:
+      - code:/usr/share/tine20/:ro
 
 x-mutagen:
   sync:
     defaults:
+      mode: one-way-replica
       ignore:
         vcs: true
       permissions:
