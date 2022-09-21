@@ -4,7 +4,7 @@ return [
     'areaLocks' => ['records' => [[
         'area_name'         => 'Login',
         'areas'             => ['Tinebase_login'],
-        'mfas'              => ['sms', 'pin', 'hotp', 'totp', 'webauthn'],
+        'mfas'              => ['sms', 'pin', 'hotp', 'totp', 'webauthn', 'yubico'],
         'validity'          => 'session',
     ], [
         'area_name'         => 'Tasks',
@@ -68,6 +68,14 @@ return [
         ],
         'provider_class'        => 'Tinebase_Auth_MFA_WebAuthnAdapter',
         'user_config_class'     => 'Tinebase_Model_MFA_WebAuthnUserConfig'
-    ]]],
+    ], [
+        'id'                    => 'yubico',
+        'allow_self_service'    => true,
+        'provider_config_class' => 'Tinebase_Model_MFA_YubicoOTPConfig',
+        'provider_config'       => [],
+        'provider_class'        => 'Tinebase_Auth_MFA_YubicoOTPAdapter',
+        'user_config_class'     => 'Tinebase_Model_MFA_YubicoOTPUserConfig'
+    ]
+    ]],
 ];
 
