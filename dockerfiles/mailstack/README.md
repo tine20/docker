@@ -2,6 +2,15 @@
 
 Postfix and Dovecot mailstack with tine20 db layout
 
+### docker images
+Docker images are created and pushed manually atm. for example
+
+    docker buildx build \
+      --push \
+      --platform linux/arm64/v8,linux/amd64 \
+      --tag dockerregistry.metaways.net/tine20/docker/mailstackcontrol:1.0.5 \
+      .
+
 ## Dovecot
 
 ### dovecot_users
