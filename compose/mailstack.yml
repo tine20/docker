@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 services:
   postfix:
     image: dockerregistry.metaways.net/tine20/docker/postfix:1.0.2

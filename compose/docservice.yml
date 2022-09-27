@@ -1,5 +1,5 @@
 # this is a override file to add a docservice container
-version: '2'
+version: '3'
 services:
   document-preview:
     image: tinegroupware/document-preview-service:2.1.994783a

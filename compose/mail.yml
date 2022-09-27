@@ -1,5 +1,5 @@
 # this is a override file to add a mail (dovecot & postfix) container
-version: '2'
+version: '3'
 services:
 
   mail:
