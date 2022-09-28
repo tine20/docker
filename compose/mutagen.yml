@@ -1,5 +1,5 @@
 # sync code using mutagen (e.g. to speedup mac)
-version: '2'
+version: '3'
 
 volumes:
   code:
