@@ -10,3 +10,6 @@ services:
       XDEBUG_CONFIG: "remote_host=172.118.0.1 remote_enable=on remote_port=9001"
     volumes:
       - ./configs/xdebug/xdebug.ini:/etc/php8/conf.d/50_xdebug.ini:ro
+      # use this for php 7.4 web/tine container
+      # TODO find a solution to support multiple php versions here
+      #- ./configs/xdebug/xdebug.ini:/etc/php7/conf.d/xdebug.ini:ro
