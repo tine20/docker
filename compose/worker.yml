@@ -3,6 +3,8 @@
 version: '3'
 services:
   web:
+    environment:
+      TINE20_ACTIONQUEUE: "true"
     volumes:
       # mount supervisor worker config
       - ./configs/worker/worker.ini:/etc/supervisor.d/worker.ini:ro
