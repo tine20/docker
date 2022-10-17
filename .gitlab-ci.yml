@@ -35,7 +35,7 @@ test:
     - cd $CI_PROJECT_DIR
     - git clone https://gitlab.metaways.net/tine20/documentPreview.git docservice
     - cd docservice
-    - composer install --ignore-platform-reqs
+    - composer install --ignore-platform-reqs --no-plugins
     - cd $CI_PROJECT_DIR
     - echo '{"composeFiles":["webpack","docservice","pma","xdebug","spam", "lessLogs"]}' > pullup.json
     - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" "$CI_REGISTRY" --password-stdin
