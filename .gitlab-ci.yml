@@ -25,7 +25,7 @@ test:
   extends: .docker
   script:
     - cp $DOCKER_GIT_CONFIG /root/.gitconfig
-    - apk add git composer npm docker-compose
+    - apk add git composer npm docker-compose build-base
     - git clone https://gitlab.metaways.net/tine20/tine20.git tine20
     - cd tine20/tine20
     - git checkout ${TINE20_BRANCH}
