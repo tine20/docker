@@ -27,7 +27,7 @@ class DockerLogCommand extends DockerCommand{
 
         passthru($this->getComposeString() . ' logs -f', $err);
 
-        return Command::SUCCESS;
+        return $err;
     }
 
     

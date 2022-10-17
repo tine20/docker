@@ -55,10 +55,11 @@ class DockerUpCommand extends DockerCommand{
         if(!empty($inputContainer)) {
             $this->updateConfig(['composeFiles' => $inputContainer]);
         }
-        
+
         passthru($this->getComposeString() . ' up' .
         ($input->getOption('detached') === true ? ' -d' : ''), $err);
-        return Command::SUCCESS; 
+
+        return $err;
     }
 }
 

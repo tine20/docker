@@ -36,7 +36,7 @@ class DockerCommand extends Command{
             switch($input) {
                 case 'yes':                    
                     $output = system('git clone git@gitlab.metaways.net:tine20/tine20.git tine20 2>&1');
-                    if(str_starts_with($output, 'Cloning')){
+                    if(strpos($output, 'Cloning') === 0){
                         $io->success('Tine clones succesfully');
                     }else {
                         $io->error('failed to clone Tine');

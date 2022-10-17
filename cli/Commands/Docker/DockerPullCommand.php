@@ -27,9 +27,7 @@ class DockerPullCommand extends DockerCommand{
         $this->initDockerCommand();
         passthru($this->getComposeString() . ' pull', $err);
 
-        return Command::SUCCESS;
+        return $err;
     }
-
-    
 }
 

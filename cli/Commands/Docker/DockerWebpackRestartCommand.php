@@ -32,7 +32,7 @@ class DockerWebpackRestartCommand extends DockerCommand{
         passthru($this->getComposeString() .
             " exec -T web sh -c \"supervisorctl restart webpack\" ", $err);
 
-        return Command::SUCCESS;
+        return $err;
     }
 
 

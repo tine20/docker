@@ -28,8 +28,6 @@ class DockerDownCommand extends DockerCommand{
         passthru($this->getComposeString() . ' down', $err);
 
         return $err;
-
-        return Command::SUCCESS;
     }
 
     

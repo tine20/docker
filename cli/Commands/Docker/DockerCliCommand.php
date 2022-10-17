@@ -37,11 +37,11 @@ class DockerCliCommand extends DockerCommand{
             
             passthru('docker exec -it ' . $input . ' sh', $err);
             
-        }else {
+        } else {
             passthru($this->getComposeString() . ' exec ' . $container . ' sh', $err);
 
         }         
-        return Command::SUCCESS;
+        return $err;
     }
 
     

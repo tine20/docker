@@ -31,7 +31,7 @@ class DockerStartCommand extends DockerCommand{
 
         passthru($this->getComposeString() . ' up -d', $err);
         
-        return Command::SUCCESS;
+        return $err;
     }
 
     
