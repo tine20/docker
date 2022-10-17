@@ -4,7 +4,6 @@ services:
 
   pma:
     image: phpmyadmin/phpmyadmin:4.9
-    container_name: pma
     ports:
       - "4002:80"
     environment:
