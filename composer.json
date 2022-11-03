@@ -7,5 +7,10 @@
         "psr-4": {
             "App\\": "cli"
         }
+    },
+    "config": {
+        "platform": {
+            "php": "7.4"
+        }
     }
 }
