@@ -4,5 +4,15 @@ version: '3'
 services:
   web:
     volumes:
-    # mount supervisor webpack config
-    - ./configs/webpack/webpack.ini:/etc/supervisor.d/webpack.ini:ro
+      - ./configs/default/proxy.conf:/etc/nginx/conf.d/proxy.conf:ro
+      - ./configs/webpack/webpack.inc.php:/etc/tine20/conf.d/webpack.inc.php
+
+  webpack:
+    image: node:12.22-alpine
+    depends_on:
+      - web
+    networks:
+      - internal_network
+    volumes:
+      - ./tine20/tine20:/usr/share/tine20/:ro
+    command: "npm --prefix /usr/share/tine20/Tinebase/js/ start"

@@ -10,12 +10,12 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use App\ConsoleStyle;
 use App\Commands\Docker\DockerCommand;
 
-class DockerWebpackRestartCommand extends DockerCommand{
+class DockerNpmInstallCommand extends DockerCommand{
 
     protected function configure() {
         $this
-            ->setName('docker:webpackrestart')
-            ->setDescription('restart webpack. needed after large js changes e.g. other apps')
+            ->setName('docker:npminstall')
+            ->setDescription('install npm dependencies')
             ->setHelp('')
         ;
     }
@@ -30,9 +30,9 @@ class DockerWebpackRestartCommand extends DockerCommand{
         $this->anotherConfig($io);
 
         passthru($this->getComposeString() .
-            " restart webpack ", $err);
+            " exec -T webpack sh -c \"npm --prefix /usr/share/tine20/Tinebase/js/ install\" ", $err);
 
-        return $err;
+        return Command::SUCCESS;
     }
 
 
