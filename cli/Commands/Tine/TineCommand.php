@@ -72,7 +72,7 @@ class TineCommand extends Command{
     }
 
     public function setupCli($cmd) {
-        passthru($this->getComposeString() . ' exec --user tine20 web sh -c "cd /usr/share/tine20/ && php setup.php --config \$TINE20_CONFIG_PATH ' . $cmd . '"', $err);
+        passthru($this->getComposeString() . ' exec --user tine20 web sh -c "cd /usr/share/tine20/ && php setup.php ' . $cmd . '"', $err);
 
         return $err;
     }

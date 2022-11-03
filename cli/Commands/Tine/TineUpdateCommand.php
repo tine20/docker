@@ -25,9 +25,7 @@ class TineUpdateCommand extends TineCommand{
         $io = new ConsoleStyle($input, $output);
         
         $this->initCompose();
-        $this->setupCli('--update');
-
-        return Command::SUCCESS;
+        return $this->setupCli('--update');
     }
 
     
