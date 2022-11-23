@@ -2,13 +2,10 @@
 
 namespace App\Commands\Docker;
 
-use Symfony\Component\Console\Command\Command;
+use App\ConsoleStyle;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Style\SymfonyStyle;
-use App\ConsoleStyle;
-use App\Commands\Docker\DockerCommand;
+use Symfony\Component\Process\Process;
 
 class DockerPullCommand extends DockerCommand{
     
@@ -25,9 +22,18 @@ class DockerPullCommand extends DockerCommand{
         $io = new ConsoleStyle($input, $output);
         
         $this->initDockerCommand();
-        passthru($this->getComposeString() . ' pull', $err);
+        $process = new Process(array_merge($this->getComposeArray(), ['pull']));
 
-        return $err;
+        $process->run();
+
+        if (!empty($out = $process->getOutput())) {
+            $io->writeln($out);
+        }
+        if (!empty($out = $process->getErrorOutput())) {
+            $io->writeln($out);
+        }
+
+        return $process->getExitCode();
     }
 }
 
