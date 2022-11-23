@@ -140,6 +140,15 @@ class DockerCommand extends Command{
         return $this->composeCommand . ' -f ' . join(' -f ', $this->composeFiles);
     }
 
+    public function getComposeArray(): array {
+        $cmd = [$this->composeCommand];
+        foreach ($this->composeFiles as $file) {
+            $cmd[] = '-f';
+            $cmd[] = $file;
+        }
+        return $cmd;
+    }
+
     public function updateConfig($updates)
     {
         if (is_file('pullup.json')) {
