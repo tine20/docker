@@ -52,7 +52,7 @@ class TineCommand extends Command{
     }
 
     public function mailstackInit($io) {
-        $out = system($this->getComposeString() . ' run mailstack init');
+        $out = system($this->getComposeString() . ' run --rm mailstack init');
 
         if ('' == $out) {
             $io->success("mailstack init successful");
@@ -62,7 +62,7 @@ class TineCommand extends Command{
     }
 
     public function mailstackReset($io) {
-        $out = system($this->getComposeString() . ' run mailstack reset');
+        $out = system($this->getComposeString() . ' run --rm mailstack reset');
 
         if ('' == $out) {
             $io->success("mailstack reset successful");
