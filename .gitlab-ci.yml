@@ -21,7 +21,36 @@ workflow:
     - export DOCKER_BUILDKIT=0
     - export PROGRESS_NO_TRUNC=1
 
+# TODO run this only on merge requests
 test:
+  extends: .docker
+  script:
+    - cp $DOCKER_GIT_CONFIG /root/.gitconfig
+    - apk add git composer docker-compose build-base
+    - git clone https://gitlab.metaways.net/tine20/tine20.git tine20
+    - cd tine20/tine20
+    - git checkout ${TINE20_BRANCH}
+    - composer install --ignore-platform-reqs
+    - cd $CI_PROJECT_DIR
+    - echo '{"composeFiles":["lessLogs"]}' > pullup.json
+    - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" "$CI_REGISTRY" --password-stdin
+    - composer install
+    - ./console docker:pull
+    - ./console docker:start
+    - ./console tine:awaitdb
+    - ./console tine:install
+    - ./console tine:test -e nogitlabci -e nodockerci Addressbook/AllTests Tinebase/Alltests Calendar/AllTests
+    - ./console tine:uninstall
+
+githubbranch:
+  script:
+   - ./.gitlab/scripts/rename_images.sh
+   - ./.gitlab/scripts/push_githup_branch.sh
+  only:
+    - master
+
+# TODO run this only on master
+.full_test:
   extends: .docker
   script:
     - cp $DOCKER_GIT_CONFIG /root/.gitconfig
@@ -42,15 +71,9 @@ test:
     - composer install
     - ./console docker:pull
     - ./console docker:start
-    - sleep 3m
     - ./console tine:awaitdb
     - ./console tine:install
     - ./console tine:test -e nogitlabci -e nodockerci Addressbook/AllTests Tinebase/Alltests Calendar/AllTests
     - ./console tine:uninstall
-
-githubbranch:
-  script:
-   - ./.gitlab/scripts/rename_images.sh
-   - ./.gitlab/scripts/push_githup_branch.sh
   only:
     - master
