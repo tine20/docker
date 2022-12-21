@@ -22,7 +22,7 @@ class DockerPullCommand extends DockerCommand{
         $io = new ConsoleStyle($input, $output);
         
         $this->initDockerCommand();
-        $process = new Process(array_merge($this->getComposeArray(), ['pull']));
+        ($process = new Process(array_merge($this->getComposeArray(), ['pull'])))->setTimeout(3600);
 
         $process->run();
 
