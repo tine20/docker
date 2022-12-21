@@ -39,7 +39,7 @@ class TineInstallCommand extends TineCommand{
     
             passthru($this->getComposeString() . ' exec -T cache sh -c "redis-cli flushall"', $err);
             $io->info("Installing tine ...");
-            passthru($this->getComposeString() . ' exec --user tine20 -T web tine20_install', $err);
+            passthru($this->getComposeString() . ' exec -T web tine20_install', $err);
         } else {
             passthru($this->getComposeString() . ' exec --user tine20 -T web sh -c "cd tine20 && php setup.php --install "'
                 . implode(" ", $inputOptions), $err);
