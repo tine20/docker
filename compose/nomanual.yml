@@ -1,0 +1,5 @@
+version: '3'
+services:
+  web:
+    environment:
+      TINE20_SKIP_APPS: "UserManual"
