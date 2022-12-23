@@ -8,10 +8,14 @@ services:
       - ./configs/webpack/webpack.inc.php:/etc/tine20/conf.d/webpack.inc.php
 
   webpack:
-    image: node:12.22-alpine
+    image: node:12.22-alpine # <=2022.11
+    #image: node:18.9.0-alpine # 2023.11
+    ports:
+      - "10443:10443"
     depends_on:
       - web
     networks:
+      - external_network
       - internal_network
     volumes:
       - ./tine20/tine20:/usr/share/tine20/:ro
