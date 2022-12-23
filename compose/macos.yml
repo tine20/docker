@@ -6,4 +6,5 @@ services:
     environment:
       # no generic way yet ;-(
       # https://github.com/docker/for-linux/issues/264
-      XDEBUG_CONFIG: "remote_host=docker.for.mac.host.internal remote_enable=on remote_port=9001"
+      # note: remote_host is for xdebug 2
+      XDEBUG_CONFIG: "remote_host=docker.for.mac.host.internal client_host=docker.for.mac.host.internal"
