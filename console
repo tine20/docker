@@ -28,6 +28,8 @@ use App\Commands\Tine\TineCliCommand;
 use App\Commands\Tine\TineAwaitDbCommand;
 use App\Commands\Tine\TineClearCacheCommand;
 
+use App\Commands\Src\ChangeBranchCommand;
+
 $app = new ConsoleApplication();
 
 //Docker Commands
@@ -52,5 +54,8 @@ $app->add(new TineDemodataCommand());
 $app->add(new TineCliCommand());
 $app->add(new TineAwaitDbCommand());
 $app->add(new TineClearCacheCommand());
+
+//Helper Commands
+$app->add(new ChangeBranchCommand());
 
 $app->run();

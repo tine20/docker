@@ -24,7 +24,7 @@ class DockerCliCommand extends DockerCommand{
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new ConsoleStyle($input, $output);
-        $this->initDockerCommand();
+        parent::execute($input, $output);
         
         $container = $input->getArgument('container');
         if(empty($container)) {

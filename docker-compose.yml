@@ -18,7 +18,7 @@ services:
       - internal_network
 
   web:
-    image: dockerregistry.metaways.net/tine20/tine20/dev:2023.11-8.0
+    image: ${WEB_IMAGE}
     depends_on:
       - db
       - cache
@@ -39,6 +39,7 @@ services:
       TINE20_ACTIONQUEUE_HOST: cache
       TINE20_CREDENTIALCACHESHAREDKEY: change_me
       TINE20_ACCEPTED_TERMS_VERSION: 0
+      TINE20_INSTALL_LANG: de
       TINE20_BUILDTYPE: DEVELOPMENT
       TINE20_APPLICATION_TO_INSTALL: all
       TINE20_INSTALL: "false"

@@ -14,6 +14,8 @@ use App\Commands\Tine\TineCommand;
 class TineSetupTestCommand extends TineCommand{
     
     protected function configure() {
+        parent::configure();
+
         $this
             ->setName('tine:setuptest')
             ->setDescription('starts setup test')

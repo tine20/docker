@@ -13,6 +13,8 @@ use App\Commands\Tine\TineCommand;
 class TineCliCommand extends TineCommand{
     
     protected function configure() {
+        parent::configure();
+
         $this
             ->setName('tine:cli')
             ->setDescription('executes tine20.php with command, dont use the --config option')

@@ -14,6 +14,8 @@ use App\Commands\Docker\DockerCommand;
 class DockerUpCommand extends DockerCommand{
     
     protected function configure() {
+        parent::configure();
+
         $this
             ->setName('docker:up')
             ->setDescription('start docker setup.  pulls/builds images, creates containers, starts containers and shows logs')
@@ -44,7 +46,7 @@ class DockerUpCommand extends DockerCommand{
             unlink('pullup.json');
         }
 
-        $this->initDockerCommand();
+        parent::execute($input, $output);
         $io = new ConsoleStyle($input, $output);
         $inputContainer = $input->getArgument('container');
 

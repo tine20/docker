@@ -13,6 +13,8 @@ use App\Commands\Tine\TineCommand;
 class TineAwaitDbCommand extends TineCommand{
     
     protected function configure() {
+        parent::configure();
+
         $this
             ->setName('tine:awaitdb')
             ->setDescription('executes tine20.php with command, dont use the --config option')

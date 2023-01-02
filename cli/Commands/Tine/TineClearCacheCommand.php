@@ -14,6 +14,8 @@ use App\Commands\Tine\TineCommand;
 class TineClearCacheCommand extends TineCommand{
 
     protected function configure() {
+        parent::configure();
+
         $this
             ->setName('tine:clearcache')
             ->setDescription('clears all caches')

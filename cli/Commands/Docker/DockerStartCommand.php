@@ -18,11 +18,13 @@ class DockerStartCommand extends DockerCommand{
             ->setDescription('start docker setup.  pulls/builds images, creates containers, starts containers')
             ->setHelp('')
         ;
+
+        parent::configure();
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->initDockerCommand();
+        parent::execute($input, $output);
         $io = new ConsoleStyle($input, $output);
 
         $this->getTineDir($io);

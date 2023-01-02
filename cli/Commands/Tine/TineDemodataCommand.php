@@ -13,6 +13,8 @@ use App\Commands\Tine\TineCommand;
 class TineDemodataCommand extends TineCommand{
     
     protected function configure() {
+        parent::configure();
+
         $this
             ->setName('tine:demodata')
             ->setDescription('creates demodata')

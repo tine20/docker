@@ -2,6 +2,7 @@
 
 namespace App\Commands\Docker;
 
+use App\Commands\BaseCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -9,7 +10,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use App\ConsoleStyle;
 
-class DockerCommand extends Command{
+class DockerCommand extends BaseCommand {
     
     private static $instance;
 
@@ -17,8 +18,35 @@ class DockerCommand extends Command{
     private $composeNames;
     private $composeFiles;
     private $ignoreTineConfig;
+    protected $branch = 'main';
 
-    public function initDockerCommand() {
+    public static $imageMap = [
+        '2022.11' => [
+            'web' => 'dockerregistry.metaways.net/tine20/tine20/dev:2022.11-8.0',
+            'webpack' => 'node:12.22-alpine',
+        ],
+        '2023.11' => [
+            'web' => 'dockerregistry.metaways.net/tine20/tine20/dev:2023.11-8.0',
+            'webpack' => 'node:12.22-alpine',
+//            'webpack' => 'node:18.9.0-alpine',
+        ],
+    ];
+
+    protected function configure()
+    {
+        parent::configure();
+
+        $this->addOption(
+            'branch',
+            'b',
+            InputArgument::OPTIONAL,
+            'tine branch you want to run (e.g. --branch 2023.11)'
+        );
+    }
+
+    protected function execute(InputInterface $input, OutputInterface $output) {
+        parent::execute($input, $output);
+        
         if (is_file('pullup.json')) {
             $conf = json_decode(file_get_contents('pullup.json'), true);
         } else {
@@ -28,9 +56,19 @@ class DockerCommand extends Command{
         $this->initCompose($conf);
     }
 
+    public static function getImages($branch)
+    {
+        $major = basename($branch );
+        if (array_key_exists($major, self::$imageMap)) {
+            return self::$imageMap[$major];
+        } else {
+            return end(self::$imageMap);
+        }
+    }
+
     public function getTineDir($io)
     {
-        if (! is_file('tine20/tine20/tine20.php')) {
+        if (! is_file("{$this->tineDir}/tine20.php")) {
             $input = $io->choice('tine20 dir is not linked. Should it be cloned?', ['yes', 'no', 'ignore'], 'yes');
             
             switch($input) {
@@ -54,6 +92,7 @@ class DockerCommand extends Command{
                     break;
             } 
         }
+        return $this->tineDir;
     }
 
     public function getBroadcasthubDir($io)
@@ -137,7 +176,12 @@ class DockerCommand extends Command{
     }
 
     public function getComposeString() {
-        return $this->composeCommand . ' -f ' . join(' -f ', $this->composeFiles);
+        $env = '';
+        foreach($this->getComposeEnv() as $k => $v) {
+            $env .= "${k}=${v} ";
+        }
+
+        return $env . $this->composeCommand . ' -f ' . join(' -f ', $this->composeFiles);
     }
 
     public function getComposeArray(): array {
@@ -147,6 +191,17 @@ class DockerCommand extends Command{
             $cmd[] = $file;
         }
         return $cmd;
+    }
+
+    public function getComposeEnv(): array {
+        $env = [];
+        foreach(self::getImages($this->branch) as $service => $image) {
+            $var = strtoupper($service) . '_IMAGE';
+            $arch = stristr($image, 'dockerregistry.metaways.net') && stristr(`uname -a`, 'arm64') ? '-arm64' : '';
+
+            $env[$var] = "${image}${arch}";
+        }
+        return $env;
     }
 
     public function updateConfig($updates)
