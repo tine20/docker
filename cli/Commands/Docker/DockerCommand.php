@@ -189,6 +189,7 @@ class DockerCommand extends BaseCommand {
 
             $env[$var] = "${image}${arch}";
         }
+        $env['TINE20_DATABASE_TABLEPREFIX'] = str_replace(['.', '/'], '', $this->branch . '_');
         return $env;
     }
 
