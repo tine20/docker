@@ -13,6 +13,8 @@ use App\Commands\Tine\TineCommand;
 class TineUninstallCommand extends TineCommand{
     
     protected function configure() {
+        parent::configure();
+
         $this
             ->setName('tine:uninstall')
             ->setDescription('uninstall tine')

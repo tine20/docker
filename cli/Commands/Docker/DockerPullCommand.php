@@ -15,14 +15,18 @@ class DockerPullCommand extends DockerCommand{
             ->setDescription('pull docker images')
             ->setHelp('')
         ;
+
+        parent::configure();
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new ConsoleStyle($input, $output);
         
-        $this->initDockerCommand();
-        ($process = new Process(array_merge($this->getComposeArray(), ['pull'])))->setTimeout(3600);
+        parent::execute($input, $output);
+        ($process = new Process(array_merge($this->getComposeArray(), ['pull'])))
+            ->setEnv($this->getComposeEnv())
+            ->setTimeout(3600);
 
         $process->run();
 

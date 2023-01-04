@@ -1,5 +1,5 @@
 version: '3'
-name: "tine20"
+# name: "tine20"
 services:
   db:
     image: mariadb:10.4.1
@@ -18,7 +18,7 @@ services:
       - internal_network
 
   web:
-    image: dockerregistry.metaways.net/tine20/tine20/dev:2023.11-8.0
+    image: ${WEB_IMAGE:-dockerregistry.metaways.net/tine20/tine20/dev:2023.11-8.0}
     depends_on:
       - db
       - cache
@@ -27,6 +27,7 @@ services:
       TINE20_DATABASE_DBNAME: *MYSQL_DATABASE
       TINE20_DATABASE_USERNAME: *MYSQL_USER
       TINE20_DATABASE_PASSWORD: *MYSQL_PASSWORD
+      TINE20_DATABASE_TABLEPREFIX: ${TINE20_DATABASE_TABLEPREFIX:-tine20_}
       TINE20_SETUPUSER_USERNAME: tine20setup
       TINE20_SETUPUSER_PASSWORD: tine20setup
       TINE20_LOGIN_USERNAME: tine20admin
@@ -39,9 +40,10 @@ services:
       TINE20_ACTIONQUEUE_HOST: cache
       TINE20_CREDENTIALCACHESHAREDKEY: change_me
       TINE20_ACCEPTED_TERMS_VERSION: 0
+      TINE20_INSTALL_LANG: de
       TINE20_BUILDTYPE: DEVELOPMENT
       TINE20_APPLICATION_TO_INSTALL: all
-      TINE20_INSTALL: "false"
+      TINE20_INSTALL: "true"
       TINE20_LOGGER_PRIORITY: "7"
       TINE20_ACTIONQUEUE: "false"
       TINE20_LICENSE_PATH: /usr/share/tests/tine20/Tinebase/License/license_contract_MW-TEST-2.0.pem

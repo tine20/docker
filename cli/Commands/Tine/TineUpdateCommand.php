@@ -13,6 +13,8 @@ use App\Commands\Tine\TineCommand;
 class TineUpdateCommand extends TineCommand{
     
     protected function configure() {
+        parent::configure();
+
         $this
             ->setName('tine:update')
             ->setDescription('update tine')

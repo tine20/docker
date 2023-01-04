@@ -14,6 +14,8 @@ use App\Commands\Tine\TineCommand;
 class TineInstallCommand extends TineCommand{
     
     protected function configure() {
+        parent::configure();
+
         $this
             ->setName('tine:install')
             ->setDescription('install tine')

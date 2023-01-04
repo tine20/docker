@@ -18,23 +18,28 @@ class DockerWebpackRestartCommand extends DockerCommand{
             ->setDescription('restart webpack. needed after large js changes e.g. other apps')
             ->setHelp('')
         ;
+
+        parent::configure();
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->initDockerCommand();
+        parent::execute($input, $output);
+
         $io = new ConsoleStyle($input, $output);
 
         $this->getTineDir($io);
         $this->getBroadcasthubDir($io);
         $this->anotherConfig($io);
 
-        passthru($this->getComposeString() .
-            " restart webpack ", $err);
+        // NOTE: we need to support node version (container) change
+        passthru($this->getComposeString() . " stop webpack ", $err);
+        passthru($this->getComposeString() . " rm -f ", $err);
+
+        $io->info('Restarting containers ...');
+
+        passthru($this->getComposeString() . " up -d ", $err);
 
         return $err;
     }
-
-
 }
-

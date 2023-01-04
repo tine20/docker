@@ -11,8 +11,10 @@ use App\ConsoleStyle;
 use App\Commands\Tine\TineCommand;
 
 class TineReinstallCommand extends TineCommand{
-    
+
     protected function configure() {
+        parent::configure();
+
         $this
             ->setName('tine:reinstall')
             ->setDescription('reinstall tine')

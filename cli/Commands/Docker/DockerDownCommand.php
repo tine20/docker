@@ -13,6 +13,8 @@ use App\Commands\Docker\DockerCommand;
 class DockerDownCommand extends DockerCommand{
     
     protected function configure() {
+        parent::configure();
+        
         $this
             ->setName('docker:down')
             ->setDescription('destroy docker setup.  stop containers, remove containers and networks, volumes will persist')
@@ -24,7 +26,7 @@ class DockerDownCommand extends DockerCommand{
     {
         $io = new ConsoleStyle($input, $output);
         
-        $this->initDockerCommand();
+        parent::execute($input, $output);
         passthru($this->getComposeString() . ' down', $err);
 
         return $err;
