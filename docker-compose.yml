@@ -43,7 +43,8 @@ services:
       TINE20_INSTALL_LANG: de
       TINE20_BUILDTYPE: DEVELOPMENT
       TINE20_APPLICATION_TO_INSTALL: all
-      TINE20_INSTALL: "true"
+      # set this to true to auto-install/update tine on container startup (be careful, container stops if this runs in a problem)
+      TINE20_INSTALL: "false"
       TINE20_LOGGER_PRIORITY: "7"
       TINE20_ACTIONQUEUE: "false"
       TINE20_LICENSE_PATH: /usr/share/tests/tine20/Tinebase/License/license_contract_MW-TEST-2.0.pem
