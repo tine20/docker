@@ -41,8 +41,6 @@ class DockerNpmInstallCommand extends DockerCommand{
         passthru("docker run --rm \
             -v $dir:/usr/share/tine20/Tinebase/js \
             $image \
-            sh -c 'apk --no-cache add git && cd /usr/share/tine20/Tinebase/js && npm install --no-optional'");
+            sh -c 'apk --no-cache add git && cd /usr/share/tine20/Tinebase/js && npm install --no-optional'"); // --loglevel verbose
     }
-
 }
-

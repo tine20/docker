@@ -46,14 +46,8 @@ class DockerCommand extends BaseCommand {
 
     protected function execute(InputInterface $input, OutputInterface $output) {
         parent::execute($input, $output);
-        
-        if (is_file('pullup.json')) {
-            $conf = json_decode(file_get_contents('pullup.json'), true);
-        } else {
-            $conf = json_decode(file_get_contents('.pullup.json'), true);
-        }
 
-        $this->initCompose($conf);
+        $this->initCompose();
     }
 
     public static function getImages($branch)
@@ -97,7 +91,6 @@ class DockerCommand extends BaseCommand {
 
     public function getBroadcasthubDir($io)
     {
-
         if (($this->active('broadcasthub') || $this->active('broadcasthub-dev')) && ! is_file('broadcasthub/package.json')) {
             $input = $io->choice('broadcasthub dir is not linked. Should it be cloned and installed?', ['yes', 'no', 'ignore'], 'yes');
 
@@ -126,12 +119,7 @@ class DockerCommand extends BaseCommand {
     }
 
     public function initCompose() {
-        if (is_file('pullup.json')) {
-            $conf = json_decode(file_get_contents('pullup.json'), true);
-        } else {
-            $conf = json_decode(file_get_contents('.pullup.json'), true);
-        }
-
+        $conf = $this->getConf();
         $this->composeCommand = in_array('mutagen', $conf['composeFiles']) ? 'mutagen-compose' : $this->composeCommand;
         $this->composeFiles = ['docker-compose.yml'];
         $this->composeNames = [];
@@ -177,7 +165,7 @@ class DockerCommand extends BaseCommand {
 
     public function getComposeString() {
         $env = '';
-        foreach($this->getComposeEnv() as $k => $v) {
+        foreach ($this->getComposeEnv() as $k => $v) {
             $env .= "${k}=${v} ";
         }
 
@@ -195,7 +183,7 @@ class DockerCommand extends BaseCommand {
 
     public function getComposeEnv(): array {
         $env = [];
-        foreach(self::getImages($this->branch) as $service => $image) {
+        foreach (self::getImages($this->branch) as $service => $image) {
             $var = strtoupper($service) . '_IMAGE';
             $arch = stristr($image, 'dockerregistry.metaways.net') && stristr(`uname -a`, 'arm64') ? '-arm64' : '';
 
@@ -206,18 +194,22 @@ class DockerCommand extends BaseCommand {
 
     public function updateConfig($updates)
     {
+        $conf = array_merge($this->getConf(), $updates);
+        $f = fopen('pullup.json', 'w+');
+        fwrite($f, json_encode($conf, JSON_PRETTY_PRINT));
+        fclose($f);
+
+        $this->initCompose();
+    }
+
+    public function getConf(): array
+    {
         if (is_file('pullup.json')) {
             $conf = json_decode(file_get_contents('pullup.json'), true);
         } else {
             $conf = json_decode(file_get_contents('.pullup.json'), true);
         }
-        
-        $conf = array_merge($conf, $updates);
-        $f = fopen('pullup.json', 'w+');
-        fwrite($f, json_encode($conf, JSON_PRETTY_PRINT));
-        fclose($f);
 
-        $this->initCompose($conf);
+        return $conf;
     }
 }
-

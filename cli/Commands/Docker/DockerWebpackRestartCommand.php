@@ -35,11 +35,11 @@ class DockerWebpackRestartCommand extends DockerCommand{
         // NOTE: we need to support node version (container) change
         passthru($this->getComposeString() . " stop webpack ", $err);
         passthru($this->getComposeString() . " rm -f ", $err);
+
+        $io->info('Restarting containers ...');
+
         passthru($this->getComposeString() . " up -d ", $err);
 
         return $err;
     }
-
-
 }
-
