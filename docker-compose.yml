@@ -59,6 +59,8 @@ services:
       # i have no idea why this is "ash_history" in the image ...
       # you have to do "touch ~/.dockerweb_bash_history" before this works correctly
       - ~/.dockerweb_bash_history:/root/.ash_history
+      # tine filesdir
+      - ./data/tine/files:/var/lib/tine20/files
 
     networks:
       - external_network
