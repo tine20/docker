@@ -5,6 +5,7 @@ namespace App\Commands\Src;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Input\InputArgument;
 use App\ConsoleStyle;
 
 use App\Commands\Docker\DockerCommand;
@@ -21,7 +22,12 @@ class ChangeBranchCommand extends DockerCommand {
         $this
             ->setName('src:changeBranch')
             ->setDescription('change dev branch')
-            ->setHelp('');
+            ->setHelp('')
+            ->addArgument(
+                'branch',
+                InputArgument::REQUIRED,
+                'target branch')
+        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
