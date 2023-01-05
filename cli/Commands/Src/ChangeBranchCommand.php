@@ -23,10 +23,6 @@ class ChangeBranchCommand extends DockerCommand {
             ->setName('src:changeBranch')
             ->setDescription('change dev branch')
             ->setHelp('')
-            ->addArgument(
-                'branch',
-                InputArgument::REQUIRED,
-                'target branch')
         ;
     }
 
