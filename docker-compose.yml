@@ -1,5 +1,5 @@
 version: '3'
-# name: "tine20"
+name: "tine20"
 services:
   db:
     image: mariadb:10.4.1
@@ -60,7 +60,7 @@ services:
       # you have to do "touch ~/.dockerweb_bash_history" before this works correctly
       - ~/.dockerweb_bash_history:/root/.ash_history
       # tine filesdir
-      - ./data/tine/files:/var/lib/tine20/files
+      - tinefiles:/var/lib/tine20/files
 
     networks:
       - external_network
@@ -77,3 +77,6 @@ networks:
     ipam:
       config:
         - subnet: 172.118.0.0/16
+
+volumes:
+  tinefiles:
