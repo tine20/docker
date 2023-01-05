@@ -1,14 +1,14 @@
 version: '3'
-name: "tine20"
+#name: "tine20"
 services:
   db:
     image: mariadb:10.4.1
     command: --max-allowed-packet=209715210
     environment:
-      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
-      MYSQL_DATABASE: &MYSQL_DATABASE "${MYSQL_DATABASE}"
-      MYSQL_USER: &MYSQL_USER "${MYSQL_USER}"
-      MYSQL_PASSWORD: &MYSQL_PASSWORD "${MYSQL_PASSWORD}"
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD:-root}"
+      MYSQL_DATABASE: &MYSQL_DATABASE "${MYSQL_DATABASE:-tine20}"
+      MYSQL_USER: &MYSQL_USER "${MYSQL_USER:-tine20}"
+      MYSQL_PASSWORD: &MYSQL_PASSWORD "${MYSQL_PASSWORD:-tine20pw}"
     networks:
       - internal_network
 
@@ -45,8 +45,6 @@ services:
       TINE20_INSTALL_LANG: de
       TINE20_BUILDTYPE: DEVELOPMENT
       TINE20_APPLICATION_TO_INSTALL: all
-      # set this to true to auto-install/update tine on container startup (be careful, container stops if this runs in a problem)
-      TINE20_INSTALL: "false"
       TINE20_LOGGER_PRIORITY: "7"
       TINE20_ACTIONQUEUE: "false"
       TINE20_LICENSE_PATH: /usr/share/tests/tine20/Tinebase/License/license_contract_MW-TEST-2.0.pem

@@ -20,13 +20,13 @@ services:
 
   sentry:
     container_name: sentry
-    image: sentry:${SENTRY_TAG}
+    image: sentry:${SENTRY_TAG:-9.1.2}
     depends_on:
       - redis
       - postgres
     environment:
       - SENTRY_REDIS_HOST=redis
-      - SENTRY_SECRET_KEY=${SENTRY_SECRET}
+      - SENTRY_SECRET_KEY=${SENTRY_SECRET:-*fj9izv22u-v3e!5@fg42zpl0en-u2tijb%@=reafk0i8knh1^}
       - SENTRY_POSTGRES_HOST=postgres
     ports:
       - 127.0.0.1:9000:9000
