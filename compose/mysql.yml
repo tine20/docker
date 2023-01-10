@@ -5,10 +5,10 @@ services:
     image: mysql:8.0.17
     command: --default-authentication-plugin=mysql_native_password --max-allowed-packet=209715210
     environment:
-      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
-      MYSQL_DATABASE: &mysqldb "${MYSQL_DATABASE}"
-      MYSQL_USER: &mysqluser "${MYSQL_USER}"
-      MYSQL_PASSWORD: &mysqlpw "${MYSQL_PASSWORD}"
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD:-root}"
+      MYSQL_DATABASE: &MYSQL_DATABASE "${MYSQL_DATABASE:-tine20}"
+      MYSQL_USER: &MYSQL_USER "${MYSQL_USER:-tine20}"
+      MYSQL_PASSWORD: &MYSQL_PASSWORD "${MYSQL_PASSWORD:-tine20pw}"
     # see https://github.com/docker-library/mysql/issues/422
     security_opt:
       - seccomp:unconfined
