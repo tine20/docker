@@ -11,6 +11,9 @@ services:
       MYSQL_PASSWORD: &MYSQL_PASSWORD "${MYSQL_PASSWORD:-tine20pw}"
     networks:
       - internal_network
+      - external_network
+    ports:
+      - "3306:3306"
 
   cache:
     image: redis:5.0.5
