@@ -28,8 +28,9 @@ class TineCliCommand extends TineCommand{
         $io = new ConsoleStyle($input, $output);
         
         $this->initCompose();
-        $cmd = $input->getArgument('options');
-        passthru($this->getComposeString() . ' exec --user tine20 web sh -c "cd /usr/share/tine20/ && php tine20.php --config \$TINE20_CONFIG_PATH ' . $cmd . '"', $err);
+        $cmd = trim($input->getArgument('options'), '"');
+        $io->writeln($this->getComposeString() . ' exec --user tine20 web sh -c "cd /usr/share/tine20/ && php tine20.php  ' . $cmd . '"');
+        passthru($this->getComposeString() . ' exec --user tine20 web sh -c "cd /usr/share/tine20/ && php tine20.php  ' . $cmd . '"', $err);
 
         return Command::SUCCESS;
     }    
