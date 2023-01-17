@@ -27,8 +27,7 @@ class DockerCommand extends BaseCommand {
         ],
         '2023.11' => [
             'web' => 'dockerregistry.metaways.net/tine20/tine20/dev:2023.11-8.0',
-            'webpack' => 'node:12.22-alpine',
-//            'webpack' => 'node:18.9.0-alpine',
+            'webpack' => 'node:18.9.0-alpine',
         ],
     ];
 
