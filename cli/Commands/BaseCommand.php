@@ -6,6 +6,7 @@ use App\ConsoleStyle;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Process\ExecutableFinder;
 
 class BaseCommand extends Command
 {
@@ -34,12 +35,26 @@ class BaseCommand extends Command
      */
     protected $branch = 'main';
 
+    protected string $composeCommand;
+
     protected function configure()
     {
         $this->baseDir = dirname(dirname(__DIR__));
         $this->srcDir = $this->baseDir . "/tine20";
         $this->tineDir = $this->srcDir . "/tine20";
         $this->unitTestsDir = $this->srcDir . "/tests/tine20";
+        $this->composeCommand = $this->_getComposeCommand();
+    }
+
+    protected function _getComposeCommand()
+    {
+        $executableFinder = new ExecutableFinder();
+        $dockerComposePath = $executableFinder->find('docker-compose');
+        if ($dockerComposePath) {
+            return $dockerComposePath;
+        }
+
+        return 'docker compose';
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
