@@ -3,7 +3,7 @@ tine20-docker
 
 [[_TOC_]]
 
-# Pullup
+# Pullup / console
 
 ## Install
 
@@ -61,19 +61,9 @@ to override default settings copy .pullup.json to pullup.json
 * https://linuxize.com/post/how-to-remove-docker-images-containers-volumes-and-networks/
 
 # Install and Setup Docker
-## Install docker-io and docker-compose
+## Install Docker Engine (includes docker compose)
 
-    sudo apt install docker.io docker-compose
-
-For macOS you can simply use homebrew:
-
-    brew cask install docker
-    
-some hints to performance with mac osx:
-
->  docker-edge performs better using macos. but it wipes all your images and so on when upgrading. first need to uninstall brew cask remove docker, then go for brew cask install docker-edge. start docker -> reset -> reset disk image. but data is gone even if NO reset occurs. reset disk image just ensures, that the latest disk image format is used
-  and .. docker chokes with suspend on macos, restart docker each time to speed it up
-  if possible use cached volumes, that helps a lot
+https://docs.docker.com/engine/install/
 
 ## Add Yourself to the Docker Group (to work without sudo - no need for macOS)
 
