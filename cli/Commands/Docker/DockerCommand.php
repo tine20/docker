@@ -10,9 +10,9 @@ use Symfony\Component\Console\Input\InputArgument;
 
 class DockerCommand extends BaseCommand {
 
-    private $composeNames;
-    private $composeFiles;
-    private $ignoreTineConfig;
+    protected $composeNames;
+    protected $composeFiles;
+    protected $ignoreTineConfig;
     protected $branch = 'main';
     protected $tablePrefix = null;
 

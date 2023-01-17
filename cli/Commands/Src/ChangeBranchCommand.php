@@ -44,8 +44,10 @@ class ChangeBranchCommand extends DockerCommand {
         $io->info('Running composer install ...');
         $this->composerInstall($this->branch);
 
-        $io->info('Running npm install ...');
-        $this->npmInstall($this->branch);
+        if (in_array('compose/webpack.yml', $this->composeFiles)) {
+            $io->info('Running npm install ...');
+            $this->npmInstall($this->branch);
+        }
 
         (new DockerWebpackRestartCommand())->execute($input, $output);
         (new TineClearCacheCommand())->execute($input, $output);
