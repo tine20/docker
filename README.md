@@ -281,6 +281,21 @@ in container:
     
 <docker-bridge-interface> is something like "br-3ff4120010e5" which has ip:172.118.0.1 (visible with ifconfig)
 
+
+### Docker Network Problem "ERROR: Pool overlaps ..."
+
+you might need to remove old / unused docker networks:
+
+    ➜  docker network ls                                                                                                                                 git:(phil|✚4⚑2
+    NETWORK ID     NAME                           DRIVER    SCOPE
+    833313480af2   docker_internal_network        bridge    local
+    0ed859aaf6ea   tine20_internal_network        bridge    local
+    92b66a6b4791   tine-docker_external_network   bridge    local
+    c6e1e1f2a5cb   tine-docker_internal_network   bridge    local
+
+    ➜  docker network rm docker_internal_network tine20_internal_network docker_external_network docker_internal_network
+
+
 # Running a Tine 2.0 container with ...
 
 ## webpack
