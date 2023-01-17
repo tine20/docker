@@ -48,12 +48,6 @@ class BaseCommand extends Command
 
     protected function _getComposeCommand(): array
     {
-        $executableFinder = new ExecutableFinder();
-        $dockerComposePath = $executableFinder->find('docker-compose');
-        if ($dockerComposePath) {
-            return [$dockerComposePath];
-        }
-
         return ['docker', 'compose'];
     }
 
