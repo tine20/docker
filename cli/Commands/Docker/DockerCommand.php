@@ -14,7 +14,6 @@ class DockerCommand extends BaseCommand {
     
     private static $instance;
 
-    private $composeCommand = 'docker-compose';
     private $composeNames;
     private $composeFiles;
     private $ignoreTineConfig;
