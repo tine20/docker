@@ -7,7 +7,7 @@ tine20-docker
 
 ## Install
 
-prerequisite: git, docker, docker-compose, php, composer, npm, your user is in the docker group. If not see [below](#install-docker-io-and-docker-compose)
+prerequisites: git, docker, php, composer and your user is in the docker group. If not see [below](#install-docker-io-and-docker-compose)
 
 1. clone this git and open it `git clone git@gitlab.metaways.net:tine20/docker.git tine20-docker` and `cd tine20-docker`
 2. install symfony/console dependencies `composer install`
@@ -16,7 +16,7 @@ prerequisite: git, docker, docker-compose, php, composer, npm, your user is in t
 5. link docservice source `ln -s /path/to/docservice/repo docservice` or just wait for console to clone it for you
 6. link broadcasthub source `ln -s /path/to/tine20-broadcsthub/repo broadcasthub` or just wait for console to clone it for you
 7. login to the tine docker registry, with your gitlab credentials `docker login dockerregistry.metaways.net` ([gitlab docu, for MFA](https://docs.gitlab.com/ee/user/packages/container_registry/#authenticating-to-the-gitlab-container-registry))
-8. checkout your branch and install tine20 dependencies `cd tine20/tine20 && composer install --ignore-platform-reqs` and `cd tine20/tine20/Tinebase/js && npm install`
+8. checkout your branch and install tine20 dependencies `cd tine20/tine20 && composer install --ignore-platform-reqs` and `./console docker:npminstall`
 9. install docservice dependencies, if console has cloned it you dont need to do anything: `cd docservice && composer install --ignore-platform-reqs`
 10. install broadcasthub dependencies, if console has cloned it you dont need to do anything: `cd broadcasthub && npm install`
 
@@ -45,6 +45,8 @@ prerequisite: git, docker, docker-compose, php, composer, npm, your user is in t
 + `./console tine:test <path>` starts test eg `./pullup tine test AllTests`
 + `./console tine:cli <command>` executes tine20.php with command, dont use the --config option
 
+TODO: add new commands here (src:XXX)
+
 + missing a command > issue tracker
 
 ## pullup.json
@@ -64,6 +66,35 @@ to override default settings copy .pullup.json to pullup.json
 ## Install Docker Engine (includes docker compose)
 
 https://docs.docker.com/engine/install/
+
+### Ubuntu
+
+    # falls davon etwas einen fehler wirft - einfach rausnehmen
+    # evtl heissen die pakete auch docker-ce*
+    # sudo apt-get remove docker-ce docker-ce-cli docker-ce-rootless-extras docker-scan-plugin
+    sudo apt-get remove docker docker-engine docker.io containerd runc docker-compose
+
+    sudo apt-get update
+
+    sudo apt-get install \
+    ca-certificates \
+    curl \
+    gnupg \
+    lsb-release
+
+    sudo mkdir -p /etc/apt/keyrings
+
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+
+    echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+    sudo apt-get update
+
+    sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+
+    # bei fehlermeldung, einfach nochmal ausführen
 
 ## Add Yourself to the Docker Group (to work without sudo - no need for macOS)
 
