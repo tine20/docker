@@ -1,5 +1,5 @@
 version: '3'
-#name: "tine20"
+name: "tine20"
 services:
   db:
     image: mariadb:10.4.1
@@ -51,6 +51,9 @@ services:
       TINE20_LOGGER_PRIORITY: "7"
       TINE20_ACTIONQUEUE: "false"
       TINE20_LICENSE_PATH: /usr/share/tests/tine20/Tinebase/License/license_contract_MW-TEST-2.0.pem
+      DEBUG_COLORS: "true"
+      TERM: xterm-256color
+      COLORTERM: truecolor
     volumes:
       - ./tine20/tine20:/usr/share/tine20/:ro
       - ./tine20/tests:/usr/share/tests/:ro
