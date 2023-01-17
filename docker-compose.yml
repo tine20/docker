@@ -19,6 +19,9 @@ services:
     image: redis:5.0.5
     networks:
       - internal_network
+      - external_network
+    ports:
+      - "6379:6379"
 
   web:
     image: ${WEB_IMAGE:-dockerregistry.metaways.net/tine20/tine20/dev:2023.11-8.0}
