@@ -122,6 +122,9 @@ class DockerCommand extends BaseCommand {
         $conf = $this->getConf();
         $this->composeCommand = in_array('mutagen', $conf['composeFiles']) ? ['mutagen-compose'] : $this->composeCommand;
         $this->composeFiles = ['docker-compose.yml'];
+        if (file_exists('.env')) {
+            $this->composeFiles[] = 'compose/env.yml';
+        }
         $this->composeNames = [];
         $this->ignoreTineConfig = array_key_exists('ignoreConfig', $conf) and $conf['ignoreConfig'];
 
