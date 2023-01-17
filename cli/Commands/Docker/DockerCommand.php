@@ -3,21 +3,18 @@
 namespace App\Commands\Docker;
 
 use App\Commands\BaseCommand;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Style\SymfonyStyle;
-use App\ConsoleStyle;
+
 
 class DockerCommand extends BaseCommand {
-    
-    private static $instance;
 
     private $composeNames;
     private $composeFiles;
     private $ignoreTineConfig;
     protected $branch = 'main';
+    protected $tablePrefix = null;
 
     public static $imageMap = [
         '2022.11' => [
@@ -33,6 +30,11 @@ class DockerCommand extends BaseCommand {
     protected function configure()
     {
         parent::configure();
+
+        if (isset($this->config['tine20']['tableprefix']) && strlen($this->config['tine20']['tableprefix']) < 8 &&
+                strlen($this->config['tine20']['tableprefix']) > 0) {
+            $this->tablePrefix = $this->config['tine20']['tableprefix'];
+        }
 
         $this->addOption(
             'branch',
@@ -193,7 +195,7 @@ class DockerCommand extends BaseCommand {
 
     protected function _getTablePrefix(): string
     {
-        return substr(str_replace(['.', '/'], '', $this->branch),0,7) . '_';
+        return $this->tablePrefix ?? substr(str_replace(['.', '/'], '', $this->branch),0,7) . '_';
     }
 
     public function updateConfig($updates)

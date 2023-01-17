@@ -6,7 +6,7 @@ use App\ConsoleStyle;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Process\ExecutableFinder;
+use Symfony\Component\Yaml\Yaml;
 
 class BaseCommand extends Command
 {
@@ -37,9 +37,16 @@ class BaseCommand extends Command
 
     protected array $composeCommand;
 
+    protected array $config;
+
     protected function configure()
     {
         $this->baseDir = dirname(dirname(__DIR__));
+        try {
+            $this->config = Yaml::parseFile($this->baseDir . '/cli/config.yml');
+        } catch (\Symfony\Component\Yaml\Exception\ParseException $e) {
+            $this->config = [];
+        }
         $this->srcDir = $this->baseDir . "/tine20";
         $this->tineDir = $this->srcDir . "/tine20";
         $this->unitTestsDir = $this->srcDir . "/tests/tine20";
