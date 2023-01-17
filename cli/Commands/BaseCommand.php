@@ -35,7 +35,7 @@ class BaseCommand extends Command
      */
     protected $branch = 'main';
 
-    protected string $composeCommand;
+    protected array $composeCommand;
 
     protected function configure()
     {
@@ -46,15 +46,15 @@ class BaseCommand extends Command
         $this->composeCommand = $this->_getComposeCommand();
     }
 
-    protected function _getComposeCommand()
+    protected function _getComposeCommand(): array
     {
         $executableFinder = new ExecutableFinder();
         $dockerComposePath = $executableFinder->find('docker-compose');
         if ($dockerComposePath) {
-            return $dockerComposePath;
+            return [$dockerComposePath];
         }
 
-        return 'docker compose';
+        return ['docker', 'compose'];
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

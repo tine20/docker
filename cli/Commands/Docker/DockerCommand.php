@@ -118,7 +118,7 @@ class DockerCommand extends BaseCommand {
 
     public function initCompose() {
         $conf = $this->getConf();
-        $this->composeCommand = in_array('mutagen', $conf['composeFiles']) ? 'mutagen-compose' : $this->composeCommand;
+        $this->composeCommand = in_array('mutagen', $conf['composeFiles']) ? ['mutagen-compose'] : $this->composeCommand;
         $this->composeFiles = ['docker-compose.yml'];
         $this->composeNames = [];
         $this->ignoreTineConfig = array_key_exists('ignoreConfig', $conf) and $conf['ignoreConfig'];
@@ -167,11 +167,11 @@ class DockerCommand extends BaseCommand {
             $env .= "${k}=${v} ";
         }
 
-        return $env . $this->composeCommand . ' -f ' . join(' -f ', $this->composeFiles);
+        return $env . join(' ', $this->composeCommand) . ' -f ' . join(' -f ', $this->composeFiles);
     }
 
     public function getComposeArray(): array {
-        $cmd = [$this->composeCommand];
+        $cmd = $this->composeCommand;
         foreach ($this->composeFiles as $file) {
             $cmd[] = '-f';
             $cmd[] = $file;

@@ -19,7 +19,7 @@ class TineCommand extends BaseCommand {
     private $ignoreTineConfig;
 
     public function getComposeString() {
-        return $this->composeCommand . ' -f ' . join(' -f ', $this->composeFiles);
+        return join(' ', $this->composeCommand) . ' -f ' . join(' -f ', $this->composeFiles);
     }
 
     public function active($composeName) {
@@ -33,7 +33,7 @@ class TineCommand extends BaseCommand {
             $conf = json_decode(file_get_contents('.pullup.json'), true);
         }
 
-        $this->composeCommand = in_array('mutagen', $conf['composeFiles']) ? 'mutagen-compose' : $this->composeCommand;
+        $this->composeCommand = in_array('mutagen', $conf['composeFiles']) ? ['mutagen-compose'] : $this->composeCommand;
         $this->composeFiles = ['docker-compose.yml'];
         $this->composeNames = [];
         $this->ignoreTineConfig = array_key_exists('ignoreConfig', $conf) and $conf['ignoreConfig'];
