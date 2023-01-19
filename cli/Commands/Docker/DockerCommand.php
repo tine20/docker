@@ -8,16 +8,16 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 
 
-class DockerCommand extends BaseCommand {
-
+class DockerCommand extends BaseCommand
+{
     protected $composeNames;
     protected $composeFiles;
     protected $ignoreTineConfig;
-    protected $branch = 'main';
     protected $tablePrefix = null;
     protected $homeDir = null;
+    protected array $composeCommand = ['docker', 'compose'];
 
-    public static $imageMap = [
+    protected static $imageMap = [
         '2022.11' => [
             'web' => 'dockerregistry.metaways.net/tine20/tine20/dev:2022.11-8.0',
             'webpack' => 'node:12.22-alpine',
@@ -32,8 +32,7 @@ class DockerCommand extends BaseCommand {
     {
         parent::configure();
 
-        if (isset($this->config['tine20']['tableprefix']) && strlen($this->config['tine20']['tableprefix']) < 8 &&
-                strlen($this->config['tine20']['tableprefix']) > 0) {
+        if (isset($this->config['tine20']['tableprefix']) && strlen($this->config['tine20']['tableprefix']) < 9) {
             $this->tablePrefix = $this->config['tine20']['tableprefix'];
         }
 
@@ -61,35 +60,6 @@ class DockerCommand extends BaseCommand {
         }
     }
 
-    public function getTineDir($io)
-    {
-        if (! is_file("{$this->tineDir}/tine20.php")) {
-            $input = $io->choice('tine20 dir is not linked. Should it be cloned?', ['yes', 'no', 'ignore'], 'yes');
-            
-            switch($input) {
-                case 'yes':                    
-                    $output = system('git clone git@gitlab.metaways.net:tine20/tine20.git tine20 2>&1');
-                    if(strpos($output, 'Cloning') === 0){
-                        $io->success('Tine clones succesfully');
-                    }else {
-                        $io->error('failed to clone Tine');
-                        exit;
-                    }
-                    $io->success('tine20 cloned, now checkout your branch and install php and npm dependencies');
-                    break;
-
-                case 'no':
-                    $io->notice('link tine20 dir: ln -s /path/to/tine/repo tine20');
-                    break;
-
-                case 'ignore':
-                    $io->text('Ignore');
-                    break;
-            } 
-        }
-        return $this->tineDir;
-    }
-
     public function getBroadcasthubDir($io)
     {
         if (($this->active('broadcasthub') || $this->active('broadcasthub-dev')) && ! is_file('broadcasthub/package.json')) {
@@ -101,13 +71,11 @@ class DockerCommand extends BaseCommand {
                     $output = system('cd broadcasthub && npm install');
 
                     $io->notice($output);
-
-
                     break;
 
                 case 'no':
                     $io->notice('link broadcasthub dir: ln -s /path/to/broadcasthub/repo broadcasthub');
-                    break;
+                    exit;
 
                 case 'ignore':
                     break;
@@ -120,14 +88,14 @@ class DockerCommand extends BaseCommand {
     }
 
     public function initCompose() {
-        $conf = $this->getConf();
+        $conf = $this->getComposeConf();
         $this->composeCommand = in_array('mutagen', $conf['composeFiles']) ? ['mutagen-compose'] : $this->composeCommand;
         $this->composeFiles = ['docker-compose.yml'];
         if (file_exists('.env')) {
             $this->composeFiles[] = 'compose/env.yml';
         }
         $this->composeNames = [];
-        $this->ignoreTineConfig = array_key_exists('ignoreConfig', $conf) and $conf['ignoreConfig'];
+        $this->ignoreTineConfig = array_key_exists('ignoreConfig', $conf) && $conf['ignoreConfig'];
 
         if (array_key_exists('composeFiles', $conf)) {
             foreach ($conf['composeFiles'] as $compose) {
@@ -145,22 +113,21 @@ class DockerCommand extends BaseCommand {
     }
 
     public function anotherConfig($io) {
-        if (is_file('tine20/tine20/config.inc.php')) {
+        if (is_file($this->getTineDir($io) . '/config.inc.php')) {
             if ($this->ignoreTineConfig) {
-                return 0;
+                return;
             }
 
             $input = $io->choice('found a config.inc.php in your tine dir, this could cause trouble. Should it be removed?', ['yes', 'no', 'ignore']);
 
             switch($input) {
                 case 'yes':
-                    unlink('tine20/tine20/config.inc.php');
+                    unlink($this->getTineDir($io) . '/config.inc.php');
                     $io->success('config.inc.php removed');
                     break;
                 
                 case 'no':
                     exit(1);
-                    break;
 
                 case 'ignore':
                     $this->updateConfig(['ignoreConfig' => true]);
@@ -217,7 +184,7 @@ class DockerCommand extends BaseCommand {
 
     public function updateConfig($updates)
     {
-        $conf = array_merge($this->getConf(), $updates);
+        $conf = array_merge($this->getComposeConf(), $updates);
         $f = fopen('pullup.json', 'w+');
         fwrite($f, json_encode($conf, JSON_PRETTY_PRINT));
         fclose($f);
@@ -225,7 +192,7 @@ class DockerCommand extends BaseCommand {
         $this->initCompose();
     }
 
-    public function getConf(): array
+    public function getComposeConf(): array
     {
         if (is_file('pullup.json')) {
             $conf = json_decode(file_get_contents('pullup.json'), true);

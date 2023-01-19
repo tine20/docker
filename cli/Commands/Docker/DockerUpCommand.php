@@ -2,18 +2,17 @@
 
 namespace App\Commands\Docker;
 
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Style\SymfonyStyle;
 use App\ConsoleStyle;
-use App\Commands\Docker\DockerCommand;
 
-class DockerUpCommand extends DockerCommand{
+class DockerUpCommand extends DockerCommand
+{
     
-    protected function configure() {
+    protected function configure()
+    {
         parent::configure();
 
         $this
@@ -59,9 +58,9 @@ class DockerUpCommand extends DockerCommand{
         }
 
         passthru($this->getComposeString() . ' up' .
-        ($input->getOption('detached') === true ? ' -d' : ''), $err);
+        ($input->getOption('detached') === true ? ' -d' : ''), $result_code);
 
-        return $err;
+        return $result_code;
     }
 }
 

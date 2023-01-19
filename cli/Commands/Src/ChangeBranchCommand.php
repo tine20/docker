@@ -51,7 +51,7 @@ class ChangeBranchCommand extends DockerCommand {
         (new DockerWebpackRestartCommand())->execute($input, $output);
         (new TineClearCacheCommand())->execute($input, $output);
 
-        return Command::SUCCESS;
+        return 0;
     }
 
     // @todo: execute in php container? does it have composer?

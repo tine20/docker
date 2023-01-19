@@ -2,18 +2,16 @@
 
 namespace App\Commands\Tine;
 
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Style\SymfonyStyle;
 use App\ConsoleStyle;
-use App\Commands\Tine\TineCommand;
 
-class TineTestCommand extends TineCommand{
-    
-    protected function configure() {
+class TineTestCommand extends TineCommand
+{
+    protected function configure()
+    {
         parent::configure();
 
         $this
@@ -49,9 +47,9 @@ class TineTestCommand extends TineCommand{
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        parent::execute($input, $output);
         $io = new ConsoleStyle($input, $output);
         $paths = $input->getArgument('path');
-        $this->initCompose();
         
         if ($input->getOption('stopOnFailure')) {
             $stopOnFailure = true;
@@ -67,7 +65,7 @@ class TineTestCommand extends TineCommand{
                 $filter = $input->getOption('filter');
             }
 
-            system(
+            passthru(
                 $this->getComposeString()
                 . " exec -T --user tine20 web sh -c \"cd /usr/share/tests/tine20/ && php -d include_path=.:/etc/tine20/ /usr/share/tine20/vendor/bin/phpunit --color --debug "
                 . ($stopOnFailure === true ? ' --stop-on-failure ' : '')
@@ -82,10 +80,10 @@ class TineTestCommand extends TineCommand{
         
         if ($result_code === 0) {
             $io->success("There were 0 errors");
-            return Command::SUCCESS;
         } else {
             $io->error('TESTS FAILED');
-            return Command::FAILURE;
         }
+
+        return $result_code;
     }
 }

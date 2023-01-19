@@ -2,17 +2,15 @@
 
 namespace App\Commands\Docker;
 
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Style\SymfonyStyle;
-use App\ConsoleStyle;
-use App\Commands\Docker\DockerCommand;
 
-class DockerLogCommand extends DockerCommand{
-    
-    protected function configure() {
+class DockerLogCommand extends DockerCommand
+{
+    protected function configure()
+    {
+        parent::configure();
+
         $this
             ->setName('docker:log')
             ->setDescription('displays logs (interactive)')
@@ -22,14 +20,10 @@ class DockerLogCommand extends DockerCommand{
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new ConsoleStyle($input, $output);        
         parent::execute($input, $output);
 
-        passthru($this->getComposeString() . ' logs -f', $err);
+        passthru($this->getComposeString() . ' logs -f', $result_code);
 
-        return $err;
+        return $result_code;
     }
-
-    
 }
-

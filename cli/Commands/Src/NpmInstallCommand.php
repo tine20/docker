@@ -2,14 +2,13 @@
 
 namespace App\Commands\Src;
 
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use App\ConsoleStyle;
 use App\Commands\Docker\DockerCommand;
 
-class NpmInstallCommand extends DockerCommand{
-
+class NpmInstallCommand extends DockerCommand
+{
     protected function configure() {
         $this
             ->setName('src:npminstall')
@@ -30,7 +29,7 @@ class NpmInstallCommand extends DockerCommand{
         $this->anotherConfig($io);
 
         self::runNpmInstall(dirname(dirname(dirname(__DIR__))) . '/tine20/tine20/Tinebase/js', $this->branch);
-        return Command::SUCCESS;
+        return 0;
     }
 
     public static function runNpmInstall($dir, $branch)

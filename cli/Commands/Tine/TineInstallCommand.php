@@ -2,18 +2,15 @@
 
 namespace App\Commands\Tine;
 
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Style\SymfonyStyle;
 use App\ConsoleStyle;
-use App\Commands\Tine\TineCommand;
 
-class TineInstallCommand extends TineCommand{
-    
-    protected function configure() {
+class TineInstallCommand extends TineCommand
+{
+    protected function configure()
+    {
         parent::configure();
 
         $this
@@ -29,9 +26,9 @@ class TineInstallCommand extends TineCommand{
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        parent::execute($input, $output);
         $io = new ConsoleStyle($input, $output);
         $inputOptions = $input->getArgument('modules');
-        $this->initCompose();
         
         if(empty($inputOptions)) {
             if ($this->active('mailstack')) {
@@ -39,22 +36,22 @@ class TineInstallCommand extends TineCommand{
                 $this->mailstackReset($io);
             }
     
-            passthru($this->getComposeString() . ' exec -T cache sh -c "redis-cli flushall"', $err);
+            passthru($this->getComposeString() . ' exec -T cache sh -c "redis-cli flushall"', $result_code);
             $io->info("Installing tine ...");
-            passthru($this->getComposeString() . ' exec -T web tine20_install', $err);
+            passthru($this->getComposeString() . ' exec -T web tine20_install', $result_code);
         } else {
             passthru($this->getComposeString() . ' exec --user tine20 -T web sh -c "cd tine20 && php setup.php --install "'
-                . implode(" ", $inputOptions), $err);
+                . implode(" ", $inputOptions), $result_code);
         }
 
-        if ($err === Command::FAILURE) {
+        if (0 !== $result_code) {
             $io->error('Install tine failed!');
-            return Command::FAILURE;
+            return $result_code;
         }
 
         passthru($this->getComposeString()
             . ' exec -T web sh -c "test -f ${TINE20ROOT}/scripts/postInstallDocker.sh &&'
-            . ' ${TINE20ROOT}/scripts/postInstallDocker.sh"', $err);
+            . ' ${TINE20ROOT}/scripts/postInstallDocker.sh"', $result_code);
 
         if ($this->active('broadcasthub') || $this->active('broadcasthub-dev')) {
             // Key authTokenChanels needs to be set in config,
@@ -64,9 +61,9 @@ class TineInstallCommand extends TineCommand{
             //            'name' => 'broadcasthub'
             //        ],
             //    ],
-            passthru($this->getComposeString() . ' exec --user tine20 -T web sh -c "cd tine20 && php setup.php --add_auth_token -- user=tine20admin id=longlongid auth_token=longlongtoken valid_until=' . date('Y-m-d', strtotime('+1 year', time())) . ' channels=broadcasthub"');
+            passthru($this->getComposeString() . ' exec --user tine20 -T web sh -c "cd tine20 && php setup.php --add_auth_token -- user=tine20admin id=longlongid auth_token=longlongtoken valid_until=' . date('Y-m-d', strtotime('+1 year', time())) . ' channels=broadcasthub"', $result_code);
         }
 
-        return Command::SUCCESS;
+        return $result_code;
     }
 }

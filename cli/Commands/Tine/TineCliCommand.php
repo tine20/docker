@@ -2,17 +2,14 @@
 
 namespace App\Commands\Tine;
 
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Style\SymfonyStyle;
-use App\ConsoleStyle;
-use App\Commands\Tine\TineCommand;
 
-class TineCliCommand extends TineCommand{
-    
-    protected function configure() {
+class TineCliCommand extends TineCommand
+{
+    protected function configure()
+    {
         parent::configure();
 
         $this
@@ -25,14 +22,11 @@ class TineCliCommand extends TineCommand{
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new ConsoleStyle($input, $output);
-        
-        $this->initCompose();
-        $cmd = trim($input->getArgument('options'), '"');
-        $io->writeln($this->getComposeString() . ' exec --user tine20 web sh -c "cd /usr/share/tine20/ && php tine20.php  ' . $cmd . '"');
-        passthru($this->getComposeString() . ' exec --user tine20 web sh -c "cd /usr/share/tine20/ && php tine20.php  ' . $cmd . '"', $err);
+        parent::execute($input, $output);
 
-        return Command::SUCCESS;
+        $cmd = trim($input->getArgument('options'), '"');
+        passthru($this->getComposeString() . ' exec --user tine20 web sh -c "cd /usr/share/tine20/ && php tine20.php  ' . $cmd . '"', $result_code);
+
+        return $result_code;
     }    
 }
-
