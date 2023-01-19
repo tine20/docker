@@ -5,11 +5,10 @@ namespace App\Commands\Src;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputArgument;
 use App\ConsoleStyle;
 
 use App\Commands\Docker\DockerCommand;
-use App\Commands\Docker\DockerNpmInstallCommand;
+use App\Commands\Src\NpmInstallCommand;
 use App\Commands\Docker\DockerWebpackRestartCommand;
 use App\Commands\Tine\TineClearCacheCommand;
 
@@ -79,7 +78,7 @@ class ChangeBranchCommand extends DockerCommand {
         `cp $this->srcDir/tine20/Tinebase/js/package.* $cacheDir`;
         `cp $this->srcDir/tine20/Tinebase/js/npm-* $cacheDir`;
 
-        DockerNpmInstallCommand::runNpmInstall($cacheDir, $targetBranch);
+        NpmInstallCommand::runNpmInstall($cacheDir, $targetBranch);
         `rsync -a --delete $cacheDir/node_modules $this->srcDir/tine20/Tinebase/js`;
     }
 }

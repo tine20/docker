@@ -15,6 +15,7 @@ class DockerCommand extends BaseCommand {
     protected $ignoreTineConfig;
     protected $branch = 'main';
     protected $tablePrefix = null;
+    protected $homeDir = null;
 
     public static $imageMap = [
         '2022.11' => [
@@ -139,6 +140,8 @@ class DockerCommand extends BaseCommand {
                 }
             }
         }
+
+        $this->getComposeEnv();
     }
 
     public function anotherConfig($io) {
@@ -185,14 +188,25 @@ class DockerCommand extends BaseCommand {
     }
 
     public function getComposeEnv(): array {
-        $env = [];
-        foreach (self::getImages($this->branch) as $service => $image) {
-            $var = strtoupper($service) . '_IMAGE';
-            $arch = stristr($image, 'dockerregistry.metaways.net') && stristr(`uname -a`, 'arm64') ? '-arm64' : '';
+        static $env = [];
+        if (empty($env)) {
+            foreach (self::getImages($this->branch) as $service => $image) {
+                $var = strtoupper($service) . '_IMAGE';
+                $arch = stristr($image, 'dockerregistry.metaways.net') && stristr(`uname -a`, 'arm64') ? '-arm64' : '';
 
-            $env[$var] = "${image}${arch}";
+                $env[$var] = "${image}${arch}";
+            }
+            $homeDir = rtrim(trim(`realpath ~/`), '/');
+            if (empty($homeDir) || !preg_match('#^/..+#', $homeDir)) {
+                exit('home dir discovery failed');
+            }
+            `touch $homeDir/.dockertine20web_bash_history`;
+            `touch $homeDir/.dockertine20web_ash_history`;
+            $this->homeDir = $homeDir;
+            $env['HOMEDIR'] = $homeDir;
+
+            $env['TINE20_DATABASE_TABLEPREFIX'] = $this->_getTablePrefix();
         }
-        $env['TINE20_DATABASE_TABLEPREFIX'] = $this->_getTablePrefix();
         return $env;
     }
 

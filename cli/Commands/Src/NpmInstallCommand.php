@@ -1,20 +1,18 @@
 <?php
 
-namespace App\Commands\Docker;
+namespace App\Commands\Src;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Style\SymfonyStyle;
 use App\ConsoleStyle;
 use App\Commands\Docker\DockerCommand;
 
-class DockerNpmInstallCommand extends DockerCommand{
+class NpmInstallCommand extends DockerCommand{
 
     protected function configure() {
         $this
-            ->setName('docker:npminstall')
+            ->setName('src:npminstall')
             ->setDescription('install npm dependencies')
             ->setHelp('')
         ;
@@ -31,7 +29,7 @@ class DockerNpmInstallCommand extends DockerCommand{
         $this->getBroadcasthubDir($io);
         $this->anotherConfig($io);
 
-        self::runNpmInstall(dirname(dirname(dirname(__DIR__))).'/tine20/tine20/Tinebase/js', $this->branch);
+        self::runNpmInstall(dirname(dirname(dirname(__DIR__))) . '/tine20/tine20/Tinebase/js', $this->branch);
         return Command::SUCCESS;
     }
 
@@ -41,6 +39,6 @@ class DockerNpmInstallCommand extends DockerCommand{
         passthru("docker run --rm \
             -v $dir:/usr/share/tine20/Tinebase/js \
             $image \
-            sh -c 'apk --no-cache add git && cd /usr/share/tine20/Tinebase/js && npm install --no-optional --ignore-scripts'"); // --loglevel verbose
+            sh -c 'cd /usr/share/tine20/Tinebase/js && npm install --no-optional --ignore-scripts'"); // --loglevel verbose apk --no-cache add git &&
     }
 }

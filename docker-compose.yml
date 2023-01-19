@@ -64,10 +64,8 @@ services:
       - ./configs/conf.d/custom.inc.php:/etc/tine20/conf.d/custom.inc.php:ro
       - ./configs/default/cert.pem:/etc/nginx/certs/cert.pem:ro
       - ./configs/default/key.pem:/etc/nginx/certs/key.pem:ro
-      # keep history (see https://stackoverflow.com/questions/28279862/docker-and-bash-history)
-      # i have no idea why this is "ash_history" in the image ...
-      # you have to do "touch ~/.dockerweb_bash_history" before this works correctly
-      - ~/.dockerweb_bash_history:/root/.ash_history
+      - ${HOMEDIR}/.dockertine20web_ash_history:/root/.ash_history
+      - ${HOMEDIR}/.dockertine20web_bash_history:/root/.bash_history
       # tine filesdir
       - tinefiles:/var/lib/tine20/files
 
