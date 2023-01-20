@@ -25,18 +25,28 @@ class DockerWebpackRestartCommand extends DockerCommand
 
         $io = new ConsoleStyle($input, $output);
 
-        $this->getTineDir($io);
-        $this->getBroadcasthubDir($io);
-        $this->anotherConfig($io);
-
         // NOTE: we need to support node version (container) change
-        passthru($this->getComposeString() . " stop webpack ", $result_code);
-        passthru($this->getComposeString() . " rm -f ", $result_code);
+        passthru($this->getComposeString() . " stop webpack", $result_code);
+        passthru($this->getComposeString() . " rm -f", $result_code);
 
         $io->info('Restarting containers ...');
 
-        passthru($this->getComposeString() . " up -d ", $result_code);
+        passthru($this->getComposeString() . " up -d", $result_code);
+        $webContainerId = trim(`{$this->getComposeString()} ps -q web`);
 
-        return $result_code;
+        $tries = 0;
+        // give web time to fail
+        sleep(1);
+        //                                 check if container id is running
+        while (++$tries < 20 && empty(trim(`docker ps -q --no-trunc | grep $webContainerId`))) {
+            $io->info('waiting for web service to be available...');
+            // give webpack time to finish compiling
+            sleep(2);
+            passthru($this->getComposeString() . " up -d", $result_code);
+            // give web time to fail
+            sleep(1);
+        }
+
+        return $tries < 20 ? 0 : 1;
     }
 }

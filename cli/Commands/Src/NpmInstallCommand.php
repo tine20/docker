@@ -24,20 +24,21 @@ class NpmInstallCommand extends DockerCommand
         parent::execute($input, $output);
         $io = new ConsoleStyle($input, $output);
 
-        $this->getTineDir($io);
-        $this->getBroadcasthubDir($io);
-        $this->anotherConfig($io);
+        $tineDir = $this->getTineDir($io);
 
-        self::runNpmInstall(dirname(dirname(dirname(__DIR__))) . '/tine20/tine20/Tinebase/js', $this->branch);
+        self::runNpmInstall($tineDir . '/Tinebase/js', $this->branch);
+
         return 0;
     }
 
-    public static function runNpmInstall($dir, $branch)
+    public static function runNpmInstall($dir, $branch): int
     {
         $image = DockerCommand::getImages($branch)['webpack'];
         passthru("docker run --rm \
+            --user " . trim(`id -u`) . ':' . trim(`id -g`) . " \
             -v $dir:/usr/share/tine20/Tinebase/js \
             $image \
-            sh -c 'cd /usr/share/tine20/Tinebase/js && npm install --no-optional --ignore-scripts'"); // --loglevel verbose apk --no-cache add git &&
+            sh -c 'cd /usr/share/tine20/Tinebase/js && npm prune --no-optional --ignore-scripts'", $result_code); // --loglevel verbose
+        return $result_code;
     }
 }

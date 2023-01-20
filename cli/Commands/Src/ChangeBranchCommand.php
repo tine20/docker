@@ -2,15 +2,13 @@
 
 namespace App\Commands\Src;
 
-use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Exception\ExceptionInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use App\ConsoleStyle;
-
 use App\Commands\Docker\DockerCommand;
-use App\Commands\Src\NpmInstallCommand;
 use App\Commands\Docker\DockerWebpackRestartCommand;
 use App\Commands\Tine\TineClearCacheCommand;
+use App\ConsoleStyle;
 
 class ChangeBranchCommand extends DockerCommand {
 
@@ -41,11 +39,20 @@ class ChangeBranchCommand extends DockerCommand {
         passthru($composeString . " stop web");
 
         $io->info('Running composer install ...');
-        $this->composerInstall($this->branch);
+        $composerCmd = new ComposerCommand();
+        $input->bind($composerCmd->getDefinition());
+        $input->setArgument('cmd', 'install');
+        ($composerCmd)->execute($input, $output);
 
         if (in_array('compose/webpack.yml', $this->composeFiles)) {
             $io->info('Running npm install ...');
-            $this->npmInstall($this->branch);
+            if (!isset($this->config['tine20']['npminstall']['uselink']) || !$this->config['tine20']['npminstall']['uselink']) {
+                $this->npmInstall($this->branch);
+            } else {
+                if (0 !== ($result_code = $this->npmInstallLinked($io))) {
+                    return $result_code;
+                }
+            }
         }
 
         (new DockerWebpackRestartCommand())->execute($input, $output);
@@ -54,21 +61,52 @@ class ChangeBranchCommand extends DockerCommand {
         return 0;
     }
 
-    // @todo: execute in php container? does it have composer?
-    public function composerInstall($targetBranch)
+    protected function npmInstallLinked(ConsoleStyle $io): int
     {
-        $cacheDir = $this->baseDir . "/cache/composer/$targetBranch";
-        echo "cacheDir: $cacheDir\n";
-        // @TODO compute basebranch and prefill if cacheDir is empty
-
-        `mkdir -p $cacheDir`;
-        `cp $this->srcDir/tine20/composer.* $cacheDir`;
-        `cd $cacheDir && composer install --ignore-platform-reqs`;
-
-        `rsync -a --delete $cacheDir/vendor $this->srcDir/tine20`;
+        $branch = $this->branch;
+        if (isset($this->config['tine20']['npminstall']['branchmatrix'][$branch])) {
+            $branch = $this->config['tine20']['npminstall']['branchmatrix'][$branch];
+        }
+        $branch = str_replace('/', '_', $branch);
+        $tineDir = $this->getTineDir($io);
+        $nodeModulesPath = $tineDir . '/Tinebase/js/node_modules';
+        $branchFolder = $nodeModulesPath . '_' . $branch;
+        if (!is_dir($branchFolder) && preg_match('/(20\d\d)\.11/', $branch, $matches)) {
+            $year = intval($matches[1]);
+            do {
+                $path = $nodeModulesPath . '_' . $year . '.11';
+                if (is_dir($path)) {
+                    $io->info('initializing ' . $branchFolder . ' with ' . $path);
+                    `cp -r $path $branchFolder`;
+                    break;
+                }
+            } while (--$year >= 2022);
+        }
+        clearstatcache();
+        if (!is_dir($branchFolder)) {
+            passthru('mkdir ' . $branchFolder, $result_code);
+            if (0 !== $result_code) {
+                $io->error('creating folder ' . $branchFolder . ' failed');
+                return 1;
+            }
+            $io->info('starting with empty folder ' . $branchFolder);
+        }
+        if (file_exists($nodeModulesPath)) {
+            passthru('rm -rf ' . $nodeModulesPath, $result_code);
+            if (0 !== $result_code) {
+                $io->error('deleting node_modules failed');
+                return 1;
+            }
+        }
+        passthru('ln -s ./' . basename($branchFolder) . ' ' . $nodeModulesPath, $result_code);
+        if (0 !== $result_code) {
+            $io->error('linking node_modules failed');
+            return 1;
+        }
+        return NpmInstallCommand::runNpmInstall($tineDir . '/Tinebase/js', $this->branch);
     }
 
-    public function npmInstall($targetBranch)
+    protected function npmInstall($targetBranch)
     {
         $cacheDir = $this->baseDir . "/cache/node/$targetBranch";
         echo "cacheDir: $cacheDir\n";

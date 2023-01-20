@@ -20,11 +20,11 @@ class DockerCommand extends BaseCommand
     protected static $imageMap = [
         '2022.11' => [
             'web' => 'dockerregistry.metaways.net/tine20/tine20/dev:2022.11-8.0',
-            'webpack' => 'node:12.22-alpine',
+            'webpack' => 'dockerregistry.metaways.net/tine20/tine20/node:2022.11',
         ],
         '2023.11' => [
             'web' => 'dockerregistry.metaways.net/tine20/tine20/dev:2023.11-8.0',
-            'webpack' => 'node:18.9.0-alpine',
+            'webpack' => 'dockerregistry.metaways.net/tine20/tine20/node:2023.11',
         ],
     ];
 
@@ -185,7 +185,7 @@ class DockerCommand extends BaseCommand
     public function updateConfig($updates)
     {
         $conf = array_merge($this->getComposeConf(), $updates);
-        $f = fopen('pullup.json', 'w+');
+        $f = fopen($this->baseDir . '/pullup.json', 'w+');
         fwrite($f, json_encode($conf, JSON_PRETTY_PRINT));
         fclose($f);
 
@@ -194,10 +194,10 @@ class DockerCommand extends BaseCommand
 
     public function getComposeConf(): array
     {
-        if (is_file('pullup.json')) {
-            $conf = json_decode(file_get_contents('pullup.json'), true);
+        if (is_file($this->baseDir . '/pullup.json')) {
+            $conf = json_decode(file_get_contents($this->baseDir . '/pullup.json'), true);
         } else {
-            $conf = json_decode(file_get_contents('.pullup.json'), true);
+            $conf = json_decode(file_get_contents($this->baseDir . '/.pullup.json'), true);
         }
 
         return $conf;
