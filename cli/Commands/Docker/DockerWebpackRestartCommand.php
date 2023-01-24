@@ -32,7 +32,8 @@ class DockerWebpackRestartCommand extends DockerCommand
         $io->info('Restarting containers ...');
 
         passthru($this->getComposeString() . " up -d", $result_code);
-        $webContainerId = trim(`{$this->getComposeString()} ps -q web`);
+        // NOTE: `tail -1` as mutagen outputs volume status with ps 
+        $webContainerId = trim(`{$this->getComposeString()} ps -q web | tail -1`);
 
         $tries = 0;
         // give web time to fail
