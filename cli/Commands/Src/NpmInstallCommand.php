@@ -24,25 +24,82 @@ class NpmInstallCommand extends DockerCommand
         parent::execute($input, $output);
         $io = new ConsoleStyle($input, $output);
 
+        $branch = $this->branch;
+        if (isset($this->config['tine20']['npminstall']['branchmatrix'][$branch])) {
+            $branch = $this->config['tine20']['npminstall']['branchmatrix'][$branch];
+        }
+
         if (in_array('compose/webpack.yml', $this->composeFiles)) {
             $io->info('Running npm install ...');
-            if (0 !== ($result_code = $this->npmInstallLinked($io))) {
-                return $result_code;
+            if (!isset($this->config['tine20']['npminstall']['uselink']) || !$this->config['tine20']['npminstall']['uselink']) {
+                $io->info('Running npm install with strategy synced');
+                if (0 !== ($result_code = $this->npmInstallSynced($io, $branch))) {
+                    return $result_code;
+                }
+            } else {
+                $io->info('Running npm install with strategy linked');
+                if (0 !== ($result_code = $this->npmInstallLinked($io, $branch))) {
+                    return $result_code;
+                }
             }
+            $io->info('npm install finished');
         }
 
         return 0;
     }
 
-    protected function npmInstallLinked(ConsoleStyle $io): int
+    // NOTE: does not work with 2023+
+    protected function npmInstallLinked(ConsoleStyle $io, $branch): int
     {
-        $branch = $this->branch;
-        if (isset($this->config['tine20']['npminstall']['branchmatrix'][$branch])) {
-            $branch = $this->config['tine20']['npminstall']['branchmatrix'][$branch];
-        }
-        $branch = str_replace('/', '_', $branch);
         $tineDir = $this->getTineDir($io);
         $nodeModulesPath = $tineDir . '/Tinebase/js/node_modules';
+        $branchFolder = $this->createBranchFolder($io, $branch, $nodeModulesPath);
+        if (! $branchFolder) return 1;
+
+        if (file_exists($nodeModulesPath)) {
+            passthru('rm -rf ' . $nodeModulesPath, $result_code);
+            if (0 !== $result_code) {
+                $io->error('deleting node_modules failed');
+                return 1;
+            }
+        }
+        passthru('ln -s ./' . basename($branchFolder) . ' ' . $nodeModulesPath, $result_code);
+        if (0 !== $result_code) {
+            $io->error('linking node_modules failed');
+            return 1;
+        }
+        return $this->runNpmInstall($tineDir . '/Tinebase/js');
+    }
+
+    protected function npmInstallSynced(ConsoleStyle $io, $branch) : int
+    {
+        $cacheDir = $this->createBranchFolder($io, $branch, $this->baseDir . "/cache/node_modules");
+        $io->info("cacheDir: $cacheDir");
+
+        passthru("cp $this->srcDir/tine20/Tinebase/js/package.* $cacheDir && cp $this->srcDir/tine20/Tinebase/js/npm-* $cacheDir", $result_code);
+        if (0 !== $result_code) {
+            $io->error("can't copy dependencies definition");
+            return 1;
+        }
+
+        if (0 !== ($result_code = $this->runNpmInstall($cacheDir))) {
+            $io->error("npm prune failed with code $result_code");
+            return $result_code;
+        }
+
+        $io->info('rsync node_modules ...');
+        passthru("rsync -a --delete $cacheDir/node_modules $this->srcDir/tine20/Tinebase/js", $result_code);
+        if (0 !== $result_code) {
+            $io->error("can't rsync node_modules");
+            return 1;
+        }
+
+        return 0;
+    }
+
+    public function createBranchFolder($io, $branch, $nodeModulesPath) : string
+    {
+        $branch = str_replace('/', '_', $branch);
         $branchFolder = $nodeModulesPath . '_' . $branch;
         if (!is_dir($branchFolder) && preg_match('/(20\d\d)\.11/', $branch, $matches)) {
             $year = intval($matches[1]);
@@ -60,23 +117,12 @@ class NpmInstallCommand extends DockerCommand
             passthru('mkdir ' . $branchFolder, $result_code);
             if (0 !== $result_code) {
                 $io->error('creating folder ' . $branchFolder . ' failed');
-                return 1;
+                return '';
             }
             $io->info('starting with empty folder ' . $branchFolder);
         }
-        if (file_exists($nodeModulesPath)) {
-            passthru('rm -rf ' . $nodeModulesPath, $result_code);
-            if (0 !== $result_code) {
-                $io->error('deleting node_modules failed');
-                return 1;
-            }
-        }
-        passthru('ln -s ./' . basename($branchFolder) . ' ' . $nodeModulesPath, $result_code);
-        if (0 !== $result_code) {
-            $io->error('linking node_modules failed');
-            return 1;
-        }
-        return $this->runNpmInstall($tineDir . '/Tinebase/js');
+
+        return $branchFolder;
     }
 
     public function runNpmInstall($dir): int
