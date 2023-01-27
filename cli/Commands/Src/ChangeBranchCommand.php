@@ -67,7 +67,7 @@ class ChangeBranchCommand extends DockerCommand {
         $a->bind($composerCmd->getDefinition());
         $a->setArgument('cmd', 'install');
         ($composerCmd)->execute($a, $output);
-return 0;
+
         (new NpmInstallCommand())->execute($input, $output);
         (new DockerWebpackRestartCommand())->execute($input, $output);
         (new TineClearCacheCommand())->execute($input, $output);
