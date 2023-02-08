@@ -45,7 +45,9 @@ prerequisites: git, docker, php, composer and your user is in the docker group. 
 + `./console tine:test <path>` starts test eg `./pullup tine test AllTests`
 + `./console tine:cli <command>` executes tine20.php with command, dont use the --config option
 
-TODO: add new commands here (src:XXX)
++ `./console src:changeBranch`       change dev branch in a running dev system
++ `./console src:composer`           execute composer in tine20 src context
++ `./console src:npminstall`         install npm dependencies
 
 + missing a command > issue tracker
 
@@ -87,8 +89,8 @@ https://docs.docker.com/engine/install/
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
 
     echo \
-  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
-  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+      "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+      $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
     sudo apt-get update
 
