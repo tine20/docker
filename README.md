@@ -19,16 +19,15 @@ prerequisites: git, docker, php, composer and your user is in the docker group. 
 8. checkout your branch and install tine20 dependencies `cd tine20/tine20 && composer install --ignore-platform-reqs` and `./console docker:npminstall`
 9. install docservice dependencies, if console has cloned it you dont need to do anything: `cd docservice && composer install --ignore-platform-reqs`
 10. install broadcasthub dependencies, if console has cloned it you dont need to do anything: `cd broadcasthub && npm install`
+11. install composer: `./console src:composer`
+12. `./console src:npminstall`
+13. [in tine20 dir] git submodule init && git submodule update
 
 ## Start
-11. install composer: `./console src:composer`
-`./console src:npminstall`
-[in tine20 dir] git submodule init && git submodule update
-
-11. start tine20-docker setup `./console docker:up`, if you have not done install 4 to 6 answer y to clone repos
-12. install tine `./console tine:install`
-13. visit localhost:4000, login as tine20admin pw: tine20admin
-14. strg+c to stop
+14. start tine20-docker setup `./console docker:up`, if you have not done install 4 to 6 answer y to clone repos
+15. install tine `./console tine:install`
+16. visit localhost:4000, login as tine20admin pw: tine20admin
+17. strg+c to stop
 
 ## Console Commands
 
