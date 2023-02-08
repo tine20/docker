@@ -114,7 +114,7 @@ class NpmInstallCommand extends DockerCommand
         }
         clearstatcache();
         if (!is_dir($branchFolder)) {
-            passthru('mkdir ' . $branchFolder, $result_code);
+            passthru('mkdir -p ' . $branchFolder, $result_code);
             if (0 !== $result_code) {
                 $io->error('creating folder ' . $branchFolder . ' failed');
                 return '';
