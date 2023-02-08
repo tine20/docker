@@ -21,6 +21,10 @@ prerequisites: git, docker, php, composer and your user is in the docker group. 
 10. install broadcasthub dependencies, if console has cloned it you dont need to do anything: `cd broadcasthub && npm install`
 
 ## Start
+11. install composer: `./console src:composer`
+`./console src:npminstall`
+[in tine20 dir] git submodule init && git submodule update
+
 11. start tine20-docker setup `./console docker:up`, if you have not done install 4 to 6 answer y to clone repos
 12. install tine `./console tine:install`
 13. visit localhost:4000, login as tine20admin pw: tine20admin
@@ -305,7 +309,7 @@ in container:
 <docker-bridge-interface> is something like "br-3ff4120010e5" which has ip:172.118.0.1 (visible with ifconfig)
 
 
-### Docker Network Problem "ERROR: Pool overlaps ..."
+### Docker Network Problems (for example: "ERROR: Pool overlaps ...")
 
 you might need to remove old / unused docker networks:
 
@@ -318,6 +322,9 @@ you might need to remove old / unused docker networks:
 
     ➜  docker network rm docker_internal_network tine20_internal_network docker_external_network docker_internal_network
 
+OR
+
+    ➜  docker network prune
 
 # Running a Tine 2.0 container with ...
 
