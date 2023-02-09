@@ -18,6 +18,10 @@ class DockerCommand extends BaseCommand
     protected array $composeCommand = ['docker', 'compose'];
 
     protected static $imageMap = [
+        '2021.11' => [
+            'web' => 'dockerregistry.metaways.net/tine20/tine20/dev:2021.11-7.4',
+            'webpack' => 'dockerregistry.metaways.net/tine20/tine20/node:2022.11', // should be the same setup
+        ],
         '2022.11' => [
             'web' => 'dockerregistry.metaways.net/tine20/tine20/dev:2022.11-8.0',
             'webpack' => 'dockerregistry.metaways.net/tine20/tine20/node:2022.11',
