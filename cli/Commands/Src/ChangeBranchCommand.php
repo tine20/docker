@@ -17,8 +17,7 @@ class ChangeBranchCommand extends DockerCommand {
     {
         parent::configure();
 
-        $this
-            ->setName('src:changeBranch')
+        $this->setName('src:changeBranch')
             ->setDescription('change dev branch in a running dev system')
             ->setHelp('')
         ;
@@ -28,6 +27,12 @@ class ChangeBranchCommand extends DockerCommand {
             InputOption::VALUE_NONE,
             'run git checkout BRANCH and git submodule update operations (requires --branch options)'
         );
+        $this->addOption(
+            'nonpm',
+            null,
+            InputOption::VALUE_NONE,
+            'skip npm install'
+        );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -36,7 +41,7 @@ class ChangeBranchCommand extends DockerCommand {
         $io = new ConsoleStyle($input, $output);
 
         if ($input->getOption('git')) {
-            if (!  $input->getOption('branch')) {
+            if (! $input->getOption('branch')) {
                 $io->error("use --branch BRANCH to select a branch");
                 return 1;
             }
@@ -68,7 +73,9 @@ class ChangeBranchCommand extends DockerCommand {
         $a->setArgument('cmd', 'install');
         ($composerCmd)->execute($a, $output);
 
-        (new NpmInstallCommand())->execute($input, $output);
+        if (! $input->getOption('nonpm')) {
+            (new NpmInstallCommand())->execute($input, $output);
+        }
         (new DockerWebpackRestartCommand())->execute($input, $output);
         (new TineClearCacheCommand())->execute($input, $output);
 
