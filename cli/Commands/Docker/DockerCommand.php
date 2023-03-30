@@ -143,7 +143,7 @@ class DockerCommand extends BaseCommand
     public function getComposeString() {
         $env = '';
         foreach ($this->getComposeEnv() as $k => $v) {
-            $env .= "${k}=${v} ";
+            $env .= "{$k}={$v} ";
         }
 
         return $env . join(' ', $this->composeCommand) . ' -f ' . join(' -f ', $this->composeFiles);
@@ -165,7 +165,7 @@ class DockerCommand extends BaseCommand
                 $var = strtoupper($service) . '_IMAGE';
                 $arch = stristr($image, 'dockerregistry.metaways.net') && stristr(`uname -a`, 'arm64') ? '-arm64' : '';
 
-                $env[$var] = "${image}${arch}";
+                $env[$var] = "{$image}{$arch}";
             }
             $homeDir = rtrim(trim(`realpath ~/`), '/');
             if (empty($homeDir) || !preg_match('#^/..+#', $homeDir)) {
