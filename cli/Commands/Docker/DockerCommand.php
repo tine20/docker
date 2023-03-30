@@ -176,6 +176,7 @@ class DockerCommand extends BaseCommand
             $this->homeDir = $homeDir;
             $env['HOMEDIR'] = $homeDir;
 
+            $env['IMAGE_SUFFIX'] = stristr(`uname -a`, 'arm64') ? '-arm64' : '';
             $env['TINE20_DATABASE_TABLEPREFIX'] = $this->_getTablePrefix();
         }
         return $env;

@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  mkdocs:
+    image: dockerregistry.metaways.net/tine20/tine20/tine/mkdocs:latest${IMAGE_SUFFIX}
+    restart: unless-stopped
+    volumes:
+      - ./tine20:/docs
+    ports:
+      - "4030:8000"
+    networks:
+      - external_network
+      - internal_network
