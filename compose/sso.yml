@@ -1,0 +1,58 @@
+version: '3'
+
+# @todo: make shure rp's are preconfigured. demodata or here?
+#  INSERT INTO `202311_sso_relying_party` (`id`, `name`, `label`, `description`, `logo`, `config_class`, `config`, `created_by`, `creation_time`, `last_modified_by`, `last_modified_time`, `seq`, `deleted_by`, `deleted_time`, `is_deleted`) VALUES
+#  ('e070a5e46dc3d3ce6e0d94c8c71ed06b67bd4fdf', 'test-id', 'test-id', '', NULL, 'SSO_Model_OAuthOIdRPConfig', '{\"redirect_urls\":\"[\\\"http:\\\\\\/\\\\\\/localhost:4901\\\\\\/auth\\\\\\/callback\\\"]\",\"secret\":\"test-secret\",\"is_confidential\":false,\"id\":\"0\"}', '9b078a5e7b67c51fbefe9441c1179996942bf1c0', '2023-03-29 08:01:03', '9b078a5e7b67c51fbefe9441c1179996942bf1c0', '2023-03-30 09:22:17', 7, NULL, '1970-01-01 00:00:00', 0);
+#  INSERT INTO `202311_sso_relying_party` (`id`, `name`, `label`, `description`, `logo`, `config_class`, `config`, `created_by`, `creation_time`, `last_modified_by`, `last_modified_time`, `seq`, `deleted_by`, `deleted_time`, `is_deleted`) VALUES
+#  ('6c73a12f91f2d05fd33883db35ad294602c83006', 'saml-test-sp', 'saml-test-sp', '', NULL, 'SSO_Model_Saml2RPConfig', '{\"name\":\"saml-test-sp\",\"entityid\":\"saml-test-sp\",\"metaUrl\":\"\",\"AssertionConsumerServiceBinding\":\"\",\"AssertionConsumerServiceLocation\":\"\",\"singleLogoutServiceLocation\":\"\",\"attributeMapping\":\"\",\"customHooks\":\"\",\"id\":\"0\"}', '9b078a5e7b67c51fbefe9441c1179996942bf1c0', '2023-03-30 15:46:17', NULL, NULL, 1, NULL, '1970-01-01 00:00:00', 0);
+
+services:
+  oidc-test-client:
+    image: ghcr.io/beryju/oidc-test-client
+    depends_on:
+      - web
+    restart: unless-stopped
+    ports:
+      - 4901:4901
+    environment:
+      OIDC_BIND: 0.0.0.0:4901
+      OIDC_ROOT_URL: http://localhost:4901
+      OIDC_CLIENT_ID: oidc-test-sp
+      OIDC_CLIENT_SECRET: test-secret
+      OIDC_PROVIDER: http://web:4000
+      OIDC_DO_REFRESH: false
+      OIDC_DO_INTROSPECTION: false
+    networks:
+      - external_network
+      - internal_network
+
+  saml-test-sp:
+    image: ghcr.io/beryju/saml-test-sp
+    restart: unless-stopped
+    depends_on:
+      - web
+    ports:
+      - 4902:4902
+    environment:
+      SP_BIND: 0.0.0.0:4902
+      SP_ROOT_URL: http://localhost:4902
+      SP_ENTITY_ID: saml-test-sp
+      SP_METADATA_URL: http://web:4000/sso/saml2/idpmetadata
+      # tine does not support client verification yet
+      #SP_SSL_CERT: /fullchain.pem
+      #SP_SSL_KEY: /privkey.pem
+    #volumes:
+      #- ./fullchain.pem:/fullchain.pem
+      #- ./privkey.pem:/privkey.pem
+    networks:
+      - external_network
+      - internal_network
+
+  web:
+    volumes:
+      - ./tine20/etc/tine20/conf.d/sso.inc.php.dist:/etc/tine20/conf.d/sso.inc.php:ro
+      - ./tine20/etc/tine20/samlPostAuthHook.php.dist:/etc/tine20/samlPostAuthHook.php:ro
+      - ./configs/sso/sso_cert.crt:/etc/tine20/conf.d/sso_cert.crt:ro
+      - ./configs/sso/sso_cert.jwk:/etc/tine20/conf.d/sso_cert.jwk:ro
+      - ./configs/sso/sso_cert.pem:/etc/tine20/conf.d/sso_cert.pem:ro
+      - ./configs/sso/sso_key.pem:/etc/tine20/conf.d/sso_key.pem:ro
