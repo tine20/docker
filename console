@@ -29,6 +29,7 @@ use App\Commands\Tine\TineClearCacheCommand;
 
 use App\Commands\Src\ChangeBranchCommand;
 use App\Commands\Src\ComposerCommand;
+use App\Commands\Src\NpmCommand;
 use App\Commands\Src\NpmInstallCommand;
 
 $app = new ConsoleApplication();
@@ -58,6 +59,7 @@ $app->add(new TineClearCacheCommand());
 //Src Commands
 $app->add(new ChangeBranchCommand());
 $app->add(new ComposerCommand());
+$app->add(new NpmCommand());
 $app->add(new NpmInstallCommand());
 
 $app->run();
