@@ -6,6 +6,8 @@ services:
     restart: unless-stopped
     volumes:
       - ./tine20:/docs
+    tmpfs:
+      - /docs/docs/developers/api/
     ports:
       - "4030:8000"
     networks:
