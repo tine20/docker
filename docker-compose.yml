@@ -24,7 +24,7 @@ services:
       - "6379:6379"
 
   web:
-    image: ${WEB_IMAGE:-dockerregistry.metaways.net/tine20/tine20/dev:2023.11-8.0}
+    image: ${WEB_IMAGE:-tinegroupware/dev:2023.11-8.0}
     depends_on:
       - db
       - cache
