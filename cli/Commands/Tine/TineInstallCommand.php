@@ -49,9 +49,11 @@ class TineInstallCommand extends TineCommand
             return $result_code;
         }
 
-        passthru($this->getComposeString()
-            . ' exec -T web sh -c "test -f ${TINE20ROOT}/scripts/postInstallDocker.sh &&'
-            . ' ${TINE20ROOT}/scripts/postInstallDocker.sh"', $result_code);
+        if (file_exists('tine20/scripts/postInstallDocker.sh')) {
+            $io->info("Running postInstallDocker.sh ... ");
+            passthru($this->getComposeString()
+                . ' exec -T web sh -c "/usr/share/scripts/postInstallDocker.sh"', $result_code);
+        }
 
         if ($this->active('broadcasthub') || $this->active('broadcasthub-dev')) {
             // Key authTokenChanels needs to be set in config,
