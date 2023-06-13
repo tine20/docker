@@ -26,6 +26,8 @@ services:
       MYSQL_PASSWORD: *mysqlpw
     depends_on:
       - db
+    volumes:
+      - ./configs/mailstack/sieve-trace-log.conf:/etc/dovecot/conf.d/90-sieve-trace-log.conf
     networks:
       - internal_network
       - external_network
