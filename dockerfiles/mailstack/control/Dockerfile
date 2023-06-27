@@ -4,7 +4,9 @@ WORKDIR /root
 
 RUN apk add mysql-client
 
+# TODO mount SQL from tine repo (no longer copy files dir)
 COPY files /root
+
 COPY scripts /usr/bin
 
 ENV MYSQL_ROOT_PASSWORD="root"
