@@ -2,7 +2,7 @@ version: '3'
 name: "tine20"
 services:
   db:
-    image: mariadb:10.4.29
+    image: mariadb:10.6.14
     command: --max-allowed-packet=209715210
     environment:
       MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD:-root}"
@@ -24,7 +24,7 @@ services:
       - "6379:6379"
 
   web:
-    image: ${WEB_IMAGE:-tinegroupware/dev:2023.11-8.0}
+    image: ${WEB_IMAGE:-tinegroupware/dev:2023.11-8.1}
     depends_on:
       - db
       - cache
