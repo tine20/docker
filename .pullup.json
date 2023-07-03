@@ -3,7 +3,6 @@
     "webpack",
     "docservice",
     "broadcasthub",
-    "docs",
     "pma",
     "rediscommander",
     "mailstack",

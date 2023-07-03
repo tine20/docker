@@ -5,29 +5,24 @@ tine20-docker
 
 # Pullup / console
 
-## Install
+## Quickstart
 
 prerequisites: git, docker, php, composer and your user is in the docker group. If not see [below](#install-docker-io-and-docker-compose)
 
-1. clone this git and open it `git clone git@gitlab.metaways.net:tine20/docker.git tine20-docker` and `cd tine20-docker`
+1. clone this git and open it `git clone https://github.com/tine20/docker.git tine20-docker` and `cd tine20-docker`
 2. install symfony/console dependencies `composer install`
-3. add `eval $(~/path/to//docker/console _completion --generate-hook)` to your shell's profile (e.g. ~/.bashrc or ~/.zshrc) to enable autocomplete
-4. link your tine20 source `ln -s /path/to/tine/repo tine20` or just wait for console to clone it for you
-5. link docservice source `ln -s /path/to/docservice/repo docservice` or just wait for console to clone it for you
-6. link broadcasthub source `ln -s /path/to/tine20-broadcsthub/repo broadcasthub` or just wait for console to clone it for you
-7. login to the tine docker registry, with your gitlab credentials `docker login dockerregistry.metaways.net` ([gitlab docu, for MFA](https://docs.gitlab.com/ee/user/packages/container_registry/#authenticating-to-the-gitlab-container-registry))
-8. checkout your branch and install tine20 dependencies `cd tine20/tine20 && composer install --ignore-platform-reqs` and `./console docker:npminstall`
-9. install docservice dependencies, if console has cloned it you dont need to do anything: `cd docservice && composer install --ignore-platform-reqs`
-10. install broadcasthub dependencies, if console has cloned it you dont need to do anything: `cd broadcasthub && npm install`
-11. install composer: `./console src:composer`
-12. `./console src:npminstall`
-13. [in tine20 dir] git submodule init && git submodule update
+3. start tine20-docker setup `./console docker:up`, if you have not done this, install 4 to 6 answer y to clone repos
+4. install tine `./console tine:install`
+5. visit localhost:4000, login as tine20admin pw: tine20admin
 
-## Start
-14. start tine20-docker setup `./console docker:up`, if you have not done install 4 to 6 answer y to clone repos
-15. install tine `./console tine:install`
-16. visit localhost:4000, login as tine20admin pw: tine20admin
-17. strg+c to stop
+## Optional
+
+- add `eval $(~/path/to//docker/console _completion --generate-hook)` to your shell's profile (e.g. ~/.bashrc or ~/.zshrc) to enable autocomplete
+- link your tine20 source `ln -s /path/to/tine/repo tine20` or just wait for console to clone it for you
+- link docservice source `ln -s /path/to/docservice/repo docservice` or just wait for console to clone it for you
+- link broadcasthub source `ln -s /path/to/tine20-broadcsthub/repo broadcasthub` or just wait for console to clone it for you
+- install docservice dependencies, if console has cloned it you don't need to do anything: `cd docservice && composer install --ignore-platform-reqs`
+- install broadcasthub dependencies, if console has cloned it you don't need to do anything: `cd broadcasthub && npm install`
 
 ## Console Commands
 
@@ -49,7 +44,7 @@ prerequisites: git, docker, php, composer and your user is in the docker group. 
 + `./console tine:cli <command>` executes tine20.php with command, dont use the --config option
 
 + `./console src:changeBranch`       change dev branch in a running dev system
-+ `./console src:composer`           execute composer in tine20 src context
++ `./console src:composer install`   execute composer in tine20 src context
 + `./console src:npminstall`         install npm dependencies
 
 + missing a command > issue tracker

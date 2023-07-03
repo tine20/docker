@@ -41,7 +41,7 @@ class DockerUpCommand extends DockerCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        if($input->getOption('default') && is_file('pullup.json')) {
+        if ($input->getOption('default') && is_file('pullup.json')) {
             unlink('pullup.json');
         }
 
@@ -49,10 +49,21 @@ class DockerUpCommand extends DockerCommand
         $io = new ConsoleStyle($input, $output);
         $inputContainer = $input->getArgument('container');
 
-        $this->getTineDir($io);
+        $tinedir = $this->getTineDir($io);
         $this->getBroadcasthubDir($io);
         $this->anotherConfig($io);
-        
+
+        // TODO improve this / use console commands
+        if (! is_dir($tinedir . '/tine20/vendor' )) {
+            passthru('./console src:composer install');
+        }
+        if (! is_dir($tinedir . '/tine20/Tinebase/js/node_modules' )) {
+            passthru('./console src:npminstall');
+        }
+        if (! is_dir($tinedir . '/tine20/images/icon-set' )) {
+            passthru('cd ' . $tinedir . ' && git submodule init && git submodule update && cd -');
+        }
+
         if(!empty($inputContainer)) {
             $this->updateConfig(['composeFiles' => $inputContainer]);
         }
@@ -63,4 +74,3 @@ class DockerUpCommand extends DockerCommand
         return $result_code;
     }
 }
-

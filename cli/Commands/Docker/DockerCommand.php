@@ -26,6 +26,10 @@ class DockerCommand extends BaseCommand
             'web' => 'dockerregistry.metaways.net/tine20/tine20/dev:2022.11-8.0',
             'webpack' => 'dockerregistry.metaways.net/tine20/tine20/node:2022.11',
         ],
+        'main' => [
+            'web' => 'tinegroupware/dev:2022.11-8.0',
+            'webpack' => 'node:12.22-alpine',
+        ],
         '2023.11' => [
             'web' => 'dockerregistry.metaways.net/tine20/tine20/dev:2023.11-8.1',
             'webpack' => 'dockerregistry.metaways.net/tine20/tine20/node:2023.11',

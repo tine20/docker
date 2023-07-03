@@ -35,6 +35,8 @@ class BaseCommand extends Command
      */
     protected $branch = 'main';
 
+    protected $repo = 'git@gitlab.metaways.net:tine20/tine20.git';
+
     protected array $config = [];
 
     protected function configure()
@@ -61,16 +63,16 @@ class BaseCommand extends Command
         if (! is_file("{$this->tineDir}/tine20.php")) {
             $input = $io->choice('tine20 dir is not linked. Should it be cloned?', ['yes', 'no', 'ignore'], 'yes');
 
-            switch($input) {
+            switch ($input) {
                 case 'yes':
-                    $output = system('git clone git@gitlab.metaways.net:tine20/tine20.git tine20 2>&1');
+                    $output = system('git clone ' . $this->repo . ' tine20 2>&1');
                     if(strpos($output, 'Cloning') === 0){
-                        $io->success('Tine clones succesfully');
+                        $io->success('tine cloned successfully');
                     }else {
-                        $io->error('failed to clone Tine');
+                        $io->error('failed to clone tine');
                         exit;
                     }
-                    $io->success('tine20 cloned, now checkout your branch and install php and npm dependencies');
+                    $io->success('tine cloned, now checkout your branch and install php and npm dependencies');
                     break;
 
                 case 'no':
