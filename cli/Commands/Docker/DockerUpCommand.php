@@ -54,19 +54,25 @@ class DockerUpCommand extends DockerCommand
         $this->anotherConfig($io);
 
         // TODO improve this / use console commands
-        if (! is_dir($tinedir . '/tine20/vendor' )) {
-            passthru('./console src:composer install');
-        }
-        if (! is_dir($tinedir . '/tine20/Tinebase/js/node_modules' )) {
+        $io->info('Init vendor: ' . $tinedir . '/tine20/vendor');
+        passthru('./console src:composer install');
+
+        if (in_array('compose/webpack.yml', $this->composeFiles)
+            && ! is_dir($tinedir . '/Tinebase/js/node_modules' )
+        ) {
+            $io->info('Init node_modules: ' . $tinedir . '/tine20/Tinebase/js/node_modules');
             passthru('./console src:npminstall');
         }
-        if (! is_dir($tinedir . '/tine20/images/icon-set' )) {
+        if (! is_dir($tinedir . '/images/icon-set' )) {
+            $io->info('Init icon-set: ' . $tinedir . '/tine20/images/icon-set');
             passthru('cd ' . $tinedir . ' && git submodule init && git submodule update && cd -');
         }
 
-        if(!empty($inputContainer)) {
+        if (!empty($inputContainer)) {
             $this->updateConfig(['composeFiles' => $inputContainer]);
         }
+
+        $io->info('Starting containers ...');
 
         passthru($this->getComposeString() . ' up' .
         ($input->getOption('detached') === true ? ' -d' : ''), $result_code);
