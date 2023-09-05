@@ -16,6 +16,7 @@ class DockerCommand extends BaseCommand
     protected $tablePrefix = null;
     protected $homeDir = null;
     protected array $composeCommand = ['docker', 'compose'];
+    protected string $bchub_repo = 'https://github.com/tine-groupware/broadcasthub.git';
 
     protected static $imageMap = [
         '2021.11' => [
@@ -26,13 +27,19 @@ class DockerCommand extends BaseCommand
             'web' => 'dockerregistry.metaways.net/tine20/tine20/dev:2022.11-8.0',
             'webpack' => 'dockerregistry.metaways.net/tine20/tine20/node:2022.11',
         ],
-        'main' => [
-            'web' => 'tinegroupware/dev:2022.11-8.0',
-            'webpack' => 'node:12.22-alpine',
-        ],
+        // TODO remove old main (repo https://github.com/tine20/tine20)
+//        'main' => [
+//            'web' => 'tinegroupware/dev:2022.11-8.0',
+//            'webpack' => 'node:12.22-alpine',
+//        ],
         '2023.11' => [
             'web' => 'dockerregistry.metaways.net/tine20/tine20/dev:2023.11-8.1',
             'webpack' => 'dockerregistry.metaways.net/tine20/tine20/node:2023.11',
+        ],
+        // repo https://github.com/tine-groupware/tine
+        'main' => [
+            'web' => 'tinegroupware/dev:2023.11-8.1',
+            'webpack' => 'node:18.9.0-alpine',
         ],
     ];
 
@@ -75,7 +82,7 @@ class DockerCommand extends BaseCommand
 
             switch($input) {
                 case 'yes':
-                    system('git clone git@gitlab.metaways.net:tine20/tine20-broadcasthub.git broadcasthub 2>&1');
+                    system('git clone ' . $this->bchub_repo . ' broadcasthub 2>&1');
                     $output = system('cd broadcasthub && npm install');
 
                     $io->notice($output);

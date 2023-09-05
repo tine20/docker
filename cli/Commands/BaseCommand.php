@@ -35,7 +35,7 @@ class BaseCommand extends Command
      */
     protected $branch = 'main';
 
-    protected $repo = 'git@gitlab.metaways.net:tine20/tine20.git';
+    protected $repo = 'https://github.com/tine-groupware/tine.git';
 
     protected array $config = [];
 
