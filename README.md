@@ -1,4 +1,4 @@
-tine20-docker
+tine-dev (docker dev setup)
 ----
 
 [[_TOC_]]
@@ -25,29 +25,8 @@ prerequisites: git, docker, php, composer and your user is in the docker group. 
 - install broadcasthub dependencies, if console has cloned it you don't need to do anything: `cd broadcasthub && npm install`
 
 ## Console Commands
+run `./console` in tine-dev directory to see available Commands
 
-+ `./console docker:up` start docker setup.  pulls/builds images, creates containers, starts containers and shows logs
-+ `./console docker:start` start docker setup. pulls/builds images, creates containers, starts containers
-+ `./console docker:stop` stops docker, if you used `up` you can stop with strg+c
-+ `./console docker:logs` displays logs (interactive)
-+ `./console docker:down` destroys docker setup.  stops containers, removes containers and networks, volumes will persist
-+ `./console docker:cli <service name>` start shell in service name eg. db or web for tine20
-+ `./console docker:build` build docker containers locally, build needs to be enabled
-+ `./console docker:pull` pull docker images
-+ `./console docker:push` push updates to docker images
-
-+ `./console tine:install` install tine
-+ `./console tine:uninstall` uninstall tine
-+ `./console tine:update` update tine: executes setup.php --update
-+ `./console tine:demodata` creates demodata
-+ `./console tine:test <path>` starts test eg `./pullup tine test AllTests`
-+ `./console tine:cli <command>` executes tine20.php with command, dont use the --config option
-
-+ `./console src:changeBranch`       change dev branch in a running dev system
-+ `./console src:composer install`   execute composer in tine20 src context
-+ `./console src:npminstall`         install npm dependencies
-
-+ missing a command > issue tracker
 
 ## pullup.json
 
@@ -63,91 +42,14 @@ to override default settings copy .pullup.json to pullup.json
 * https://linuxize.com/post/how-to-remove-docker-images-containers-volumes-and-networks/
 
 # Install and Setup Docker
-## Install Docker Engine (includes docker compose)
 
 https://docs.docker.com/engine/install/
 
-### Ubuntu
 
-    # falls davon etwas einen fehler wirft - einfach rausnehmen
-    # evtl heissen die pakete auch docker-ce*
-    # sudo apt-get remove docker-ce docker-ce-cli docker-ce-rootless-extras docker-scan-plugin
-    sudo apt-get remove docker docker-engine docker.io containerd runc docker-compose
+# Check/Get Docker Image
 
-    sudo apt-get update
-
-    sudo apt-get install \
-    ca-certificates \
-    curl \
-    gnupg \
-    lsb-release
-
-    sudo mkdir -p /etc/apt/keyrings
-
-    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-
-    echo \
-      "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
-      $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-
-    sudo apt-get update
-
-    sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
-
-    # bei fehlermeldung, einfach nochmal ausführen
-
-## Add Yourself to the Docker Group (to work without sudo - no need for macOS)
-
-_relogin required!_
-
-    sudo usermod -a -G docker <your userid>
-
-# Init Repositories
-## Clone this Repository
-
-    git clone git@gitlab.metaways.net:tine20/docker.git tine20-docker
-
-## Link your Tine 2.0 Repository
-
-    cd tine20-docker
-    ln -s /path/to/tine/repo tine20
-
-# Build Image
-## npm install
-
-    cd tine20-docker/tine20/tine20/Tinebase/js
-    npm install
-
-## composer install
-
-    cd tine20-docker/tine20/tine20/
-    composer install --ignore-platform-reqs
-
-# Get Docker Image
-
-Our dev image `tine20/dev:2020.11-7.3-fpm-alpine` is on docker hub. 
-You can also use an image from our registry. 
-
-`dockerregistry.metaways.net/tine20/tine20/dev:<tag>`
-
-[Here you can find all the available tags](https://gitlab.metaways.net/tine20/tine20/container_registry/eyJuYW1lIjoidGluZTIwL3RpbmUyMC9kZXYiLCJ0YWdzX3BhdGgiOiIvdGluZTIwL3RpbmUyMC9yZWdpc3RyeS9yZXBvc2l0b3J5LzU0L3RhZ3M%2FZm9ybWF0PWpzb24iLCJpZCI6NTR9)
-
-Tags:
-    2020.11-7.3-fpm-alpine
-    <branch name>-<php version>-fpm-alpine
-    The branch name dose not need to match the tine20 branch, you are developing on.
-
-# Start Tine 2.0
-
-    docker-compose -f docker-compose.yml -f compose/webpack.yml up
-
-or
-    
-    php /scripts/docker.php
-    
-or
-
-    ./scripts/Docker-start.bash
+Our dev image (latest: `tinegroupware/dev:2023.11-8.1`) is on docker hub:
+https://hub.docker.com/r/tinegroupware/dev
 
 # Show Containers
 
@@ -157,7 +59,7 @@ or
 
     docker exec -it tine20 /bin/sh
 
-# Open tine20 in Browser
+# Open tine in Browser
 
 [localhost:4000](http://localhost:4000/) - nginx
 
@@ -166,62 +68,6 @@ or
 [localhost:4000/setup.php](http://localhost:4000/setup.php) - webpack served setup
 
 [localhost:4002](http://localhost:4002) Phpmyadmin Username:tine20 Password:tine20pw
-
-# Install Tine 2.0
-
-Also configures the mailserver & system account.
-
-    docker exec --user nginx tine20 sh -c "cd /tine/tine20/ && php setup.php --install --config /tine/customers/localhost/config.inc.php \
-      -- adminLoginName=test adminPassword=test adminEmailAddress=test@example.org acceptedTermsVersion=1000 \
-      imap=\"backend:standard,host:mail,port:143,useSystemAccount:1,verifyPeer:0,ssl:tls,domain:example.org\" \
-      smtp=\"backend:standard,hostname:mail,port:25,auth:none,primarydomain:example.org,ssl:tls,from:test@example.org\""
-
-or via phing:
-
-    docker exec --user nginx tine20 sh -c "cd /tine/tine20/ && vendor/bin/phing -D configdir=/tine/customers/localhost tine-install"
-
-
-# Uninstall Tine 2.0
-
-    docker exec --user nginx tine20 sh -c "cd /tine/tine20/ && php setup.php --uninstall --config /tine/customers/localhost/config.inc.php"
-
-or via phing:
-
-    docker exec --user nginx tine20 sh -c "cd /tine/tine20/ && vendor/bin/phing -D configdir=/tine/customers/localhost tine-uninstall"
-
-# Update Tine 2.0
-
-    docker exec --user nginx tine20 sh -c "cd /tine/tine20/ && php setup.php --update --config /tine/customers/localhost/config.inc.php"
-
-# Create Demodata Tine 2.0
-
-    docker exec --user nginx tine20 sh -c "cd /tine/tine20/ && php tine20.php --config /tine/customers/localhost/config.inc.php --method Tinebase.createAllDemoData  --username=test --password=test"
-
-# Run Unittests
-
-NOTE #1: php://stdout is not working for logging ServerTests ...
-NOTE #2: maybe you need to increase the php memory_limit (i.e. -d memory_limit=512M - or more)
-
-    docker exec --user nginx tine20 sh -c "cd /tine/tests/tine20/ && ../../tine20/vendor/bin/phpunit --color --stop-on-failure --debug AllTests"
-
-# Table Prefix
-you can change the table prefix in the config.inc.php file:
-
-        <?php
-        $version = 'be'; <- change this
-
-
-# Import Handbook
-
-you might to do this first aus we have some BIG pages in the handbook:
-
-    docker exec -it db /bin/sh
-    mysql -u root
-    MariaDB [tine20]> SET GLOBAL max_allowed_packet=1073741824;
-
-for example the ebhh handbook version:
-
-    docker exec --user nginx tine20 sh -c "cd /tine/tine20/ && php -d memory_limit=512M tine20.php --method UserManual.importHandbookBuild  --username=test --password=test https://erzbistum:****@packages.tine20.com/erzbistum/tine20-handbook_html_chunked_build-369_commit-1debfeda9e3831feccd7ca66f8fa7cae89cda150.zip"
 
 # Other Useful Functions
 ## Containers
@@ -235,11 +81,6 @@ for example the ebhh handbook version:
     docker image ls
     docker image ls -a      # shows all containers, as well as deps
     docker image rm <image id/name>
-
-# ActionQueue / Worker in Docker
-## Running an ActionQueue
-
-    docker-compose -f docker-compose.myl -f compose/worker.yml up
 
 # Debugging with PhpStorm
 
@@ -320,70 +161,6 @@ OR
 
     ➜  docker network prune
 
-# Running a Tine 2.0 container with ...
-
-## webpack
-
-    docker-compose -f docker-compose.yml -f compose/webpack.yml up
-
-## php-cli Only Container
-
-    docker-compose -f docker-compose.yml up
-
-## mail (dovecot/postfix) Container
-
-    docker-compose -f docker-compose.yml -f compose/mail.yml up
-
-## phpmyadmin Container
-
-    docker-compose -f docker-compose.yml -f compose/pma.yml up
-
-## mailstack (dovecot postfix sieve userdb)
-
-    docker-compose -f docker-compose.yml -f compose/mailstack.yml up
-  
-+ before installing tine20 you musst initialise the mail db (mailstack containers must be started)
-`./scripts/cli.php mailstack init` or
-`docker-compose -f docker-compose.yml -f compose/mailstack.yml run mailstack init`
-
-+ when you are reinstalling tine20 you should reset the mail db
-`./scripts/cli.php mailstack reset` or
-`docker-compose -f docker-compose.yml -f compose/mailstack.yml run mailstack reset`
-
-+ after mailstack containers have changed eg. git pull, rebuild images
-`./scripts/cli.php mailstack build` or
-`docker-compose -f docker-compose.yml -f compose/mailstack.yml build`
-
-### install.properties
-imap and pop: 
-
-+ host: dovecot
-+ ssl: none / starttls / tls
-+ auth: plain
-+ db_host: db
-+ db: dovecot
-+ dovecot_uid:vmail
-+ dovecot_gid:vmail
-+ dovecot_home:/var/vmail/%d/%u
-
-smtp:
-+ host: postfix
-+ ssl: none
-+ auth: none
-+ db_host: db
-+ db: dovecot
-
-sieve:
-+ hostname dovecot
-+ port: 4190
-+ ssl: none
-
-eg:
-```
-imap="active:true,host:dovecot,port:143,useSystemAccount:1,ssl:tls,verifyPeer:0,backend:dovecot_imap,domain:mail.test,instanceName:tine.test,dovecot_host:db,dovecot_dbname:dovecot,dovecot_username:tine20,dovecot_password:tine20pw,dovecot_uid:vmail,dovecot_gid:vmail,dovecot_home:/var/vmail/%d/%u,dovecot_scheme:SSHA256"
-smtp="active:true,backend:postfix,hostname:postfix,port:25,ssl:none,auth:none,name:postfix,primarydomain:mail.test,instanceName:tine.test,postfix_host:db,postfix_dbname:postfix,postfix_username:tine20,postfix_password:tine20pw"
-sieve="hostname:dovecot,port:4190,ssl:none"
-```
 
 # Debug / Test Stuff with Fake Previews
 
