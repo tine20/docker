@@ -9,7 +9,7 @@ tine20-docker
 
 prerequisites: git, docker, php, composer and your user is in the docker group. If not see [below](#install-docker-io-and-docker-compose)
 
-1. clone this git and open it `git clone https://github.com/tine20/docker.git tine20-docker` and `cd tine20-docker`
+1. clone this git and open it `git clone https://github.com/tine-groupware/tine-dev.git tine-dev` and `cd tine20-dev`
 2. install symfony/console dependencies `composer install`
 3. start tine20-docker setup `./console docker:up`, if you have not done this, install 4 to 6 answer y to clone repos
 4. install tine `./console tine:install`
