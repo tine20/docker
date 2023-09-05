@@ -1,5 +1,0 @@
-version: '3'
-services:
-  web:
-    volumes:
-      - ./configs/tika/tika.inc.php:/etc/tine20/conf.d/tika.inc.php:ro

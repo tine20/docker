@@ -1,7 +1,0 @@
-# run this with
-# $ docker-compose -f docker-compose.yml -f compose/ramdisk.yml up
-version: '3'
-services:
-  db:
-    volumes:
-      - /mnt/ramdiski:/var/lib/mysql
